@@ -1,0 +1,15 @@
+{
+  "name": "01-ts-all-in-one",
+  "version": "1.0.0",
+  "description": "🖥 인프런 제로초님 강의를 들으면서 공부한 내용을 올립니다.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^4.9.3"
+  }
+}
