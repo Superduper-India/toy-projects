@@ -291,3 +291,26 @@ type Mapd = 'Human' | 'Mammal' | 'Animal';
 // 인덱스드 시그니처: 객체의 키나 값의 타입을 지정해버리기
 type Index = { [key in Mapd]: number };
 const example6: Index = { Human: 3, Mammal: 5, Animal: 5 };
+
+// 옵셔널: ?붙이면 있어도 되고, 없어도 되고
+function example7(a: number, b?: number, c?: number) { }
+example7(1)
+example7(1, 2)
+example7(1, 2, 3)
+
+// 제네릭 기본: 지금 타입이 뭔진 모르겠는데.. 같은 타입은 하나의 문자로 표현하고, 나중에 정할래
+// extends는 제네릭의 부분집합을 설정해준다
+// 제네릭을 여러개 만들면서 매개변수 각각 제한을 둘 수도 있다
+function example8<T extends string>(x: T, y: T): T {
+  return x + y;
+}
+example8(1, 2)
+example8('1', '2')
+example8('1', 2)
+example8(1, '2')
+
+// <T extends {...}> // 특정 객체
+// <T extends any[]> // 모든 배열
+// <T extends (...args: any) => any> // 모든 함수
+// <T extends abstract new (...args: any) => any> // 생성자 타입
+// <T extends keyof any> // string | number | symbol
