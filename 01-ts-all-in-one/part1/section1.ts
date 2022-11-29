@@ -276,3 +276,18 @@ const isFulfilled = <T>(input: PromiseSettledResult<T>)
 
 const promises = await Promise.allSettled([Promise.resolve('a'), Promise.resolve('b')]);
 const errors = promises.filter(isRejected);
+
+// readonly 속성 실수로 바꾸는거 막기
+interface ReadOnly {
+  readonly a: string;
+  b: string;
+}
+
+const readonly: ReadOnly = { a: 'hello', b: 'world' };
+readonly.a = '123';
+
+// 맵드 타입스: 키의 범위를 줄이기
+type Mapd = 'Human' | 'Mammal' | 'Animal';
+// 인덱스드 시그니처: 객체의 키나 값의 타입을 지정해버리기
+type Index = { [key in Mapd]: number };
+const example6: Index = { Human: 3, Mammal: 5, Animal: 5 };

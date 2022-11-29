@@ -12,13 +12,13 @@ const e = null;
 const g = 5; // null과 undefined가 아닌 모든 타입
 // 2. 함수를 타이핑하는 방법
 function add(x, y) {
-  return x + y;
+    return x + y;
 }
 const add2 = (x, y) => x + y;
 // 3. 객체를 타이핑하는 방법
 const obj = {
-  lat: 37.5,
-  lon: 127.5
+    lat: 37.5,
+    lon: 127.5
 };
 // 4. 배열을 타이핑하는 방법
 const arr = ['123', '456', '789']; // 기본
@@ -27,11 +27,11 @@ const arr3 = [123, 456, 'hello']; // 튜플
 // 타입은 최대한 정확한게 중요하다. ts가 추론해주는 타입이 있으면 이건 그대로 사용하고,
 // ts가 any로 추론하는 등 잘 추론하지 못하는 경우에만 직접 타이핑할 것
 function add3(x, y) {
-  return x + y;
+    return x + y;
 }
 const result = add(1, 2);
 function add4(x, y) {
-  return x + y;
+    return x + y;
 }
 let aa = 123;
 aa = 'hello'; // as 뒷부분
@@ -45,11 +45,11 @@ id;
 head.innerHTML = 'hello';
 // (4) if를 사용하면 head면 true라 실행되고, header면 false라 실행안됨
 if (head) {
-  console.log(head);
+    console.log(head);
 }
 // 나머지 매개변수
 function rest(...args) {
-  console.log(args); // [1,2,3]
+    console.log(args); // [1,2,3]
 }
 // 튜플: 타입의 길이와 배열의 길이를 맞춰준다
 const tuple = ['1', 1];
@@ -59,31 +59,31 @@ tuple.push('hello'); // 그런데 push메서드를 쓰는거 까지는 잡아주
 // 반면 enum은 사라짐
 // 코드를 남길지 말지 고민되면 남기자
 const ODirection = {
-  Up: 0,
-  Down: 1,
-  Left: 2,
-  Right: 3,
+    Up: 0,
+    Down: 1,
+    Left: 2,
+    Right: 3,
 };
 const aaa = ODirection.Down;
 // obj의 key, value만 타입으로 꺼낼때
 const obj2 = {
-  a: '123', b: 'hello', c: 'world',
+    a: '123', b: 'hello', c: 'world',
 };
 const union = { hello: 'world', zero: 'cho' };
 const intersection = { hello: 'world', zero: 'cho' };
 const sunyoung = {
-  breath: true,
-  breed: true,
-  think: true,
+    breath: true,
+    breed: true,
+    think: true,
 };
 const mammal = {
-  breath: true,
-  breed: true,
+    breath: true,
+    breed: true,
 };
 const name3 = { name: 'sunyoung' };
 const name2 = {
-  name: 'sunyoung',
-  age: 19,
+    name: 'sunyoung',
+    age: 19,
 };
 const literal = { hello: 'world', why: 'error' };
 const literalObj = { hello: 'world', why: 'error' };
@@ -91,15 +91,15 @@ const solution = literalObj;
 // void 
 // 1. 함수의 리턴값인 경우: 리턴값이 없거나 undefined
 function example() {
-  return null;
+    return null;
 }
 example();
 const example2 = {
-  talk() { return 'abc'; }
+    talk() { return 'abc'; }
 };
 // 3. 매개변수의 리턴값인 경우: 리턴값이 존재할 수 있지만 사용하지 않겠다
 function example3(callback) {
-  return null;
+    return null;
 }
 example3(() => { return '3'; });
 let target = [];
@@ -111,28 +111,36 @@ forEach([1, 2, 3], el => target.push(el));
 // as는 unknown일 경우, 
 // 남이 만든 타입이 틀렸을 경우를 제외하고는 사용을 지양하자
 function numOrStr(a) {
-  // (a as number).toFixed(1);
-  if (typeof a === 'number') {
-    a.toFixed(1);
-  }
+    // (a as number).toFixed(1);
+    if (typeof a === 'number') {
+        a.toFixed(1);
+    }
 }
 numOrStr(123);
 numOrStr('123');
 function typeCheck(a) {
-  if ('bbb' in a) {
-    a.type;
-  }
-  else if ('ccc' in a) {
-    a.ccc;
-  }
-  else {
-    a.ddd;
-  }
+    if ('bbb' in a) {
+        a.type;
+    }
+    else if ('ccc' in a) {
+        a.ccc;
+    }
+    else {
+        a.ddd;
+    }
 }
 function catOrDog(a) {
-  // if문안에 넣어서 타입 판별을 직접 만들 수 있다
-  if (a.meow) {
-    return false;
-  }
-  return true;
+    // if문안에 넣어서 타입 판별을 직접 만들 수 있다
+    if (a.meow) {
+        return false;
+    }
+    return true;
 }
+// 커스텀 타입가드 실전예제
+const isRejected = (input) => input.status === 'rejected';
+const isFulfilled = (input) => input.status === 'fulfilled';
+const promises = await Promise.allSettled([Promise.resolve('a'), Promise.resolve('b')]);
+const errors = promises.filter(isRejected);
+const readonly = { a: 'hello', b: 'world' };
+readonly.a = '123';
+const example6 = { Human: 3, Mammal: 5, Animal: 5 };
