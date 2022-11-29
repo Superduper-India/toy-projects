@@ -164,3 +164,11 @@ example8(1, '2');
 // <T extends (...args: any) => any> // 모든 함수
 // <T extends abstract new (...args: any) => any> // 생성자 타입
 // <T extends keyof any> // string | number | symbol
+// 기본값 타이핑
+const example9 = (b = 3, c = 5) => {
+    return '3';
+};
+const example10 = (b = { children: 'sunyoung' }) => {
+};
+// 리액트에서의 기본값
+const example11 = (x, y) => ({ x, y });
