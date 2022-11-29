@@ -18,12 +18,13 @@ function add(x: number, y: number) // 콜론
 }
 
 // 타입 애일리어스(정의): type으로 타입을 선언하는 방식
+// 차이점: 여러번 선언할 수 없고, 선언할 때마다 합쳐지지않음
 // 네이밍룰 앞에 T안붙이기
 type Type = (x: number, y: number) => number;
 const add2: Type = (x, y) => x + y;
 
 // 인터페이스: interface로 타입을 선언하는 방식
-// 여러번 선언할 수 있고, 선언할 때마다 합쳐짐
+// 차이점: 여러번 선언할 수 있고, 선언할 때마다 합쳐짐
 // 네이밍룰 앞에 I안붙이기
 interface Interface {
   (x: number, y: number): number;
@@ -115,10 +116,11 @@ type B = { hello: 'world' } | { zero: 'cho' };
 const union: B = { hello: 'world', zero: 'cho' };
 
 // intersection (그리고): 모든 속성이 다 있어야 한다
-// 그래서 확장의 개념으로 쓸 수 있다
+// 그래서 확장(상속)의 개념으로 쓸 수 있다
 type A = { hello: 'world' } & { zero: 'cho' };
 const intersection: A = { hello: 'world', zero: 'cho' };
 
+// 공통점: 타입과 인터페이스 모두 상속된다.
 type TAnimal = { breath: true };
 type TMammal = TAnimal & { breed: true };
 type THuman = TMammal & { think: true };
@@ -132,6 +134,7 @@ const sunyoung: THuman = {
 interface IAnimal {
   breath: true,
 }
+
 interface IMammal extends IAnimal {
   breed: true
 }
@@ -162,3 +165,45 @@ const name2: Small2 = {
   name: 'sunyoung',
   age: 19,
 }
+
+// 타입스크립트에서 객체 리터럴을 바로 대입할땐 잉여 속성 검사라는 추가 기능이 들어간다
+// 변수로 대입해주면 해결된다
+type Literal = { hello: string };
+const literal: Literal = { hello: 'world', why: 'error' };
+
+const literalObj = { hello: 'world', why: 'error' };
+const solution: Literal = literalObj;
+
+// void 
+// 1. 함수의 리턴값인 경우: 리턴값이 없거나 undefined
+function example(): void {
+  return null;
+}
+example();
+
+// 2. 메서드의 리턴값인 경우: 리턴값이 존재할 수 있지만 사용하지 않겠다
+interface Example {
+  talk: () => void;
+}
+const example2: Example = {
+  talk() { return 'abc' }
+}
+
+// 3. 매개변수의 리턴값인 경우: 리턴값이 존재할 수 있지만 사용하지 않겠다
+function example3(callback: () => void) {
+  return null;
+}
+example3(() => { return '3' });
+
+// 매개변수 리턴값의 void와 undefined의 차이
+declare function forEach(
+  arr: number[], callback: (el: number) => void
+): void;
+
+let target: number[] = [];
+forEach([1, 2, 3], el => target.push(el));
+
+// 타입만 선언하고 싶을 때 declare(구현은 다른 파일에 있어야 함)
+declare const example4: string;
+declare function example5(x: number): number;
+declare class Example { }
