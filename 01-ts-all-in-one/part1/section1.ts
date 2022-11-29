@@ -228,6 +228,7 @@ numOrStr('123');
 // 타입가드를 이용한 객체간의 타입 구별법
 // 객체들 간의 차이점을 찾아보면 좋음
 // 객체의 타입검사를 위해 값으로 type을 넣는 버릇을 들이자
+
 // 1. 값이 다른경우
 // type BB = { type: 'b', bbb: string };
 // type CC = { type: 'c', ccc: string };
@@ -257,3 +258,21 @@ function typeCheck(a: AA) {
     a.ddd;
   }
 }
+
+// 리턴값에 is가 들어간 애들은 커스텀 타입가드다
+interface Cat { meow: number }
+interface Dog { bow: number }
+function catOrDog(a: Cat | Dog): a is Dog {
+  // if문안에 넣어서 타입 판별을 직접 만들 수 있다
+  if ((a as Cat).meow) { return false }
+  return true;
+}
+
+// 커스텀 타입가드 실전예제
+const isRejected = (input: PromiseSettledResult<unknown>)
+  : input is PromiseRejectedResult => input.status === 'rejected';
+const isFulfilled = <T>(input: PromiseSettledResult<T>)
+  : input is PromiseFulfilledResult<T> => input.status === 'fulfilled';
+
+const promises = await Promise.allSettled([Promise.resolve('a'), Promise.resolve('b')]);
+const errors = promises.filter(isRejected);
