@@ -139,3 +139,26 @@ const mammal: IMammal = {
   breath: true,
   breed: true,
 }
+
+// 좁은 타입과 넓은 타입
+// intersection은 교집합, union은 전체집합
+// any는 전체집합, never는 공집합이다
+// 넓은타입에 좁은타입을 대입할 수 있지만, 좁은타입에 넓은타입을 대입할 순 없다.
+type Small = string & number;
+type Medium = string;
+type Big = string | number;
+
+// 객체는 속성이 많을수록 좁다
+type NameObj = { name: string };
+type AgeObj = { age: number };
+
+// 넓은타입
+type Big2 = NameObj | AgeObj;
+const name3: Big2 = { name: 'sunyoung' };
+
+// 좁은타입
+type Small2 = NameObj & AgeObj;
+const name2: Small2 = {
+  name: 'sunyoung',
+  age: 19,
+}
