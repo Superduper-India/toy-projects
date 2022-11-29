@@ -207,3 +207,7 @@ forEach([1, 2, 3], el => target.push(el));
 declare const example4: string;
 declare function example5(x: number): number;
 declare class Example { }
+
+// unknown과 any의 차이
+// unknown 당장은 타입을 잘 모르겠을때(나중에 타입 지정할거)
+// any 타입검사를 포기
