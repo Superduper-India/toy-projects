@@ -211,3 +211,49 @@ declare class Example { }
 // unknown과 any의 차이
 // unknown 당장은 타입을 잘 모르겠을때(나중에 타입 지정할거)
 // any 타입검사를 포기
+
+// 타입 좁히기(타입가드)
+// as는 unknown일 경우, 
+// 남이 만든 타입이 틀렸을 경우를 제외하고는 사용을 지양하자
+function numOrStr(a: number | string) {
+  // (a as number).toFixed(1);
+  if (typeof a === 'number') {
+    a.toFixed(1);
+  }
+}
+
+numOrStr(123);
+numOrStr('123');
+
+// 타입가드를 이용한 객체간의 타입 구별법
+// 객체들 간의 차이점을 찾아보면 좋음
+// 객체의 타입검사를 위해 값으로 type을 넣는 버릇을 들이자
+// 1. 값이 다른경우
+// type BB = { type: 'b', bbb: string };
+// type CC = { type: 'c', ccc: string };
+// type DD = { type: 'd', ddd: string };
+// type AA = BB | CC | DD;
+// function typeCheck(a: AA) {
+//   if (a.type === 'b') {
+//     a.bbb;
+//   } else if (a.type === 'c') {
+//     a.ccc;
+//   } else {
+//     a.ddd;
+//   }
+// }
+
+// 2. 속성이름이 다른경우
+type BB = { type: 'b', bbb: string };
+type CC = { type: 'c', ccc: string };
+type DD = { type: 'd', ddd: string };
+type AA = BB | CC | DD;
+function typeCheck(a: AA) {
+  if ('bbb' in a) {
+    a.type;
+  } else if ('ccc' in a) {
+    a.ccc;
+  } else {
+    a.ddd;
+  }
+}
