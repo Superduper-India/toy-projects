@@ -1,142 +1,103 @@
 import { useState } from 'react';
-import './App.css';
+
 import TopNavBar from './components/TopNavBar';
-import ToDoForm from './components/ToDoForm';
-import DoingTasks from './components/DoingTasks';
-import DoneTasks from './components/DoneTasks';
+import TaskForm from './components/TaskForm';
+import TasksContainer from './components/TasksContainer';
 
-type Task = {
-  id: number,
-  title: string,
-  content: string,
-  working: boolean,
-  isDone: boolean,
-}
+import { Contents } from './types/Contents';
 
-type Contents = {
-  tasks: Task[],
-  doneTasks: Task[],
-  newId: number,
-  taskTitle: string,
-  taskContent: string,
-}
+import './App.css';
 
 function App() {
-  const [contents, setContents] = useState<Contents>({
+  const [contents, setContents] = useState<Contents>({ // state의 useState의 인자로 초기 값을 넘겨준다.
     tasks: [],
-    doneTasks: [],
-    newId: 100,
-    taskTitle: '',
-    taskContent: '',
-  }); // state의 useState의 인자로 초기 값을 넘겨준다.
+    task: {
+      id: 1,
+      title: '',
+      content: '',
+      isDone: false,
+    }
+  });
 
-  const {
-    tasks,
-    doneTasks,
-    newId, taskTitle, taskContent,
-  } = contents;
+  const { tasks, task } = contents;
+  const { title, content } = task;
 
-  function handleChangeTitle(event: React.ChangeEvent<HTMLInputElement>) {
-    const { target: { value } } = event;
+  const handleChangeContents = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { target: { name, value } } = event;
     setContents({
       ...contents,
-      taskTitle: value,
+      task: {
+        ...task,
+        [name]: value,
+      },
     })
   }
 
-  function handleChangeContent(event: React.ChangeEvent<HTMLInputElement>) {
-    const { target: { value } } = event;
+  const handleClickAddTask = () => {
+    const nowTask = task;
+    if (nowTask !== undefined) {
+      setContents({
+        tasks: [...tasks, nowTask],
+        task: {
+          id: nowTask.id + 1,
+          title: '',
+          content: '',
+          isDone: false,
+        }
+      })
+    }
+  }
+
+  const handleClickDelete = (selectedId: number) => {
+    const leftTasks = tasks.filter(i => i.id !== selectedId);
     setContents({
       ...contents,
-      taskContent: value,
+      tasks: leftTasks,
     })
   }
 
-  function handleClickAddTask() {
-    setContents({
-      ...contents,
-      tasks: [...tasks, {
-        id: newId,
-        title: taskTitle,
-        content: taskContent,
-        working: true,
-        isDone: false,
-      }],
-      newId: newId + 1,
-      taskTitle: '',
-      taskContent: '',
-    })
-  }
+  function handleClickDone(selectedId: number) {
+    const selectedTask = tasks.find(i => i.id === selectedId)!;
+    const leftTasks = tasks.filter(i => i !== selectedTask);
 
-  function handleClickDone(seletedTask: Task) {
-    const remainTasks = tasks.filter((obj: Task) => obj.id !== seletedTask.id);
-
-    setContents({
-      ...contents,
-      tasks: [...remainTasks],
-      doneTasks: [...doneTasks, {
-        id: seletedTask.id,
-        title: seletedTask.title,
-        content: seletedTask.content,
-        working: false,
-        isDone: true,
-      }]
-    })
-  }
-
-  function handleClickCancel(seletedTask: Task) {
-    const workingTasks = doneTasks.filter(
-      (obj: Task) => obj.id !== seletedTask.id
-    );
-
-    setContents({
-      ...contents,
-      doneTasks: [...workingTasks],
-      tasks: [...tasks, {
-        id: seletedTask.id,
-        title: seletedTask.title,
-        content: seletedTask.content,
-        working: true,
-        isDone: false,
-      }]
-    })
-  }
-
-  function handleClickDelete1(deletedId: number) {
-    const woringTasks = tasks.filter((obj: Task) => obj.id !== deletedId);
-    setContents({
-      ...contents,
-      tasks: [...woringTasks],
-    })
-  }
-
-  function handleClickDelete2(deletedId: number) {
-    const isDoneTasks = doneTasks.filter((obj: Task) => obj.id !== deletedId);
-    setContents({
-      ...contents,
-      doneTasks: [...isDoneTasks],
-    })
+    if (selectedTask.isDone) {
+      setContents({
+        ...contents,
+        tasks: [
+          ...leftTasks,
+          {
+            ...selectedTask,
+            isDone: false,
+          }
+        ]
+      })
+    } else {
+      setContents({
+        ...contents,
+        tasks: [
+          ...leftTasks,
+          {
+            ...selectedTask,
+            isDone: true,
+          }
+        ]
+      })
+    }
   }
 
   return (
     <>
       <TopNavBar />
-      <ToDoForm
+      <TaskForm
+        title={title}
+        content={content}
         onClickAddTask={handleClickAddTask}
-        onChangeTitle={handleChangeTitle} // 왼쪽에 있는거 기준으로 받아서 쓴다. 오른쪽은 넘겨주는함수
-        onChangeContent={handleChangeContent}
-        taskTitle={taskTitle}
-        taskContent={taskContent}
+        onChangeContents={handleChangeContents}  // 왼쪽에 있는거 기준으로 받아서 쓴다. 오른쪽은 넘겨주는함수
       />
-      <DoingTasks
+      <TasksContainer
         tasks={tasks}
         onClickDone={handleClickDone}
-        onClickDelete={handleClickDelete1}
-      />
-      <DoneTasks
-        doneTasks={doneTasks}
-        onClickCancel={handleClickCancel}
-        onClickDelete={handleClickDelete2}
+        onClickDelete={handleClickDelete}
       />
     </>
   );
