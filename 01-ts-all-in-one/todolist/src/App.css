@@ -40,20 +40,16 @@
   background-color: teal;
 }
 
-.tasks-box {
-  padding: 24px 18px;
-  height: 280px;
-}
-
-.tasks-box h2 {
+.tasks-title {
   margin-bottom: 18px;
 }
 
-.tasks {
+.tasks-box {
   display: flex;
+  padding: 24px 18px;
 }
 
-.tasks li {
+.tasks-box li {
   list-style: none;
   padding: 24px;
   margin-right: 12px;
@@ -62,15 +58,15 @@
   border-radius: 18px;
 }
 
-.tasks p {
+.tasks-box p {
   margin-bottom: 24px;
 }
 
-.tasks div {
+.tasks-box div {
   display: flex;
 }
 
-.tasks .button-red {
+.tasks-box .button-red {
   padding: 8px 0;
   width: 45%;
   border-radius: 12px;
@@ -79,7 +75,7 @@
   background-color: #fff;
 }
 
-.tasks .button-green {
+.tasks-box .button-green {
   padding: 8px 0;
   width: 45%;
   border-radius: 12px;
