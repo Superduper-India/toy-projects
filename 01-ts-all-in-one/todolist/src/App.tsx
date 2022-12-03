@@ -7,9 +7,8 @@ import TasksContainer from './components/TasksContainer';
 import { Contents } from './types/Contents';
 
 import './App.css';
-
 function App() {
-  const [contents, setContents] = useState<Contents>({ // state의 useState의 인자로 초기 값을 넘겨준다.
+  const [contents, setContents] = useState<Contents>({
     tasks: [],
     task: {
       id: 1,
@@ -23,29 +22,32 @@ function App() {
   const { title, content } = task;
 
   const handleChangeContents = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { target: { name, value } } = event;
+    const { target: { id, value } } = event;
     setContents({
       ...contents,
       task: {
         ...task,
-        [name]: value,
+        // name대신 id값을 참조할 수 있다
+        // [keyName]이렇게 객체안에 들어가야 keyName을 키값으로 인식
+        [id]: value,
       },
     })
   }
 
+  // ToDo 따로 훅으로 빼서 사용하는 경우가 많음.
   const handleClickAddTask = () => {
     const nowTask = task;
-    if (nowTask !== undefined) {
-      setContents({
-        tasks: [...tasks, nowTask],
-        task: {
-          id: nowTask.id + 1,
-          title: '',
-          content: '',
-          isDone: false,
-        }
-      })
-    }
+
+    // 안에서 배열돌려서 새로운 배열을 받아보는 방법도 있음
+    setContents({
+      tasks: [...tasks, nowTask],
+      task: {
+        id: nowTask.id + 1,
+        title: '',
+        content: '',
+        isDone: false,
+      }
+    })
   }
 
   const handleClickDelete = (selectedId: number) => {
@@ -57,32 +59,20 @@ function App() {
   }
 
   function handleClickDone(selectedId: number) {
+    // ToDo !대신 타입스크립트 문제를 해결하기
     const selectedTask = tasks.find(i => i.id === selectedId)!;
     const leftTasks = tasks.filter(i => i !== selectedTask);
 
-    if (selectedTask.isDone) {
-      setContents({
-        ...contents,
-        tasks: [
-          ...leftTasks,
-          {
-            ...selectedTask,
-            isDone: false,
-          }
-        ]
-      })
-    } else {
-      setContents({
-        ...contents,
-        tasks: [
-          ...leftTasks,
-          {
-            ...selectedTask,
-            isDone: true,
-          }
-        ]
-      })
-    }
+    setContents({
+      ...contents,
+      tasks: [
+        ...leftTasks,
+        {
+          ...selectedTask,
+          isDone: !selectedTask.isDone,
+        }
+      ]
+    })
   }
 
   return (
@@ -92,7 +82,8 @@ function App() {
         title={title}
         content={content}
         onClickAddTask={handleClickAddTask}
-        onChangeContents={handleChangeContents}  // 왼쪽에 있는거 기준으로 받아서 쓴다. 오른쪽은 넘겨주는함수
+        // 왼쪽에 있는거 기준으로 받아서 쓴다. 오른쪽은 넘겨주는함수
+        onChangeContents={handleChangeContents}
       />
       <TasksContainer
         tasks={tasks}

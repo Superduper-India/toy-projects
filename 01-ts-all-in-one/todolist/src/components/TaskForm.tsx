@@ -16,7 +16,6 @@ export default function TaskForm({
         <input
           type="text"
           id="title"
-          name="title"
           value={title}
           onChange={onChangeContents}
         />
@@ -24,7 +23,6 @@ export default function TaskForm({
         <input
           type="text"
           id="content"
-          name="content"
           value={content}
           onChange={onChangeContents}
         />
