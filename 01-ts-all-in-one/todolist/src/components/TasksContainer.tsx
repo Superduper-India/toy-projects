@@ -6,6 +6,7 @@ type TaskStatusProps = {
   onClickDone: (taskId: number) => void;
 }
 
+// .filter로 걸러서 isDone이 true인것만 걸러서 나오도록하는 방법도 있다
 export default function TasksContainer({
   tasks,
   onClickDelete, onClickDone
