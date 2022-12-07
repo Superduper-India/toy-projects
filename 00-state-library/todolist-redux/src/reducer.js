@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 // 리듀서는 이전의 상태와 액션을 인자로 받아 상태변경이 일어나면 새상태를 반환하고,
 // 변경이 필요하지 않다면 기존 상태를 그대로 반환한다.
 
-// 아래는 위 리듀서 로직을 한가지 함수(createSlice)에 전부 넣은 것이다. 
+// 아래는 위 리듀서 로직을 한가지 함수(createSlice)에 전부 넣은 것이다.
+// 슬라이스는 일반적으로 한 파일에 함께 정의된 컴포넌트의 기능에 대한 리듀서의 논리와 액션의 집합이다.
 export const toDoSlice = createSlice({
   name: 'toDo',
   // 초기상태
@@ -21,13 +22,7 @@ export const toDoSlice = createSlice({
   reducers: {
     changeInput: (state, { payload: { id, value } }) => {
       const { task } = state;
-      return {
-        ...state,
-        task: {
-          ...task,
-          [id]: value,
-        }
-      };
+      return (task.id = 2);
     },
     clickAddTask: (state) => {
       const { tasks, task } = state;
