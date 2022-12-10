@@ -33,3 +33,44 @@
 * mutations(변이): 쿼리와 달리 데이터를 생성/업데이트/삭제할때 사용한다. 주로 POST요청시 사용하며, 따로 설정을 안하면 자동으로 데이터를 캐싱한다. 여기서 캐싱이란 주어진 리소스의 복사본을 갖고있다가 요청시에 그것을 제공해서 메모리 성능을 높여준다.
 
 * query invalidation(쿼리 무효화): POST요청할때 따로 설정안하면 자동으로 데이터를 캐싱한다. 여기서 캐싱이란 주어진 리소스의 복사본을 갖고있다가 요청시에 그것을 제공해서 메모리를 절약하는 기술이다. 특정값에 따라 계속 변해야하는 페이지라 컴포넌트가 바뀔때마다 데이터를 요청해야하는 경우에 무효화한다. 여기서 캐싱이란 주어진 리소스의 복사본을 저장하고 있다가 요청시에 그것을 제공하는 기술이다.
+
+아래 예제에서 queries(쿼리)는 고유한 키에 연결된 데이터의 비동기 소스에 대한 선언적 종속성이다. 컴포넌트 혹은 커스텀훅에서 쿼리를 구독하려면, useQuery훅을 고유한 키, 데이터나 에러를 응답하는 promise를 리턴하는 함수를 인자로 주어 호출해야한다.
+```jsx
+import { useQuery } from '@tanstack/react-query';
+import { getPost } from './api';
+
+const queries = useQuery({ queryKey: ['posts'], queryFn: getPost });
+```
+위 useQuery함수가 리턴하는 객체엔 다음과 같은 상태 중 하나가 포함되어있다. 대부분의 쿼리에서 isLoading, isError상태를 각각 확인한 뒤에 데이터를 사용할 수 있다고 가정하고 성공 상태를 렌더링한다.
+* isLoading or status === 'loading' - The query has no data yet
+* isError or status === 'error' - The query encountered an error
+* isSuccess or status === 'success' - The query was successful and data is available
+* error - If the query is in an isError state, the error is available via the error property.
+* data - If the query is in a success state, the data is available via the data property.
+```jsx
+  // status를 활용하는 방법
+  if (status === 'loading') {
+    return <span>Loading...</span>
+  }
+
+  // boolean값을 활용하는 방법
+  if (isLoading) {
+    return <span>Loading...</span>
+  }
+
+  if (isError) {
+    return <span>Error</span>
+  }
+```
+
+아래는 useMutation함수(hook)의 예이다. 참고로 mutation은 조건문(스코프)아래에 있으면 동작을 안한다.
+```jsx
+  const mutation = useMutation({
+    mutationFn: addPost,
+    onSuccess: () => {
+      alert('다이어리 추가완료!')
+      // 무효 및 새로고침 => 캐싱대신 새로 데이터를 가져옴(새로고침)
+      queryClient.invalidateQueries({ queryKey: ['posts'] })
+    },
+  });
+```
