@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import { editPost } from '.././api';
 
-import { Comment, Post } from '../types/Types';
+import { Post } from '../types/Types';
 
 type FormProps = { currPost: Post, selectedId: number }
 

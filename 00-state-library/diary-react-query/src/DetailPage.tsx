@@ -13,7 +13,8 @@ import CommentList from './components/CommentList';
 import DeleteButton from './components/DeleteButton';
 
 export default function DetailPage() {
-  // issue id값이 처음에 undefined로 들어온다
+  // issue id값이 처음에 undefined로 들어온다 => 렌더링과정때문임 useEffect해줘야하나??
+  // ToDo useNavigator(props개념임)를 써보기
   // 그래서 아래쪽에서 currPost.id에서 any가 뜨는거 같다..
   const { id } = useParams();
 
@@ -21,6 +22,7 @@ export default function DetailPage() {
   const { data } = useQuery({ queryKey: ['posts'], queryFn: getPost });
 
   // id값을 가지고 현재 포스트를 찾는다
+  // ToDo id값과 전체 posts배열 받아서 특정 post객체를 찾는 로직 => 공통화
   const currPost = data && id ?
     data.data.find((post: Post) => post.id === +id) : null;
 
