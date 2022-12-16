@@ -1,24 +1,17 @@
-// query
-// import { useQuery } from '@tanstack/react-query';
-// import { getPost } from './api';
-
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGetPost } from './thunk';
+
+import { fetchGetPosts } from './thunk';
 
 import TopNavBar from './components/TopNavBar';
 import List from './components/List';
 
 export default function HomePage() {
-  // GET - query
-  // const { isLoading, isError, data } = useQuery({ queryKey: ['posts'], queryFn: getPost })
-
-  // GET - thunk
   const dispatch = useDispatch();
   const { status, postList } = useSelector((state) => state.postReducer);
 
   useEffect(() => {
-    dispatch(fetchGetPost());
+    dispatch(fetchGetPosts());
   }, [dispatch]);
 
   return (
