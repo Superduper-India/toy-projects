@@ -1,33 +1,30 @@
 import axios from 'axios';
 
-import { Comment } from './types/Types';
-
 const api = axios.create({
   baseURL: 'http://localhost:3003',
 });
 
+const POSTS = '/posts';
 const POST = '/post';
 
 // method GET
 export const getPost = async () => {
-  const response = await api.get(POST);
+  const response = await api.get(POSTS);
   return response;
 };
 
 // method POST /post
 export const addPost = async (
-  { id, name, title, content, comments, comment }:
-    { id: number | null, name: string, title: string; content: string, comments: Comment[], comment: Comment }
+  { id, name, title, content, comments, comment }
 ) => { await api.post(POST, { id, name, title, content, comments, comment }); }
 
 // method PUT /post/id
 export const editPost = async (
-  { id, name, title, content, comments, comment }:
-    { id: number | null, name: string, title: string; content: string, comments: Comment[], comment: Comment }
+  { id, name, title, content, comments, comment }
 ) => { await api.put(POST + `/${id}`, { id, name, title, content, comments, comment }); }
 
 // method DELETE /post/id
-export const deletePost = async (id: any) => {
+export const deletePost = async (id) => {
   const response = await api.delete(POST + `/${id}`);
   return response;
 };
