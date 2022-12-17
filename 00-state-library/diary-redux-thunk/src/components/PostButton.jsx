@@ -2,10 +2,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchPost } from '../thunk';
+import { clearInputField } from '../slice';
 
 import { ButtonSecondary } from '../styles/Styles';
 
-export default function AddButton() {
+// 게시글 작성 버튼
+export default function PostButton() {
   const dispatch = useDispatch();
   const { inputField } = useSelector((state) => state.postReducer);
   const { title, content } = inputField;
@@ -13,7 +15,9 @@ export default function AddButton() {
   const handleClickPost = () => {
     if (title && content) {
       dispatch(fetchPost({ title, content }));
-    } else alert('값을 입력해주세요!');
+      dispatch(clearInputField());
+      window.history.back();
+    } else alert('내용을 입력해주세요!');
   };
 
   return (

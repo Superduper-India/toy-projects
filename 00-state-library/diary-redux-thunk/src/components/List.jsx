@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useLayoutEffect, useRef, useState } from 'react';
 
 import {
@@ -10,8 +10,6 @@ import {
 
 // posts 배열을 받는다.
 export default function List({ posts }) {
-  const navigate = useNavigate();
-
   const listRef = useRef();
 
   const [currIndex, setCurrIndex] = useState(0);
@@ -48,31 +46,27 @@ export default function List({ posts }) {
         <CarouselLeftButton
           type="button"
           onClick={() => handleClickNavBtn('left')}
-          className="left-btn"
         >
           {'<'}
         </CarouselLeftButton>
         <CarouselRightButton
           type="button"
           onClick={() => handleClickNavBtn('right')}
-          className="right-btn"
         >
           {'>'}
         </CarouselRightButton>
       </CarouselButtons>
       <CarouselWrapper>
-        <ul className="carousel" ref={listRef}>
+        <ul ref={listRef}>
           {posts.map(post => (
             <li key={post.id}>
               <div>
                 <p>{post.title}</p>
-                <button
-                  type="button"
-                  className="detail-btn"
-                  onClick={() => { navigate(`/detailPage/${post.id}`, { state: post }); }}
-                >
-                  {' 더보기 >'}
-                </button>
+                <Link to={`/detail/${post.id}`}>
+                  <button type="button">
+                    {' 더보기 >'}
+                  </button>
+                </Link>
               </div>
             </li>
           ))}

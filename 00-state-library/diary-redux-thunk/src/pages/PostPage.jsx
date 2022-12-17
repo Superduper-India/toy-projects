@@ -27,8 +27,7 @@ export default function PostPage() {
             </div>
           </PostContainer>
         </>
-        : null
-      }
+        : null}
     </>
   );
 }
