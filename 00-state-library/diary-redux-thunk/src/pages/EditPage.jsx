@@ -2,9 +2,15 @@
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import Lottie from 'lottie-react';
+
 import TopNavBar from '.././components/TopNavBar';
 import Form from '.././components/Form';
-import EditButton from '.././components/EditButton';
+
+import ExceptionPage from './ExceptionPage';
+import { PostContainer } from '.././styles/Styles';
+
+import salesman from '.././assets/salesman.json';
 
 export default function EditPage() {
   const { id } = useParams();
@@ -17,10 +23,17 @@ export default function EditPage() {
   return (
     <>
       <TopNavBar />
-      {status === 'loading' ? <span>Loading...</span> : null}
-      {status === 'error' ? <span>Something is wrong...</span> : null}
-      <Form currPost={currPost} />
-      <EditButton currPost={currPost} />
+      <ExceptionPage />
+      {status === 'success' ?
+        <>
+          <PostContainer>
+            <Lottie animationData={salesman} />
+            <div>
+              <Form currPost={currPost} />
+            </div>
+          </PostContainer>
+        </>
+        : null}
     </>
   );
 }

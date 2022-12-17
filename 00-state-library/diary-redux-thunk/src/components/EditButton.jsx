@@ -1,35 +1,35 @@
-import { useMutation } from '@tanstack/react-query';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { editPost } from '.././api';
+import { fetchEditPost } from '../thunk';
 
-// post와 currPost객체를 받는다
-export default function EditButton({ post, currPost }) {
-  const { name, title, content } = post;
+import { ButtonSecondary } from '../styles/Styles';
+import { clearInputField } from '../slice';
 
-  const editedPost = useMutation({
-    mutationFn: editPost,
-    onSuccess: () => {
-      alert('일기장 수정완료!');
+// 게시글 수정 버튼
+// currPost객체를 받는다
+export default function EditButton({ currPost }) {
+  const dispatch = useDispatch();
+  const { inputField } = useSelector((state) => state.postReducer);
+  const { title, content } = inputField;
+
+  const handleClickEditPost = () => {
+    if (title || content) {
+      dispatch(fetchEditPost({ ...currPost, title, content }));
+      dispatch(clearInputField());
       window.history.back();
-    },
-  });
-
-  const handleClickEdit = () => {
-    if (name && title && content) {
-      editedPost.mutate({ ...currPost, name, title, content });
-    } else alert('값을 입력해주세요!')
-  }
+    } else alert('내용을 입력해주세요!');
+  };
 
   return (
     <>
-      {editedPost.isLoading ? 'Loading...' : null}
-      {editedPost.isError ? 'Something is wrong...' : null}
-      <button
-        type="button"
-        onClick={() => handleClickEdit()}
-      >
-        수정하기
-      </button>
+      <ButtonSecondary>
+        <button
+          type="button"
+          onClick={() => handleClickEditPost()}
+        >
+          수정하기
+        </button>
+      </ButtonSecondary>
     </>
   );
 }

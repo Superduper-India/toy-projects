@@ -2,6 +2,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+import ExceptionPage from './ExceptionPage';
 import TopNavBar from '.././components/TopNavBar';
 // import CommentForm from '.././components/CommentForm';
 // import CommentList from '.././components/CommentList';
@@ -18,23 +19,26 @@ export default function DetailPage() {
   return (
     <>
       <TopNavBar />
-      {status === 'loading' ? <span>Loading...</span> : null}
-      {status === 'error' ? <span>Something is wrong...</span> : null}
-      <h2>관심 받고 싶은 오늘의 기록입니다</h2>
-      <h2>{currPost.title}</h2>
-      <p>{currPost.name}</p>
-      <p>{currPost.content}</p>
-      <DeleteButton id={currPost.id} />
-      <Link to={`/edit/${currPost.id}`}>
-        <button type="button">
-          수정하기
-        </button>
-      </Link>
-      {/* <CommentForm currPost={currPost} />
+      <ExceptionPage />
+      {status === 'success' ?
+        <>
+          <h2>관심 받고 싶은 오늘의 기록입니다</h2>
+          <h2>{currPost.title}</h2>
+          <p>{currPost.name}</p>
+          <p>{currPost.content}</p>
+          <DeleteButton id={currPost.id} />
+          <Link to={`/edit/${currPost.id}`}>
+            <button type="button">
+              수정하기
+            </button>
+          </Link>
+          {/* <CommentForm currPost={currPost} />
       <CommentList
         currPost={currPost}
         comments={currPost.comments}
       /> */}
+        </>
+        : null}
     </>
   );
 }

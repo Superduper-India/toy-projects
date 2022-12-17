@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeInputField } from '../slice';
 import { FormBox, FormTop, FormBottom } from '../styles/Styles';
 
-import AddButton from '.././components/AddButton';
+import PostButton from '.././components/PostButton';
+import EditButton from '.././components/EditButton';
 
 // 현재 포스트의 객체를 받습니다.
 export default function Form({ currPost }) {
@@ -40,7 +41,9 @@ export default function Form({ currPost }) {
             onChange={(e) => handleChangeInputField(e)}
           />
         </FormBottom>
-        <AddButton />
+        {currPost ?
+          <EditButton currPost={currPost} />
+          : <PostButton />}
       </FormBox>
     </>
   );
