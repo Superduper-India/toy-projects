@@ -1,8 +1,10 @@
+import React from 'react';
+
 import { useMutation } from '@tanstack/react-query';
 
 import { deletePost } from '../api';
 
-// id를 props로 받아서 
+// id를 props로 받는다.
 export default function DeleteButton({ id }) {
   const deletedPost = useMutation({
     mutationFn: deletePost,
