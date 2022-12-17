@@ -6,8 +6,8 @@ import { clearInputField } from '../slice';
 
 import { ButtonSecondary } from '../styles/Styles';
 
-// 게시글 작성 버튼
-export default function PostButton() {
+// string props를 받습니다.
+export default function PostButton({ props }) {
   const dispatch = useDispatch();
   const { inputField } = useSelector((state) => state.postReducer);
   const { title, content } = inputField;
@@ -23,12 +23,28 @@ export default function PostButton() {
   return (
     <>
       <ButtonSecondary>
-        <button
-          type="button"
-          onClick={() => handleClickPost()}
-        >
-          기록하기
-        </button>
+        {!props ?
+          <button
+            type="button"
+            onClick={() => handleClickPost()}
+          >
+            기록하기
+          </button>
+          : props === 'login' ?
+            <button
+              type="button"
+              onClick={() => handleClickPost()}
+            >
+              로그인
+            </button>
+            :
+            <button
+              type="button"
+              onClick={() => handleClickPost()}
+            >
+              회원가입
+            </button>
+        }
       </ButtonSecondary>
     </>
   );

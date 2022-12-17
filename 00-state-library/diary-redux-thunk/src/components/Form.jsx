@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import { changeInputField } from '../slice';
-import { FormBox, FormTop, FormBottom } from '../styles/Styles';
+import { FormStyle } from '../styles/Styles';
 
 import PostButton from '.././components/PostButton';
 import EditButton from '.././components/EditButton';
@@ -19,8 +19,8 @@ export default function Form({ currPost }) {
   return (
     <>
       {currPost ? <h2>{currPost.username}님의 글을 수정중...</h2> : <h2>오늘의 코디를 기록해주세요 😎</h2>}
-      <FormBox>
-        <FormTop>
+      <FormStyle>
+        <form>
           <label htmlFor="title">제목</label>
           <input
             type="text"
@@ -29,8 +29,8 @@ export default function Form({ currPost }) {
             placeholder={currPost ? currPost.title : '제목을 입력해주세요'}
             onChange={(e) => handleChangeInputField(e)}
           />
-        </FormTop>
-        <FormBottom>
+        </form>
+        <form>
           <label htmlFor="content">내용</label>
           <textarea
             rows="20" cols="100"
@@ -40,11 +40,11 @@ export default function Form({ currPost }) {
             placeholder={currPost ? currPost.content : '내용을 입력해주세요'}
             onChange={(e) => handleChangeInputField(e)}
           />
-        </FormBottom>
+        </form>
         {currPost ?
           <EditButton currPost={currPost} />
-          : <PostButton />}
-      </FormBox>
+          : <PostButton props={null} />}
+      </FormStyle>
     </>
   );
 }

@@ -8,7 +8,7 @@ import TopNavBar from '.././components/TopNavBar';
 import Form from '.././components/Form';
 
 import ExceptionPage from './ExceptionPage';
-import { PostContainer } from '.././styles/Styles';
+import { FormContainer } from '.././styles/Styles';
 
 import salesman from '.././assets/salesman.json';
 
@@ -26,12 +26,12 @@ export default function EditPage() {
       <ExceptionPage />
       {status === 'success' ?
         <>
-          <PostContainer>
+          <FormContainer>
             <Lottie animationData={salesman} />
             <div>
               <Form currPost={currPost} />
             </div>
-          </PostContainer>
+          </FormContainer>
         </>
         : null}
     </>
