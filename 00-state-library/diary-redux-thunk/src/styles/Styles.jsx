@@ -161,8 +161,8 @@ export const CarouselRightButton = styled.button`
     }
 `;
 
-// PostPage
-export const PostContainer = styled.div`
+// PostPage, EditPage, LoginPage, SignInPage
+export const FormContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -176,11 +176,12 @@ export const PostContainer = styled.div`
   }
   h2 {
     margin-bottom: 18px;
+    margin-left: 12px;
   }
 `;
 
-// Form
-export const FormBox = styled.div`
+// Form, AuthForm
+export const FormStyle = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 16px;
@@ -188,54 +189,43 @@ export const FormBox = styled.div`
   text-align: start;
   padding: 40px;
   border-radius: 16px;
-`;
-
-export const FormTop = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-bottom: 36px;
-  label {
-    font-size: 18px;
-    margin-bottom: 8px;
-  }
-  input {
-    border: 1px solid #7F8492;
-    width: 100%;
-    padding: 8px 10px;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  input:focus {
-    outline: none !important;
-    border-color: #33CC99;
-    box-shadow: 0 0 6px #33CC99;
-  }
-`;
-
-export const FormBottom = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  label {
-    font-size: 18px;
-    margin-bottom: 8px;
-  }
-  textarea {
-    width: 100%;
-    height: 300px;
-    font-size: 16px;
-    padding: 16px 10px;
-    border: 1px solid #7F8492;
-    border-radius: 4px;
-  }
-  textarea:focus {
-    outline: none !important;
-    border-color: #33CC99;
-    box-shadow: 0 0 6px #33CC99;
-  }
-  textarea::placeholder {
-    font-size: 16px;
+    form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 24px;
+    label {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    input {
+      border: 1px solid #7F8492;
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    input:focus {
+      outline: none !important;
+      border-color: #33CC99;
+      box-shadow: 0 0 6px #33CC99;
+    }
+    textarea {
+      width: 100%;
+      height: 300px;
+      font-size: 16px;
+      padding: 16px 10px;
+      border: 1px solid #7F8492;
+      border-radius: 4px;
+    }
+    textarea:focus {
+      outline: none !important;
+      border-color: #33CC99;
+      box-shadow: 0 0 6px #33CC99;
+    }
+    textarea::placeholder {
+      font-size: 16px;
+    }
   }
 `;
 
