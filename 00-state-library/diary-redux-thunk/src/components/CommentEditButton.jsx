@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { useMutation } from '@tanstack/react-query';
 
 import { editPost } from '.././api';
@@ -16,7 +18,7 @@ export default function CommentEditButton({ currPost, selectedId }) {
   const handleClickEdit = (selectedId) => {
     const filteredComments = comments.filter(comment => comment.commentId !== selectedId);
     editedPost.mutate({ ...currPost, comments: filteredComments });
-  }
+  };
 
   return (
     <>

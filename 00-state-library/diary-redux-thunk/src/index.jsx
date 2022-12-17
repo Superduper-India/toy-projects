@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
-import { Provider } from "react-redux";
+import { Provider } from 'react-redux';
 
-import store from "./store";
+import store from './store';
 import App from './App';
 
 // 클라이언트를 새롭게 생성
