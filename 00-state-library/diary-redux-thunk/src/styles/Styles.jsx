@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const BannerImg = styled.img`
   width: 100%;
   object-fit: cover;
-  height: 480px;
+  height: 600px;
 `;
 
 export const ErrorContainer = styled.div`
@@ -25,13 +25,18 @@ export const ErrorContainer = styled.div`
 `;
 
 export const LoadingContainer = styled.div`
-  width: 10%;
+  width: 30%;
   max-width: 1200px;
-  margin: 30% auto 30% auto;
+  margin: 100px auto 0 auto;
 `;
 
 // TopNavBar
 export const TopNavContainer = styled.div`
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  background-color: #fff;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   border: 1px solid #d3d3d3;
@@ -82,10 +87,91 @@ export const ListContainer = styled.div`
 
 // PostPage
 export const PostContainer = styled.div`
+  width: 60%;
+  max-width: 1200px;
+  margin: 20px auto 0px auto;
+  padding: 100px 40px 40px 40px;
+  font-size: 18px;
+  background-color: #F4F6F9;
+  h2 {
+    margin-bottom: 18px;
+  }
+`;
+
+// Form
+export const FormBox = styled.div`
   display: flex;
-  justify-content: space-between;
-  border: 1px solid #d3d3d3;
-  padding: 20px 40px;
-  font-size: 24px;
-  font-weight: 700;
+  flex-direction: column;
+  font-size: 16px;
+  background-color: white;
+  text-align: start;
+  padding: 40px;
+  border-radius: 16px;
+`;
+
+export const FormTop = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 36px;
+  label {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  input {
+    border: 1px solid #7F8492;
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  input:focus {
+    outline: none !important;
+    border-color: #0099ffa1;
+    box-shadow: 0 0 6px #0099ffa1;
+  }
+`;
+
+export const FormBottom = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  label {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  textarea {
+    width: 100%;
+    height: 300px;
+    font-size: 16px;
+    padding: 16px 10px;
+    border: 1px solid #7F8492;
+    border-radius: 4px;
+  }
+  textarea:focus {
+    outline: none !important;
+    border-color: #0099ffa1;
+    box-shadow: 0 0 6px #0099ffa1;
+  }
+  textarea::placeholder {
+    font-size: 16px;
+  }
+`;
+
+// AddButton
+export const ButtonSecondary = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+  button {
+    border-radius: 5px;
+    width: 140px;
+    height: 40px;
+    color: #fff;
+    background: #6666ff;
+    :hover {
+      background-color: #0099FF;
+      color: #fff;
+    }
+  }
 `;
