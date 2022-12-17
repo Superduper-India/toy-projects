@@ -1,9 +1,9 @@
-import React from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
 
 import { changeInputField } from '../slice';
 import { FormBox, FormTop, FormBottom } from '../styles/Styles';
+
+import AddButton from '.././components/AddButton';
 
 // 현재 포스트의 객체를 받습니다.
 export default function Form({ currPost }) {
@@ -17,7 +17,7 @@ export default function Form({ currPost }) {
 
   return (
     <>
-      {currPost ? <h2>{currPost.username}님의 글을 수정중...</h2> : <h2>오늘의 코디를 기록해주세요</h2>}
+      {currPost ? <h2>{currPost.username}님의 글을 수정중...</h2> : <h2>오늘의 코디를 기록해주세요 😎</h2>}
       <FormBox>
         <FormTop>
           <label htmlFor="title">제목</label>
@@ -40,6 +40,7 @@ export default function Form({ currPost }) {
             onChange={(e) => handleChangeInputField(e)}
           />
         </FormBottom>
+        <AddButton />
       </FormBox>
     </>
   );

@@ -1,12 +1,15 @@
-import React from 'react';
+
 import { useSelector } from 'react-redux';
+
+import Lottie from 'lottie-react';
 
 import TopNavBar from '.././components/TopNavBar';
 import Form from '.././components/Form';
-import AddButton from '.././components/AddButton';
 import ExceptionPage from './ExceptionPage';
 
 import { PostContainer } from '.././styles/Styles';
+
+import salesman from '.././assets/salesman.json';
 
 export default function PostPage() {
   const { status } = useSelector((state) => state.postReducer);
@@ -16,10 +19,14 @@ export default function PostPage() {
       <TopNavBar />
       <ExceptionPage />
       {status === 'success' ?
-        <PostContainer>
-          <Form currPost={null} />
-          <AddButton />
-        </PostContainer>
+        <>
+          <PostContainer>
+            <Lottie animationData={salesman} />
+            <div>
+              <Form currPost={null} />
+            </div>
+          </PostContainer>
+        </>
         : null
       }
     </>

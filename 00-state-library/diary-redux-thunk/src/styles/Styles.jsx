@@ -1,10 +1,33 @@
 import styled from 'styled-components';
 
 // HomePage
-export const BannerImg = styled.img`
-  width: 100%;
-  object-fit: cover;
-  height: 600px;
+export const BannerImg = styled.div`
+  position: relative;
+  img {
+    width: 100%;
+    object-fit: cover;
+    height: 600px;
+    filter: brightness(30%);
+  }
+  div {
+    width: 100%;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    color: #fff;
+    position: absolute;
+    top: 0;
+  }
+  h2 {
+    font-size: 32px;
+    margin: 24px auto;
+  }
+  p {
+    font-size: 24px;
+    margin-bottom: 64px;
+  }
 `;
 
 export const ErrorContainer = styled.div`
@@ -52,47 +75,105 @@ export const TopNavRightBox = styled.div`
   }
 `;
 
+// HomePage
 export const ListContainer = styled.div`
-  width: 95%;
-  max-width: 1200px;
-  margin: 20px auto 0px auto;
+  height: 550px;
   padding: 20px;
-  font-size: 18px;
+  text-align: center;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  ::-webkit-scrollbar {
+    display: none;
+  }
   h2 {
-    margin-bottom: 16px;
+    font-size: 32px;
+    margin: 24px auto;
   }
   p {
-    margin-bottom: 24px;
-  }
-  div {
-    text-align: center;
     font-size: 24px;
+    margin-bottom: 64px;
   }
-  ul {
-    margin: 48px auto;
-    display: flex;
-    li {
+`;
+
+// List
+export const CarouselWrapper = styled.div`
+font-size: 24px;
+ ul {
+  display: flex;
+  transition: transform .5s ease-in-out;
+  li {
+    margin-right: 28px;
+    padding: 28px;
+    background-color: #fff;
+    box-shadow: 1px 0px 5px 0px #D8DDE6;
+    div {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 48px 36px;
-      width: 360px;
-      height: 360px;
-      margin-right: 24px;
-      border: 1px solid #D8DDE6;
-      box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.05);
+      align-items: flex-start;
+      width: 200px;
+      height: 300px;
+      button {
+        background-color: #fff;
+        color: #4F5E58;
+        font-size: 16px;
+        :hover {
+          color: #85C6AF;
+        }
+      }
     }
   }
+ }
+`;
+
+export const CarouselButtons = styled.div`
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1;
+`;
+
+export const CarouselLeftButton = styled.button`
+  position: absolute;
+  top: 150px;
+  left: 0;
+  background-color: #6666FF;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background: #006A5D;
+    :hover {
+      background-color: #85C6AF;
+    }
+`;
+
+export const CarouselRightButton = styled.button`
+  position: absolute;
+  top: 150px;
+  right: 0;
+  background-color: #6666FF;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background: #006A5D;
+    :hover {
+      background-color: #85C6AF;
+    }
 `;
 
 // PostPage
 export const PostContainer = styled.div`
-  width: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   max-width: 1200px;
-  margin: 20px auto 0px auto;
-  padding: 100px 40px 40px 40px;
+  margin: 20px auto 0 auto;
+  padding: 100px 40px;
   font-size: 18px;
-  background-color: #F4F6F9;
+  background-color: #DFEBE7;
+  div {
+    width: 100%;
+  }
   h2 {
     margin-bottom: 18px;
   }
@@ -127,8 +208,8 @@ export const FormTop = styled.form`
   }
   input:focus {
     outline: none !important;
-    border-color: #0099ffa1;
-    box-shadow: 0 0 6px #0099ffa1;
+    border-color: #33CC99;
+    box-shadow: 0 0 6px #33CC99;
   }
 `;
 
@@ -150,8 +231,8 @@ export const FormBottom = styled.form`
   }
   textarea:focus {
     outline: none !important;
-    border-color: #0099ffa1;
-    box-shadow: 0 0 6px #0099ffa1;
+    border-color: #33CC99;
+    box-shadow: 0 0 6px #33CC99;
   }
   textarea::placeholder {
     font-size: 16px;
@@ -167,11 +248,9 @@ export const ButtonSecondary = styled.div`
     border-radius: 5px;
     width: 140px;
     height: 40px;
-    color: #fff;
-    background: #6666ff;
+    background: #006A5D;
     :hover {
-      background-color: #0099FF;
-      color: #fff;
+      background-color: #85C6AF;
     }
   }
 `;
