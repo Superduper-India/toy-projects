@@ -23,5 +23,6 @@ module.exports = {
     'quotes': ['error', 'single'],
     'jsx-quotes': ['error', 'prefer-double'],
     'react/prop-types': 'off',
+    'react/react-in-jsx-scope': 'off',
   },
 };
