@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchGetPosts, fetchEditPost, fetchPost } from './thunk';
+import {
+  fetchGetPosts,
+  fetchDeletePost,
+  fetchEditPost,
+  fetchPost
+} from './thunk';
 
 export const post = createSlice({
   name: 'post',
@@ -81,6 +86,23 @@ export const post = createSlice({
         };
       })
       .addCase(fetchPost.fulfilled, (state, { payload: { data } }) => {
+        return {
+          currPost: { ...data }
+        };
+      })
+      .addCase(fetchDeletePost.pending, (state) => {
+        return {
+          ...state,
+          status: 'loading',
+        };
+      })
+      .addCase(fetchDeletePost.rejected, (state) => {
+        return {
+          ...state,
+          status: 'error',
+        };
+      })
+      .addCase(fetchDeletePost.fulfilled, (state, { payload: { data } }) => {
         return {
           currPost: { ...data }
         };

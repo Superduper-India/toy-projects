@@ -14,7 +14,7 @@ export default function EditButton({ currPost }) {
 
   const handleClickEditPost = () => {
     if (title || content) {
-      dispatch(fetchEditPost({ ...currPost, title, content }));
+      dispatch(fetchEditPost({ id: currPost.id, title, content }));
       dispatch(clearInputField());
       window.history.back();
     } else alert('내용을 입력해주세요!');
