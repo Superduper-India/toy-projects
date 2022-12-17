@@ -1,29 +1,28 @@
+import { useDispatch } from 'react-redux';
+import { fetchDeletePost } from '../thunk';
 
+import { ButtonSecondary } from '../styles/Styles';
 
-import { useMutation } from '@tanstack/react-query';
+// 게시글 삭제 버튼
+// currPost객체를 받는다
+export default function DeleteButton({ currPost }) {
+  const dispatch = useDispatch();
 
-import { deletePost } from '../api';
-
-// id를 props로 받는다.
-export default function DeleteButton({ id }) {
-  const deletedPost = useMutation({
-    mutationFn: deletePost,
-    onSuccess: () => {
-      alert('일기장 삭제완료!');
-      window.history.back();
-    },
-  });
+  const handleClickDelete = () => {
+    dispatch(fetchDeletePost(currPost.id));
+    window.history.href('/');
+  };
 
   return (
     <>
-      {deletedPost.isLoading ? <span>Loading...</span> : null}
-      {deletedPost.isError ? <span>Something is wrong...</span> : null}
-      <button
-        type="button"
-        onClick={() => deletedPost.mutate(id)}
-      >
-        삭제하기
-      </button>
+      <ButtonSecondary>
+        <button
+          type="button"
+          onClick={() => handleClickDelete()}
+        >
+          삭제하기
+        </button>
+      </ButtonSecondary>
     </>
   );
 }

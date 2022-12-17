@@ -184,7 +184,7 @@ export const FormBox = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 16px;
-  background-color: white;
+  background-color: #fff;
   text-align: start;
   padding: 40px;
   border-radius: 16px;
@@ -239,6 +239,43 @@ export const FormBottom = styled.form`
   }
 `;
 
+// DetailPage
+export const DetailContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 20px auto 0 auto;
+  padding: 100px 40px;
+  font-size: 18px;
+  background-color: #DFEBE7;
+  h2 {
+    margin-bottom: 18px;
+  }
+`;
+
+export const DetailPost = styled.div`
+  width: 75%;
+  font-size: 18px;
+  background-color: #fff;
+  text-align: start;
+  padding: 40px;
+  border-radius: 16px;
+  div {
+    display: flex;
+    button {
+      margin-right: 8px;
+    }
+  }
+  h3 {
+    margin-bottom: 18px;
+  }
+  p {
+    margin-bottom: 18px;
+  }
+`;
+
 // PostButton, EditButton
 export const ButtonSecondary = styled.div`
   display: flex;
@@ -251,6 +288,24 @@ export const ButtonSecondary = styled.div`
     background: #006A5D;
     :hover {
       background-color: #85C6AF;
+    }
+  }
+`;
+
+export const ButtonPrimary = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+  button {
+    border-radius: 5px;
+    width: 140px;
+    height: 40px;
+    color: #000;
+    background-color: transparent;
+    border: 1px solid #006A5D;
+    :hover {
+      color: #fff;
+      background-color: #006A5D;
     }
   }
 `;

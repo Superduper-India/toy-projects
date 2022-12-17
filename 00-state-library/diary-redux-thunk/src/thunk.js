@@ -1,30 +1,26 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getPost, editPost, addPost } from './api';
 
-export const fetchGetPost = createAsyncThunk('india/fetchGetPost', getPost);
+import { getPosts, addPost, deletePost, editPost } from './api';
+
+export const fetchGetPosts = createAsyncThunk('india/fetchGetPosts', getPosts);
 
 export const fetchEditPost = createAsyncThunk('india/fetchEditPost',
-  async (updatePost, thunkAPI) => {
-    const { getState } = thunkAPI;
-    const state = getState();
-    const currPostArr = state.post.post;
+  async (editedPost) => {
+    const response = await editPost(editedPost);
+    return response.data;
+  }
+);
 
-    const response = await editPost(updatePost);
-    const editedPost = response.data;
-
-    const newPostArr = currPostArr.map(post => {
-      return post.id !== editedPost.id ?
-        post : editedPost
-    });
-
-    return newPostArr;
+export const fetchDeletePost = createAsyncThunk('india/fetchDeletePost',
+  async (currPostId) => {
+    const response = await deletePost(currPostId);
+    return response.data;
   }
 );
 
 export const fetchPost = createAsyncThunk('india/fetchPost',
   async (newPost) => {
     const response = await addPost(newPost);
-
     return response.data;
   }
 );
