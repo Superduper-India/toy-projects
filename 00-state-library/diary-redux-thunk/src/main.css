@@ -17,10 +17,11 @@ a:visited {
 }
 
 a:hover {
-  color: #7F8492;
+  color: #85C6AF;
 }
 
 button {
+  color: #fff;
   cursor: pointer;
   font-size: 18px;
 }
