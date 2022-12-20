@@ -18,30 +18,31 @@ const POSTS = '/api/posts'; // 전체 게시글
 const POST = '/api/post'; // 단일 게시글
 // const COMMENT = '/api/comment'; // 댓글
 // const LIKE = '/api/like'; // 좋아요
-const SIGNUP = '/api/auth/signup'; // 회원가입
+const SIGNUP = '/api/user/signup'; // 회원가입
 // const LOGIN = '/api/auth/login'; // 로그인
 // const LOGOUT = '/api/auth/logout'; // 로그아웃
 
 // 게시글 전체 조회
 export const getPosts = async () => {
   const response = await baseURL.get(POSTS);
-  console.log(process.env.REACT_APP_TOKEN);
   return response;
 };
 
 // 단일 게시글 조회
 export const getPost = async (postId) => {
-  const response = await api.get(POST + `/${postId}`);
+  const response = await baseURL.get(POST + `/${postId}`);
   return response;
 };
 
 // 회원가입
 export const getSignUp = async (userInfo) => {
-  console.log(userInfo, process.env.ADMIN_TOKEN);
-  const response = await api.post(
-    SIGNUP, { ...userInfo, adminToken: process.env.ADMIN_TOKEN }
-  );
-  return response;
+  const response = await baseURL.post(
+    SIGNUP, { ...userInfo, adminToken: process.env.REACT_APP_TOKEN }
+  ).catch(err => {
+    const { response: { data: { msg: msg } } } = err;
+    alert(msg);
+  });
+  alert(response.data.msg);
 };
 
 // 게시글 작성 POST /api/post
