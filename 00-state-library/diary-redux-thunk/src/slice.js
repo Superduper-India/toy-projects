@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import {
   fetchGetPosts,
+  fetchGetSignUp,
   fetchDeletePost,
   fetchEditPost,
   fetchPost
@@ -45,7 +46,7 @@ export const post = createSlice({
         alert: '',
       };
     },
-    setAlert: (state, { payload: actions }) => {
+    setMessage: (state, { payload: actions }) => {
       return {
         ...state,
         alert: actions
@@ -123,12 +124,30 @@ export const post = createSlice({
         return {
           currPost: { ...data }
         };
+      })
+      .addCase(fetchGetSignUp.pending, (state) => {
+        return {
+          ...state,
+          status: 'loading',
+        };
+      })
+      .addCase(fetchGetSignUp.rejected, (state) => {
+        return {
+          ...state,
+          status: 'redirect',
+        };
+      })
+      .addCase(fetchGetSignUp.fulfilled, (state) => {
+        return {
+          ...state,
+          status: 'success',
+        };
       });
   }
 });
 
 export const {
-  changeInputField, clearInputField, setAlert
+  changeInputField, clearInputField, setMessage
 } = post.actions;
 
 const postReducer = post.reducer;

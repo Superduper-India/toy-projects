@@ -9,7 +9,7 @@ import ExceptionPage from './ExceptionPage';
 
 import { FormContainer } from '.././styles/Styles';
 
-import salesman from '.././assets/salesman.json';
+import login from '.././assets/login.json';
 
 export default function LoginPage() {
   const { status } = useSelector((state) => state.postReducer);
@@ -21,7 +21,7 @@ export default function LoginPage() {
       {status === 'success' ?
         <>
           <FormContainer>
-            <Lottie animationData={salesman} />
+            <Lottie animationData={login} />
             <div>
               <AuthForm props={'signIn'} />
             </div>

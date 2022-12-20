@@ -1,8 +1,8 @@
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchPost, fetchSignUp } from '../thunk';
-import { clearInputField, setAlert } from '../slice';
+import { fetchPost, fetchGetSignUp } from '../thunk';
+import { clearInputField, setMessage } from '../slice';
 
 import { ButtonSecondary } from '../styles/Styles';
 
@@ -11,8 +11,7 @@ export default function PostButton({ props }) {
   const dispatch = useDispatch();
   const { inputField } = useSelector((state) => state.postReducer);
   const {
-    title, content,
-    username, password, checkPassword
+    title, content, username, password, checkPassword
   } = inputField;
 
   const handleClickPost = () => {
@@ -26,12 +25,13 @@ export default function PostButton({ props }) {
   const handleClickSignUp = () => {
     if (username && password && checkPassword) {
       if (password === checkPassword) {
-        dispatch(fetchSignUp({
+        dispatch(fetchGetSignUp({
           username, password, admin: true,
         }));
         dispatch(clearInputField());
-        window.history.back();
-      } dispatch(setAlert('입력하신 비밀번호와 다릅니다.'));
+      } else {
+        dispatch(setMessage('입력하신 비밀번호와 다릅니다.'));
+      }
     } else alert('내용을 입력해주세요!');
   };
 

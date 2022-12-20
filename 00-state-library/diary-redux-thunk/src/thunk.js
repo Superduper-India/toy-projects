@@ -6,7 +6,7 @@ import {
 
 export const fetchGetPosts = createAsyncThunk('india/fetchGetPosts', getPosts);
 
-export const fetchSignUp = createAsyncThunk('india/fetchSignUp',
+export const fetchGetSignUp = createAsyncThunk('india/fetchGetSignUp',
   async (userInfo) => {
     const response = await getSignUp(userInfo);
     return response.data;

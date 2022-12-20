@@ -9,7 +9,7 @@ import ExceptionPage from './ExceptionPage';
 
 import { FormContainer } from '.././styles/Styles';
 
-import salesman from '.././assets/salesman.json';
+import login from '.././assets/login.json';
 
 export default function SignupPage() {
   const { status } = useSelector((state) => state.postReducer);
@@ -18,10 +18,10 @@ export default function SignupPage() {
     <>
       <TopNavBar />
       <ExceptionPage />
-      {status === 'success' ?
+      {status === 'success' || status === 'redirect' ?
         <>
           <FormContainer>
-            <Lottie animationData={salesman} />
+            <Lottie animationData={login} />
             <div>
               <AuthForm props={'signUp'} />
             </div>
