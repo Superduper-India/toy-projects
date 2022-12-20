@@ -11,10 +11,16 @@ export const post = createSlice({
   name: 'post',
   initialState: {
     status: '',
+    alert: '',
     postList: [],
+    currPost: {},
     inputField: {
       title: '',
       content: '',
+      username: '',
+      password: '',
+      checkPassword: '',
+      admin: false,
     },
   },
   reducers: {
@@ -31,7 +37,18 @@ export const post = createSlice({
         inputField: {
           title: '',
           content: '',
+          username: '',
+          password: '',
+          checkPassword: '',
+          admin: false,
         },
+        alert: '',
+      };
+    },
+    setAlert: (state, { payload: actions }) => {
+      return {
+        ...state,
+        alert: actions
       };
     },
   },
@@ -110,7 +127,9 @@ export const post = createSlice({
   }
 });
 
-export const { changeInputField, clearInputField } = post.actions;
+export const {
+  changeInputField, clearInputField, setAlert
+} = post.actions;
 
 const postReducer = post.reducer;
 export default postReducer;

@@ -24,8 +24,18 @@ export default function TopNavBar({ props }) {
       {props ? (
         <TopNavRightBox>
           <Link to="/post"><p>작성하기</p></Link>
-          <Link to="/login"><p>로그인</p></Link>
-          <Link to="#"><p>회원가입</p></Link>
+          <Link
+            to="/sign_in"
+            onClick={() => dispatch(clearInputField())}
+          >
+            <p>로그인</p>
+          </Link>
+          <Link
+            to="/sign_up"
+            onClick={() => dispatch(clearInputField())}
+          >
+            <p>회원가입</p>
+          </Link>
         </TopNavRightBox>
       )
         : (
@@ -33,8 +43,18 @@ export default function TopNavBar({ props }) {
             <Link onClick={() => handleClickBack()}>
               <p>이전으로</p>
             </Link>
-            <Link to="/login"><p>로그인</p></Link>
-            <Link to="#"><p>회원가입</p></Link>
+            <Link
+              to="/sign_in"
+              onClick={() => dispatch(clearInputField())}
+            >
+              <p>로그인</p>
+            </Link>
+            <Link
+              to="/sign_up"
+              onClick={() => dispatch(clearInputField())}
+            >
+              <p>회원가입</p>
+            </Link>
           </TopNavRightBox>
         )
       }
