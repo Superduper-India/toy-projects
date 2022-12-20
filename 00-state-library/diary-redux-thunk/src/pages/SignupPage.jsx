@@ -11,7 +11,7 @@ import { FormContainer } from '.././styles/Styles';
 
 import salesman from '.././assets/salesman.json';
 
-export default function LoginPage() {
+export default function SignupPage() {
   const { status } = useSelector((state) => state.postReducer);
 
   return (
@@ -23,7 +23,7 @@ export default function LoginPage() {
           <FormContainer>
             <Lottie animationData={salesman} />
             <div>
-              <AuthForm props={'signIn'} />
+              <AuthForm props={'signUp'} />
             </div>
           </FormContainer>
         </>
