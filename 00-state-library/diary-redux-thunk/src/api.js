@@ -19,8 +19,8 @@ const POST = '/api/post'; // 단일 게시글
 // const COMMENT = '/api/comment'; // 댓글
 // const LIKE = '/api/like'; // 좋아요
 const SIGNUP = '/api/user/signup'; // 회원가입
-// const LOGIN = '/api/auth/login'; // 로그인
-// const LOGOUT = '/api/auth/logout'; // 로그아웃
+const LOGIN = '/api/user/login'; // 로그인
+const LOGOUT = '/api/user/logout'; // 로그아웃
 
 // 게시글 전체 조회
 export const getPosts = async () => {
@@ -43,6 +43,24 @@ export const getSignUp = async (userInfo) => {
     alert(msg);
   });
   alert(response.data.msg);
+};
+
+// 로그인
+export const getSignIn = async (userInfo) => {
+  const response = await baseURL.post(
+    LOGIN, userInfo
+  ).catch(err => {
+    const { response: { data: { msg: msg } } } = err;
+    alert(msg);
+  });
+  alert(response.data.msg);
+  return response.data;
+};
+
+// 로그아웃
+export const getSignOut = async () => {
+  const response = await baseURL.delete(LOGOUT);
+  return response;
 };
 
 // 게시글 작성 POST /api/post
