@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { saveItem, loadItem } from './storage';
+
 const api = axios.create({
   baseURL: 'http://localhost:3003',
 });
@@ -9,6 +11,7 @@ const baseURL = axios.create({
   baseURL: 'http://15.164.229.199',
   headers: {
     'Access-Control-Allow-Origin': '*',
+    Authorization: `${loadItem('success')}`,
   },
 });
 
@@ -51,12 +54,16 @@ export const getSignIn = async (userInfo) => {
     alert(msg);
   });
   alert(response.data.msg);
+  saveItem('success', 'login');
+  // ToDo 아래 headers.authorization 토큰을 env파일에 숨겨야 하는지??
+  saveItem('success', response.headers.authorization);
   return response.data;
 };
 
-// 게시글 작성 POST /api/post
+// 게시글 작성
 export const addPost = async (newPost) => {
-  await api.post('/post', { ...newPost, });
+  // ToDo 아래 임시 카테고리??는 뭔지 image로직 추가하기
+  await baseURL.post(POST, { ...newPost, category: null, image: 'url주소' });
 };
 
 // 게시글 수정 PUT /api/post/{id}

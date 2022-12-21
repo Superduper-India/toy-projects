@@ -10,7 +10,7 @@ import { loadItem, removeItem } from '../storage';
 export default function TopNavBar({ props }) {
   const dispatch = useDispatch();
   const { status } = useSelector((state) => state.postReducer);
-  const login = loadItem(status);
+  const loginToken = loadItem(status);
 
   const handleClickBack = () => {
     dispatch(clearInputField());
@@ -30,7 +30,7 @@ export default function TopNavBar({ props }) {
         </Link>
       </div>
       <TopNavRightBox>
-        {props && login ?
+        {props && loginToken ?
           <Link to="/post">
             <p>작성하기</p>
           </Link>
@@ -40,7 +40,7 @@ export default function TopNavBar({ props }) {
             </Link>
             : null
         }
-        {login ?
+        {loginToken ?
           <Link
             onClick={() => handleClickLogout()}
           >

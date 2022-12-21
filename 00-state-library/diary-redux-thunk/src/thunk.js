@@ -1,14 +1,19 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import {
-  getPosts,
+  getPosts, getPost,
   getSignUp, getSignIn,
   addPost, deletePost, editPost
 } from './api';
 
-import { saveItem } from './storage';
-
 export const fetchGetPosts = createAsyncThunk('india/fetchGetPosts', getPosts);
+
+export const fetchGetPost = createAsyncThunk('india/fetchGetPost',
+  async (postId) => {
+    const response = await getPost(postId);
+    return response.data;
+  }
+);
 
 export const fetchGetSignUp = createAsyncThunk('india/fetchGetSignUp',
   async (userInfo) => {
@@ -20,7 +25,6 @@ export const fetchGetSignUp = createAsyncThunk('india/fetchGetSignUp',
 export const fetchGetSignIn = createAsyncThunk('india/fetchGetSignIn',
   async (userInfo) => {
     const response = await getSignIn(userInfo);
-    if (response.statusCode === 200) saveItem('success', 'login');
     return response.data;
   }
 );
