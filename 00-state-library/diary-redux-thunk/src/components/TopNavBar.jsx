@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 
-import { clearInputField } from '../slice';
+import { clearAll } from '../slice';
 import { TopNavContainer, TopNavRightBox } from '.././styles/Styles';
 
 import { loadItem, removeItem } from '../storage';
@@ -12,20 +12,25 @@ export default function TopNavBar({ props }) {
   const { status } = useSelector((state) => state.postReducer);
   const loginToken = loadItem(status);
 
+  const handleClickGoHome = () => {
+    dispatch(clearAll());
+    location.assign('/');
+  };
+
   const handleClickBack = () => {
-    dispatch(clearInputField());
-    window.history.back();
+    dispatch(clearAll());
+    history.back();
   };
 
   const handleClickLogout = () => {
     removeItem(status);
-    window.location.reload();
+    location.reload();
   };
 
   return (
     <TopNavContainer>
       <div>
-        <Link to="/">
+        <Link onClick={() => handleClickGoHome()}>
           <p>FashionCoord-e</p>
         </Link>
       </div>
@@ -50,13 +55,13 @@ export default function TopNavBar({ props }) {
           <>
             <Link
               to="/sign_in"
-              onClick={() => dispatch(clearInputField())}
+              onClick={() => dispatch(clearAll())}
             >
               <p>로그인</p>
             </Link>
             <Link
               to="/sign_up"
-              onClick={() => dispatch(clearInputField())}
+              onClick={() => dispatch(clearAll())}
             >
               <p>회원가입</p>
             </Link>

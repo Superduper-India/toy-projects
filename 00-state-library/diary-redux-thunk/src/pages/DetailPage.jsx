@@ -1,24 +1,37 @@
 import { useParams, Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import {
+  fetchGetPost, fetchDeletePost
+} from '../thunk';
 
 import ExceptionPage from './ExceptionPage';
 import TopNavBar from '.././components/TopNavBar';
 // import CommentForm from '.././components/CommentForm';
 // import CommentList from '.././components/CommentList';
+
 import {
   DetailContainer,
   DetailPost,
-  ButtonPrimary
+  ButtonPrimary,
+  ButtonSecondary
 } from '.././styles/Styles';
-import DeleteButton from '.././components/DeleteButton';
 
 export default function DetailPage() {
+  const dispatch = useDispatch();
   const { id } = useParams();
+  const { status, currPost } = useSelector((state) => state.postReducer);
 
-  // id값을 가지고 현재 포스트를 찾는다 : back-end api받으면 수정
-  const { status, postList } = useSelector((state) => state.postReducer);
-  const currPost = postList && id ?
-    postList.find((post) => post.id === +id) : null;
+  useEffect(() => {
+    dispatch(fetchGetPost(id));
+  }, [dispatch]);
+
+
+  const handleClickDelete = () => {
+    dispatch(fetchDeletePost(currPost.id));
+    location.assign('/');
+  };
 
   return (
     <>
@@ -31,13 +44,20 @@ export default function DetailPage() {
             <h3>{currPost.title}</h3>
             <p>{currPost.content}</p>
             <div>
-              <DeleteButton currPost={currPost} />
-              <ButtonPrimary>
+              <ButtonSecondary>
                 <Link to={`/edit/${currPost.id}`}>
                   <button type="button">
                     수정하기
                   </button>
                 </Link>
+              </ButtonSecondary>
+              <ButtonPrimary>
+                <button
+                  type="button"
+                  onClick={() => handleClickDelete()}
+                >
+                  삭제하기
+                </button>
               </ButtonPrimary>
             </div>
           </DetailPost>
