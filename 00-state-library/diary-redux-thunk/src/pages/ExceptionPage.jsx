@@ -1,5 +1,3 @@
-
-import { useSelector } from 'react-redux';
 import Lottie from 'lottie-react';
 
 import {
@@ -10,8 +8,7 @@ import {
 import error from '.././assets/error.json';
 import loading from '.././assets/loading.json';
 
-export default function ExceptionPage() {
-  const { status } = useSelector((state) => state.postReducer);
+export default function ExceptionPage(status) {
 
   return (
     <>

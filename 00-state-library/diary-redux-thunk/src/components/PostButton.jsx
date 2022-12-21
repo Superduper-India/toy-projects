@@ -1,47 +1,8 @@
-import { useDispatch, useSelector } from 'react-redux';
-
-import {
-  fetchPost, fetchGetSignUp, fetchGetSignIn
-} from '../thunk';
-import { clearInputField, setMessage } from '../slice';
-
 import { ButtonSecondary } from '../styles/Styles';
 
-// string props를 받습니다.
-export default function PostButton({ props }) {
-  const dispatch = useDispatch();
-  const { inputField } = useSelector((state) => state.postReducer);
-  const {
-    title, content, username, password, checkPassword
-  } = inputField;
-
-  const handleClickPost = () => {
-    if (title && content) {
-      dispatch(fetchPost({ title, content }));
-      dispatch(clearInputField());
-      window.history.back();
-    } else alert('내용을 입력해주세요!');
-  };
-
-  const handleClickSignUp = () => {
-    if (username && password && checkPassword) {
-      if (password === checkPassword) {
-        dispatch(fetchGetSignUp({
-          username, password, admin: true,
-        }));
-        dispatch(clearInputField());
-      } else {
-        dispatch(setMessage('입력하신 비밀번호와 다릅니다.'));
-      }
-    } else alert('내용을 입력해주세요!');
-  };
-
-  const handleClickSignIn = () => {
-    if (username && password) {
-      dispatch(fetchGetSignIn({ username, password }));
-      dispatch(clearInputField());
-    } else alert('내용을 입력해주세요!');
-  };
+export default function PostButton({
+  props, onClickPost, onClickSignUp, onClickSignIn
+}) {
 
   return (
     <>
@@ -49,21 +10,21 @@ export default function PostButton({ props }) {
         {!props ?
           <button
             type="button"
-            onClick={() => handleClickPost()}
+            onClick={() => onClickPost()}
           >
             기록하기
           </button>
           : props === 'signIn' ?
             <button
               type="button"
-              onClick={() => handleClickSignIn()}
+              onClick={() => onClickSignIn()}
             >
               로그인
             </button>
             :
             <button
               type="button"
-              onClick={() => handleClickSignUp()}
+              onClick={() => onClickSignUp()}
             >
               회원가입
             </button>

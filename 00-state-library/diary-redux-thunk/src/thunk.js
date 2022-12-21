@@ -43,7 +43,7 @@ export const fetchDeletePost = createAsyncThunk('india/fetchDeletePost',
   }
 );
 
-export const fetchPost = createAsyncThunk('india/fetchPost',
+export const fetchAddPost = createAsyncThunk('india/fetchAddPost',
   async (newPost) => {
     const response = await addPost(newPost);
     return response.data;

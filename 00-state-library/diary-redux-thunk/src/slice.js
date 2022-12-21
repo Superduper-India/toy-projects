@@ -2,11 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import {
   fetchGetPosts,
+  fetchGetPost,
   fetchGetSignUp,
   fetchGetSignIn,
   fetchDeletePost,
   fetchEditPost,
-  fetchPost
+  fetchAddPost
 } from './thunk';
 
 export const post = createSlice({
@@ -16,6 +17,7 @@ export const post = createSlice({
     alert: '',
     postList: [],
     currPost: {},
+    setImgUrl: '',
     inputField: {
       title: '',
       content: '',
@@ -33,7 +35,7 @@ export const post = createSlice({
         inputField: { ...inputField, [id]: value },
       };
     },
-    clearInputField: (state) => {
+    clearAll: (state) => {
       return {
         ...state,
         inputField: {
@@ -45,6 +47,7 @@ export const post = createSlice({
           admin: false,
         },
         alert: '',
+        currPost: {},
       };
     },
     setMessage: (state, { payload: actions }) => {
@@ -75,6 +78,25 @@ export const post = createSlice({
           postList: [...data]
         };
       })
+      .addCase(fetchGetPost.pending, (state) => {
+        return {
+          ...state,
+          status: 'loading',
+        };
+      })
+      .addCase(fetchGetPost.rejected, (state) => {
+        return {
+          ...state,
+          status: 'error',
+        };
+      })
+      .addCase(fetchGetPost.fulfilled, (state, { payload }) => {
+        return {
+          ...state,
+          status: 'success',
+          currPost: { ...payload }
+        };
+      })
       .addCase(fetchEditPost.pending, (state) => {
         return {
           ...state,
@@ -92,19 +114,19 @@ export const post = createSlice({
           postList: [...payload],
         };
       })
-      .addCase(fetchPost.pending, (state) => {
+      .addCase(fetchAddPost.pending, (state) => {
         return {
           ...state,
           status: 'loading',
         };
       })
-      .addCase(fetchPost.rejected, (state) => {
+      .addCase(fetchAddPost.rejected, (state) => {
         return {
           ...state,
           status: 'error',
         };
       })
-      .addCase(fetchPost.fulfilled, (state, { payload: { data } }) => {
+      .addCase(fetchAddPost.fulfilled, (state, { payload: { data } }) => {
         return {
           currPost: { ...data }
         };
@@ -166,7 +188,7 @@ export const post = createSlice({
 });
 
 export const {
-  changeInputField, clearInputField, setMessage
+  changeInputField, clearAll, setMessage
 } = post.actions;
 
 const postReducer = post.reducer;
