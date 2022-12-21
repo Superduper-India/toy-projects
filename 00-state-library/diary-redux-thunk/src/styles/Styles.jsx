@@ -89,34 +89,41 @@ export const ListContainer = styled.div`
     font-size: 32px;
     margin: 24px auto;
   }
-  p {
-    font-size: 24px;
-    margin-bottom: 64px;
-  }
 `;
 
 // List
 export const CarouselWrapper = styled.div`
 font-size: 24px;
+img {
+  width: 100%;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
  ul {
   display: flex;
   transition: transform .5s ease-in-out;
   li {
+    width: 400px;
     margin-right: 28px;
     padding: 28px;
     background-color: #fff;
     box-shadow: 1px 0px 5px 0px #D8DDE6;
+    text-align: start;
+    p {
+      font-size: 16px;
+    }
+    span {
+      margin-right: 4px;
+      font-size: 18px;
+      display: block;
+    }
     div {
+      margin-top: 8px;
       display: flex;
-      flex-direction: column;
+      align-items: flex-end;
       justify-content: space-between;
-      align-items: flex-start;
-      width: 200px;
-      height: 300px;
-      button {
-        background-color: #fff;
-        color: #4F5E58;
-        font-size: 16px;
+      div {
+        margin-right: 8px;
         :hover {
           color: #85C6AF;
         }
@@ -204,6 +211,7 @@ export const FormStyle = styled.div`
       padding: 8px 10px;
       border-radius: 4px;
       font-size: 16px;
+      margin-bottom: 8px;
     }
     input:focus {
       outline: none !important;
@@ -225,6 +233,9 @@ export const FormStyle = styled.div`
     }
     textarea::placeholder {
       font-size: 16px;
+    }
+    p {
+      color: #FF9933;
     }
   }
 `;

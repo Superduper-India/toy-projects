@@ -1,12 +1,16 @@
 import { Link } from 'react-router-dom';
 import { useLayoutEffect, useRef, useState } from 'react';
 
+import { timeCalculator } from '.././utils/utils';
+
 import {
   CarouselWrapper,
   CarouselButtons,
   CarouselLeftButton,
   CarouselRightButton,
 } from '../styles/Styles';
+
+import tmp from '.././assets/tmp.png';
 
 // posts 배열을 받는다.
 export default function List({ posts }) {
@@ -60,18 +64,40 @@ export default function List({ posts }) {
         <ul ref={listRef}>
           {posts.map(post => (
             <li key={post.id}>
+              <img src={tmp} />
               <div>
-                <p>{post.title}</p>
+                <h5>{post.title}</h5>
+                <p>{timeCalculator(post.createdAt)}</p>
+              </div>
+              <p>작성자 | {post.username}</p>
+              <div>
+                <div>
+                  <div>
+                    <span className="material-symbols-outlined">
+                      favorite
+                    </span>
+                    <p>{post.likePostNum}</p>
+                  </div>
+                  <div>
+                    <span className="material-symbols-rounded">
+                      mode_comment
+                    </span>
+                    <p>{post.comments.length}</p>
+                  </div>
+                </div>
                 <Link to={`/detail/${post.id}`}>
-                  <button type="button">
-                    {' 더보기 >'}
-                  </button>
+                  <div>
+                    <p>더보기</p>
+                    <span className="material-symbols-rounded">
+                      keyboard_arrow_right
+                    </span>
+                  </div>
                 </Link>
               </div>
             </li>
           ))}
         </ul>
-      </CarouselWrapper>
+      </CarouselWrapper >
     </>
   );
 }
