@@ -1,7 +1,8 @@
-
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchPost, fetchGetSignUp } from '../thunk';
+import {
+  fetchPost, fetchGetSignUp, fetchGetSignIn
+} from '../thunk';
 import { clearInputField, setMessage } from '../slice';
 
 import { ButtonSecondary } from '../styles/Styles';
@@ -35,6 +36,13 @@ export default function PostButton({ props }) {
     } else alert('내용을 입력해주세요!');
   };
 
+  const handleClickSignIn = () => {
+    if (username && password) {
+      dispatch(fetchGetSignIn({ username, password }));
+      dispatch(clearInputField());
+    } else alert('내용을 입력해주세요!');
+  };
+
   return (
     <>
       <ButtonSecondary>
@@ -48,7 +56,7 @@ export default function PostButton({ props }) {
           : props === 'signIn' ?
             <button
               type="button"
-              onClick={() => handleClickPost()}
+              onClick={() => handleClickSignIn()}
             >
               로그인
             </button>

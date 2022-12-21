@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   fetchGetPosts,
   fetchGetSignUp,
+  fetchGetSignIn,
   fetchDeletePost,
   fetchEditPost,
   fetchPost
@@ -141,6 +142,24 @@ export const post = createSlice({
         return {
           ...state,
           status: 'success',
+        };
+      })
+      .addCase(fetchGetSignIn.pending, (state) => {
+        return {
+          ...state,
+          status: 'loading',
+        };
+      })
+      .addCase(fetchGetSignIn.rejected, (state) => {
+        return {
+          ...state,
+          status: 'redirect',
+        };
+      })
+      .addCase(fetchGetSignIn.fulfilled, (state) => {
+        return {
+          ...state,
+          status: 'login',
         };
       });
   }
