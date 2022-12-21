@@ -2,20 +2,24 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 
-import { fetchGetSignOut } from '../thunk';
 import { clearInputField } from '../slice';
 import { TopNavContainer, TopNavRightBox } from '.././styles/Styles';
 
-import { loadItem } from '../storage';
+import { loadItem, removeItem } from '../storage';
 
 export default function TopNavBar({ props }) {
   const dispatch = useDispatch();
   const { status } = useSelector((state) => state.postReducer);
-  const loginStatus = loadItem(status);
+  const login = loadItem(status);
 
   const handleClickBack = () => {
     dispatch(clearInputField());
     window.history.back();
+  };
+
+  const handleClickLogout = () => {
+    removeItem(status);
+    window.location.reload();
   };
 
   return (
@@ -26,18 +30,19 @@ export default function TopNavBar({ props }) {
         </Link>
       </div>
       <TopNavRightBox>
-        {props ?
+        {props && login ?
           <Link to="/post">
             <p>작성하기</p>
           </Link>
-          :
-          <Link onClick={() => handleClickBack()}>
-            <p>이전으로</p>
-          </Link>
+          : !props ?
+            <Link onClick={() => handleClickBack()}>
+              <p>이전으로</p>
+            </Link>
+            : null
         }
-        {loginStatus === 'login' ?
+        {login ?
           <Link
-            onClick={() => dispatch(fetchGetSignOut())}
+            onClick={() => handleClickLogout()}
           >
             <p>로그아웃</p>
           </Link>
