@@ -3,14 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeInputField } from '../slice';
 import { FormStyle } from '../styles/Styles';
 
-import PostButton from '../components/PostButton';
-
 // string props를 받습니다.
 export default function AuthForm({ props }) {
   const dispatch = useDispatch();
   const { inputField } = useSelector((state) => state.postReducer);
   const { alert } = useSelector((state) => state.postReducer);
 
+  // 여기에서 정규표현식 로직추가해서 훅으로 만들기
   const handleChangeInputField = (event) => {
     const { target: { id, value } } = event;
     dispatch(changeInputField({ id, value }));
@@ -42,7 +41,6 @@ export default function AuthForm({ props }) {
                 onChange={(e) => handleChangeInputField(e)}
               />
             </form>
-            <PostButton props={'signIn'} />
           </FormStyle>
         </>
         :
@@ -77,7 +75,6 @@ export default function AuthForm({ props }) {
               />
               <p>{alert ? alert : ''}</p>
             </form>
-            <PostButton props={'signUp'} />
           </FormStyle>
         </>
       }

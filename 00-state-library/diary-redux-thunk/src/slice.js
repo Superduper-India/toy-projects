@@ -111,6 +111,8 @@ export const post = createSlice({
       })
       .addCase(fetchEditPost.fulfilled, (state, { payload }) => {
         return {
+          ...state,
+          status: 'success',
           postList: [...payload],
         };
       })
@@ -126,11 +128,6 @@ export const post = createSlice({
           status: 'error',
         };
       })
-      .addCase(fetchAddPost.fulfilled, (state, { payload: { data } }) => {
-        return {
-          currPost: { ...data }
-        };
-      })
       .addCase(fetchDeletePost.pending, (state) => {
         return {
           ...state,
@@ -143,9 +140,10 @@ export const post = createSlice({
           status: 'error',
         };
       })
-      .addCase(fetchDeletePost.fulfilled, (state, { payload: { data } }) => {
+      .addCase(fetchDeletePost.fulfilled, (state) => {
         return {
-          currPost: { ...data }
+          ...state,
+          status: 'success',
         };
       })
       .addCase(fetchGetSignUp.pending, (state) => {

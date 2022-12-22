@@ -4,13 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Lottie from 'lottie-react';
 
-import {
-  fetchAddPost,
-  fetchGetSignUp,
-  fetchGetSignIn,
-  fetchEditPost
-} from '../thunk';
-import { changeInputField, clearAll, setMessage } from '../slice';
+import { fetchAddPost, fetchEditPost } from '../thunk';
+import { changeInputField, clearAll, } from '../slice';
 
 import TopNavBar from '.././components/TopNavBar';
 import ExceptionPage from './ExceptionPage';
@@ -31,9 +26,7 @@ export default function PostPage() {
   const {
     status, inputField, currPost
   } = useSelector((state) => state.postReducer);
-  const {
-    title, content, username, password, checkPassword
-  } = inputField;
+  const { title, content } = inputField;
 
   const handleChangeInputField = (event) => {
     const { target: { id, value } } = event;
@@ -50,28 +43,6 @@ export default function PostPage() {
     if (title && content && image) {
       dispatch(fetchAddPost({ title, content, image }));
       dispatch(clearAll());
-      window.history.back();
-    } else alert('내용을 입력해주세요!');
-  };
-
-  // ToDo 아이디, 비밀번호 생성조건 적용하기
-  const handleClickSignUp = () => {
-    if (username && password && checkPassword) {
-      if (password === checkPassword) {
-        dispatch(fetchGetSignUp({
-          username, password, admin: true,
-        }));
-        dispatch(clearAll());
-      } else {
-        dispatch(setMessage('입력하신 비밀번호와 다릅니다.'));
-      }
-    } else alert('내용을 입력해주세요!');
-  };
-
-  const handleClickSignIn = () => {
-    if (username && password) {
-      dispatch(fetchGetSignIn({ username, password }));
-      dispatch(clearAll());
     } else alert('내용을 입력해주세요!');
   };
 
@@ -79,7 +50,6 @@ export default function PostPage() {
     if ((title || content) && image) {
       dispatch(fetchEditPost({ id: currPost.id, title, content, image }));
       dispatch(clearAll());
-      window.history.back();
     } else alert('내용을 입력해주세요!');
   };
 
@@ -106,8 +76,6 @@ export default function PostPage() {
                 <PostButton
                   props={null}
                   onClickPost={handleClickPost}
-                  onClickSignUp={handleClickSignUp}
-                  onClickSignIn={handleClickSignIn}
                 />}
             </div>
           </FormContainer>

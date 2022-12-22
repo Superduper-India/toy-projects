@@ -8,6 +8,7 @@ import {
   CarouselButtons,
   CarouselLeftButton,
   CarouselRightButton,
+  Time,
 } from '../styles/Styles';
 
 import tmp from '.././assets/tmp.png';
@@ -65,11 +66,9 @@ export default function List({ posts }) {
           {posts.map(post => (
             <li key={post.id}>
               <img src={tmp} />
-              <div>
-                <h5>{post.title}</h5>
-                <p>{timeCalculator(post.createdAt)}</p>
-              </div>
-              <p>작성자 | {post.username}</p>
+              <h5>{post.title}</h5>
+              <p>{post.username}</p>
+              <Time>{timeCalculator(post.createdAt)}</Time>
               <div>
                 <div>
                   <div>
