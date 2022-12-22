@@ -25,7 +25,7 @@ export default function HomePage() {
 
   return (
     <>
-      <ExceptionPage />
+      <ExceptionPage status={status} />
       {status === 'success' ?
         <>
           <TopNavBar props={'home'} />
@@ -42,7 +42,6 @@ export default function HomePage() {
             </ListContainer>
             :
             <>
-              {/*예외처리*/}
               <ListContainer>
                 <div>
                   <h2>아직은 아무것도 없네요.. 😢</h2>

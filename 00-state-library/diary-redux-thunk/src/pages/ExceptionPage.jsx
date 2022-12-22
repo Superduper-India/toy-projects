@@ -8,8 +8,7 @@ import {
 import error from '.././assets/error.json';
 import loading from '.././assets/loading.json';
 
-export default function ExceptionPage(status) {
-
+export default function ExceptionPage({ status }) {
   return (
     <>
       {status === 'loading' ?
