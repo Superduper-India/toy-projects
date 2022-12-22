@@ -13,7 +13,7 @@ const baseURL = axios.create({
 
 const POSTS = '/api/posts'; // 전체 게시글
 const POST = '/api/post'; // 단일 게시글
-// const COMMENT = '/api/comment'; // 댓글
+const COMMENT = '/api/comment'; // 댓글
 // const LIKE = '/api/like'; // 좋아요
 const SIGNUP = '/api/user/signup'; // 회원가입
 const LOGIN = '/api/user/login'; // 로그인
@@ -71,4 +71,11 @@ export const editPost = async (editedPost) => {
 export const deletePost = async (id) => {
   const response = await baseURL.delete(POST + `/${id}`);
   if (response.status === 200) location.assign('/');
+};
+
+// 댓글 작성
+export const addComment = async (newComment) => {
+  const { id, content } = newComment;
+  const response = await baseURL.post(COMMENT + `/${id}`, { content });
+  if (response.status === 200) location.reload();
 };

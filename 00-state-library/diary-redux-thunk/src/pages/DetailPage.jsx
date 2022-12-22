@@ -3,69 +3,110 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  fetchGetPost, fetchDeletePost
+  fetchGetPost, fetchDeletePost,
+  fetchAddComment
 } from '../thunk';
+import { changeInputField } from '../slice';
 
 import ExceptionPage from './ExceptionPage';
 import TopNavBar from '.././components/TopNavBar';
-// import CommentForm from '.././components/CommentForm';
-// import CommentList from '.././components/CommentList';
+import CommentForm from '.././components/CommentForm';
+import CommentList from '.././components/CommentList';
 
 import {
   DetailContainer,
+  DetailPostContent,
   DetailPost,
   ButtonPrimary,
   ButtonSecondary
 } from '.././styles/Styles';
+import PostButton from '../components/PostButton';
+
+import { loadItem } from '../storage';
+
+import tmp from '.././assets/tmp.png';
 
 export default function DetailPage() {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { status, currPost } = useSelector((state) => state.postReducer);
+  const { status, inputField, currPost } = useSelector((state) => state.postReducer);
+  const { content } = inputField;
+  const loginToken = loadItem(status);
 
   useEffect(() => {
     dispatch(fetchGetPost(id));
   }, [dispatch]);
 
-
   const handleClickDelete = () => {
     dispatch(fetchDeletePost(currPost.id));
-    location.assign('/');
+  };
+
+  const handleChangeInputField = (event) => {
+    const { target: { id, value } } = event;
+    dispatch(changeInputField({ id, value }));
+  };
+
+  const handleClickPostComment = () => {
+    if (content) {
+      dispatch(fetchAddComment({ id: currPost.id, content }));
+    } else alert('내용을 입력해주세요!');
   };
 
   return (
     <>
       <TopNavBar />
-      <ExceptionPage />
+      <ExceptionPage status={status} />
       {status === 'success' ?
         <DetailContainer>
           <h2>{`${currPost.username}님의 패션입니다.`}</h2>
           <DetailPost>
-            <h3>{currPost.title}</h3>
-            <p>{currPost.content}</p>
-            <div>
-              <ButtonSecondary>
-                <Link to={`/edit/${currPost.id}`}>
-                  <button type="button">
-                    수정하기
-                  </button>
-                </Link>
-              </ButtonSecondary>
-              <ButtonPrimary>
-                <button
-                  type="button"
-                  onClick={() => handleClickDelete()}
-                >
-                  삭제하기
-                </button>
-              </ButtonPrimary>
-            </div>
+            <DetailPostContent>
+              <h3>{currPost.title}</h3>
+              <p>{currPost.content}</p>
+              <img src={tmp} />
+            </DetailPostContent>
+            {loginToken ?
+              <>
+                <div>
+                  <ButtonSecondary>
+                    <Link to={`/edit/${currPost.id}`}>
+                      <button type="button">
+                        수정하기
+                      </button>
+                    </Link>
+                  </ButtonSecondary>
+                  <ButtonPrimary>
+                    <button
+                      type="button"
+                      onClick={() => handleClickDelete()}
+                    >
+                      삭제하기
+                    </button>
+                  </ButtonPrimary>
+                </div>
+                <div>
+                  <CommentForm
+                    inputField={inputField}
+                    onChangeInputField={handleChangeInputField}
+                  />
+                  <PostButton
+                    props="comment"
+                    onClickPostComment={handleClickPostComment}
+                  />
+                </div>
+                <CommentList />
+              </>
+              :
+              <>
+                <div>
+                  <CommentForm
+                    props={'inavailable'}
+                  />
+                </div>
+                <CommentList />
+              </>
+            }
           </DetailPost>
-          {/* <CommentForm currPost={currPost} />
-      <CommentList
-        currPost={currPost}
-        comments={currPost.comments}
-      /> */}
         </DetailContainer>
         : null}
     </>
