@@ -1,20 +1,43 @@
-import CommentEditButton from './CommentEditButton';
+import {
+  CommentContainer, Time,
+  WriterComment, OtherUserComment, Left, Right
+} from '../styles/Styles';
 
-// comments 배열을 받는다.
-export default function CommmentList({ currPost, comments }) {
-  // 수정하기 누르면, comments를 화면에 뿌려주는거 대신 댓글을 폼으로 바꿔줘야함~~
+import { useSelector } from 'react-redux';
+
+import { timeCalculator } from '.././utils/utils';
+
+export default function CommmentList() {
+  const { currPost: { comments, username } } = useSelector((state) => state.postReducer);
+  const writer = username;
   return (
-    <>
-      <ul className='tasks-box'>
-        {comments ? comments.map(comment => (
-          <li key={comment.commentId} >
-            <h2>{comment.commentContent}</h2>
-            <CommentEditButton
-              currPost={currPost}
-              selectedId={comment.commentId} />
-          </li>
-        )) : null}
-      </ul>
-    </>
+    <CommentContainer>
+      {comments ? comments.map(comment => (
+        comment.username === writer ?
+          (
+            <Right key={comment.id} >
+              <div>
+                <p>{comment.username}님의 댓글</p>
+                <Time>{timeCalculator(comment.createdAt)}</Time>
+              </div>
+              <WriterComment>
+                <p>{comment.content}</p>
+              </WriterComment>
+            </Right>
+          )
+          :
+          (
+            <Left key={comment.id} >
+              <div>
+                <p>{comment.username}님의 댓글</p>
+                <Time>{timeCalculator(comment.createdAt)}</Time>
+              </div>
+              <OtherUserComment>
+                <p>{comment.content}</p>
+              </OtherUserComment>
+            </Left>
+          )
+      )) : null}
+    </CommentContainer>
   );
 }

@@ -7,7 +7,8 @@ import {
   fetchGetSignIn,
   fetchDeletePost,
   fetchEditPost,
-  fetchAddPost
+  fetchAddPost,
+  fetchAddComment
 } from './thunk';
 
 export const post = createSlice({
@@ -180,6 +181,24 @@ export const post = createSlice({
         return {
           ...state,
           status: 'login',
+        };
+      })
+      .addCase(fetchAddComment.pending, (state) => {
+        return {
+          ...state,
+          status: 'loading',
+        };
+      })
+      .addCase(fetchAddComment.rejected, (state) => {
+        return {
+          ...state,
+          status: 'error',
+        };
+      })
+      .addCase(fetchAddComment.fulfilled, (state) => {
+        return {
+          ...state,
+          status: 'success',
         };
       });
   }

@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   getPosts, getPost,
   getSignUp, getSignIn,
-  addPost, deletePost, editPost
+  addPost, deletePost, editPost, addComment
 } from './api';
 
 export const fetchGetPosts = createAsyncThunk('india/fetchGetPosts', getPosts);
@@ -47,5 +47,11 @@ export const fetchAddPost = createAsyncThunk('india/fetchAddPost',
   async (newPost) => {
     const response = await addPost(newPost);
     return response.data;
+  }
+);
+
+export const fetchAddComment = createAsyncThunk('india/fetchAddComment',
+  async (newComment) => {
+    await addComment(newComment);
   }
 );

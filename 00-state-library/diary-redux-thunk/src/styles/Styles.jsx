@@ -294,9 +294,10 @@ export const DetailPost = styled.div`
   border-radius: 16px;
   div {
     display: flex;
-    align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 18px;
     label {
+      display: flex;
+      align-items: center;
       margin-right: 8px;
     }
     input {
@@ -307,8 +308,18 @@ export const DetailPost = styled.div`
       margin-right: 8px;
     }
   }
+`;
+
+export const DetailPostContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  h3 {
+    padding-bottom: 8px;
+    border-bottom: 1px solid #000;
+  }
   p {
-    margin-bottom: 18px;
+    padding: 20px 8px;
   }
 `;
 
@@ -342,4 +353,43 @@ export const ButtonPrimary = styled.div`
       background-color: #006A5D;
     }
   }
+`;
+
+// CommentList
+export const WriterComment = styled.div`
+    background-color: #33CC99;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+`;
+
+export const OtherUserComment = styled.div`
+    background-color: #fff;
+    border: 1px solid #7F8492;
+    padding: 10px 20px;
+    border-radius: 8px;
+`;
+
+export const CommentContainer = styled.ul`
+    li {
+      div {
+        display: flex;
+        font-size: 14px;
+        p {
+          margin-right: 4px;
+        }
+      }
+    }
+`;
+
+export const Right = styled.li`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+`;
+
+export const Left = styled.li`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 `;
