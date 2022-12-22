@@ -1,25 +1,23 @@
 import AWS from 'aws-sdk';
 
 export const timeCalculator = (writtenAtTime) => {
-  const start = new Date(writtenAtTime); // 글작성시간
-  const end = new Date(); // 현재시간
+  const writtenTime = new Date(writtenAtTime);
+  const now = new Date();
 
-  // ToDo 자바스크립트 경과시간 계산하기 라이브러리 사용하기 
-  // 로직을 millisecond로 바꾸기???
-  const diffMin = (end.getTime() - start.getTime());
+  const diffMin = (now - writtenTime);
 
-  if (diffMin < 60000) {
+  if (diffMin < 6000000) {
     return '방금전';
-  } else if (diffMin < 3600000) {
-    const min = Math.floor(diffMin / (1000 * 60));
+  } else if (diffMin < 360000000) {
+    const min = Math.floor(diffMin / (1000 * 60) % 60);
     return `${min}분 전`;
-  } else if (diffMin < 86400000) {
-    const hour = Math.floor(diffMin / (1000 * 60 * 60));
+  } else if (diffMin < 86400000000) {
+    const hour = Math.floor(diffMin / (1000 * 60 * 60) % 24);
     return `${hour}시간 전`;
-  } else {
-    const date = start.toISOString().split('T')[0];
-    return `${date}`;
   }
+  // toDo 일단위 계산표시 구현하기
+  const date = Math.floor(diffMin / (1000 * 60 * 60 * 24));
+  return `${date}`;
 };
 
 const guid = () => {

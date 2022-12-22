@@ -92,6 +92,11 @@ export const ListContainer = styled.div`
 `;
 
 // List
+export const Time = styled.p`
+  color: #FF9933;
+  font-size: 14px;
+`;
+
 export const CarouselWrapper = styled.div`
 font-size: 24px;
 img {
@@ -103,14 +108,20 @@ img {
   display: flex;
   transition: transform .5s ease-in-out;
   li {
-    width: 400px;
+    width: 200px;
     margin-right: 28px;
     padding: 28px;
     background-color: #fff;
     box-shadow: 1px 0px 5px 0px #D8DDE6;
     text-align: start;
+    h5 {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
     p {
       font-size: 16px;
+      word-break: keep-all;
     }
     span {
       margin-right: 4px;
@@ -168,7 +179,7 @@ export const CarouselRightButton = styled.button`
     }
 `;
 
-// PostPage, EditPage, LoginPage, SignInPage
+// PostPage, LoginPage, SignInPage
 export const FormContainer = styled.div`
   display: flex;
   align-items: center;
@@ -178,8 +189,10 @@ export const FormContainer = styled.div`
   padding: 100px 40px;
   font-size: 18px;
   background-color: #DFEBE7;
+  height: 100vh;
   div {
     width: 100%;
+    margin-bottom: 18px;
   }
   h2 {
     margin-bottom: 18px;
@@ -187,7 +200,24 @@ export const FormContainer = styled.div`
   }
 `;
 
-// Form, AuthForm
+// CommentForm
+export const CommentFormStyle = styled.div`
+    label {
+      font-size: 18px;
+    }
+    input {
+      font-size: 16px;
+      border: 1px solid #7F8492;
+      padding: 8px 10px;
+      border-radius: 4px;
+    }
+    input:focus {
+      outline: none !important;
+      border-color: #33CC99;
+      box-shadow: 0 0 6px #33CC99;
+    }
+`;
+
 export const FormStyle = styled.div`
   display: flex;
   flex-direction: column;
@@ -257,7 +287,6 @@ export const DetailContainer = styled.div`
 `;
 
 export const DetailPost = styled.div`
-  width: 75%;
   font-size: 18px;
   background-color: #fff;
   text-align: start;
@@ -265,23 +294,28 @@ export const DetailPost = styled.div`
   border-radius: 16px;
   div {
     display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    label {
+      margin-right: 8px;
+    }
+    input {
+      width: 420px;
+      margin-right: 8px;
+    }
     button {
       margin-right: 8px;
     }
-  }
-  h3 {
-    margin-bottom: 18px;
   }
   p {
     margin-bottom: 18px;
   }
 `;
 
-// PostButton, EditButton
+// PostButton
 export const ButtonSecondary = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 18px;
   button {
     border-radius: 5px;
     width: 140px;
@@ -296,13 +330,12 @@ export const ButtonSecondary = styled.div`
 export const ButtonPrimary = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 18px;
   button {
     border-radius: 5px;
     width: 140px;
     height: 40px;
     color: #000;
-    background-color: transparent;
+    background-color: #fff;
     border: 1px solid #006A5D;
     :hover {
       color: #fff;
