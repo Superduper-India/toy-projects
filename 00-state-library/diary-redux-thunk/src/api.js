@@ -1,18 +1,13 @@
 import axios from 'axios';
 
-import { saveItem } from './storage';
-
-const api = axios.create({
-  baseURL: 'http://localhost:3003',
-});
+import { saveItem, loadItem } from './storage';
 
 // 상륜님 ip: 15.164.229.199
 const baseURL = axios.create({
   baseURL: 'http://15.164.229.199',
   headers: {
     'Access-Control-Allow-Origin': '*',
-    // 토큰의 유효기간이 만료된듯??
-    // Authorization: `${loadItem('success')}`,
+    Authorization: `${loadItem('success')}`,
   },
 });
 
@@ -61,17 +56,19 @@ export const getSignIn = async (userInfo) => {
 
 // 게시글 작성
 export const addPost = async (newPost) => {
-  await baseURL.post(POST, newPost);
+  const response = await baseURL.post(POST, newPost);
+  if (response.status === 200) location.assign('/');
 };
 
 // 게시글 수정
 export const editPost = async (editedPost) => {
   const { id, title, content, image } = editedPost;
-  await baseURL.put(POST + `/${id}`, { title, content, image });
+  const response = await baseURL.put(POST + `/${id}`, { title, content, image });
+  if (response.status === 200) history.back();
 };
 
-// 게시글 삭제 DELETE /api/post/{id}
+// 게시글 삭제
 export const deletePost = async (id) => {
-  const response = await api.delete(POST + `/${id}`);
-  return response;
+  const response = await baseURL.delete(POST + `/${id}`);
+  if (response.status === 200) location.assign('/');
 };
