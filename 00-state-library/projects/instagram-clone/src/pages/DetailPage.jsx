@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchGetPost, fetchDeletePost,
   fetchAddComment
-} from '../thunk';
-import { changeInputField } from '../slice';
+} from '../redux/middleware/thunk';
+import { changeInputField } from '../redux/modules/postSlice';
 
 import ExceptionPage from './ExceptionPage';
 import TopNavBar from '.././components/TopNavBar';
@@ -22,7 +22,7 @@ import {
 } from '.././styles/Styles';
 import PostButton from '../components/PostButton';
 
-import { loadItem } from '../storage';
+import { loadItem } from '../services/storage';
 
 import tmp from '.././assets/tmp.png';
 

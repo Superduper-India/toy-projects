@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Lottie from 'lottie-react';
 
-import { fetchAddPost, fetchEditPost } from '../thunk';
-import { changeInputField, clearAll, } from '../slice';
+import { fetchAddPost, fetchEditPost } from '../redux/middleware/thunk';
+import { changeInputField, clearAll, } from '../redux/modules/postSlice';
 
 import TopNavBar from '.././components/TopNavBar';
 import ExceptionPage from './ExceptionPage';

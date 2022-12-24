@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { changeInputField } from '../slice';
+import { changeInputField } from '../redux/modules/postSlice';
 import { FormStyle } from '../styles/Styles';
 
 // string props를 받습니다.

@@ -2,8 +2,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import Lottie from 'lottie-react';
 
-import { fetchGetSignIn } from '../thunk';
-import { clearAll } from '../slice';
+import { fetchGetSignIn } from '../redux/middleware/thunk';
+import { clearAll } from '../redux/modules/postSlice';
 
 import TopNavBar from '.././components/TopNavBar';
 import AuthForm from '.././components/AuthForm';
