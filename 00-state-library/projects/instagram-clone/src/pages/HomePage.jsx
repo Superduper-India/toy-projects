@@ -1,53 +1,52 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchGetPosts } from '../redux/middleware/thunk';
-
-import TopNavBar from '.././components/TopNavBar';
-import List from '.././components/List';
-import ExceptionPage from './ExceptionPage';
+import { changeInputField } from '../redux/modules/postSlice';
 
 import {
-  BannerImg,
-  ListContainer,
-} from '.././styles/Styles';
+  fetchGetPosts, fetchAddComment
+} from '../redux/middleware/thunk';
 
-import banner from '.././assets/banner.jpg';
+import TopNavBar from '.././components/TopNavBar';
+import ExceptionPage from './ExceptionPage';
+import PostList from '.././components/PostList';
 
 export default function HomePage() {
   const dispatch = useDispatch();
-  const { status, postList } = useSelector((state) => state.postReducer);
+  const {
+    status, postList, inputField, inputField: { content }
+  } = useSelector((state) => state.postReducer);
 
   useEffect(() => {
     dispatch(fetchGetPosts());
   }, [dispatch]);
+
+  const handleChangeInputField = (event) => {
+    const { target: { id, value } } = event;
+    dispatch(changeInputField({ id, value }));
+  };
+
+  const handleClickPostComment = (postId) => {
+    content ? dispatch(fetchAddComment({ id: postId, content })) : alert('댓글을 입력해주세요!');
+  };
 
   return (
     <>
       <ExceptionPage status={status} />
       {status === 'success' ?
         <>
-          <TopNavBar props={'home'} />
-          <BannerImg>
-            <img src={banner} />
-            <div>
-              <h2>둘러보기</h2>
-              <p>다른 사람들의 패션을 구경해보세요!</p>
-            </div>
-          </BannerImg>
+          <TopNavBar />
           {postList.length !== 0 ?
-            <ListContainer>
-              <List posts={postList} />
-            </ListContainer>
-            :
             <>
-              <ListContainer>
-                <div>
-                  <h2>아직은 아무것도 없네요.. 😢</h2>
-                  <p>오늘의 코디를 뽐내러 가볼까요?</p>
-                </div>
-              </ListContainer>
+              <PostList
+                posts={postList}
+                inputField={inputField}
+                onChangeInputField={handleChangeInputField}
+                onClickPostComment={handleClickPostComment}
+              />
             </>
+            :
+            {/*toDo exception*/ }
           }
         </>
         : null
