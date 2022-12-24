@@ -53,28 +53,6 @@ export const LoadingContainer = styled.div`
   margin: 100px auto 0 auto;
 `;
 
-// TopNavBar
-export const TopNavContainer = styled.div`
-  z-index: 999;
-  position: fixed;
-  top: 0;
-  background-color: #fff;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  border: 1px solid #d3d3d3;
-  padding: 20px 40px;
-  font-size: 24px;
-  font-weight: 700;
-`;
-
-export const TopNavRightBox = styled.div`
-  display: flex;
-  a {
-    margin-right: 40px;
-  }
-`;
-
 // HomePage
 export const ListContainer = styled.div`
   height: 550px;

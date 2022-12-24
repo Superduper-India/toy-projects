@@ -20,10 +20,6 @@ a:visited {
   flex-direction: column;
 }
 
-a:hover {
-  color: #85C6AF;
-}
-
 button {
   color: #fff;
   cursor: pointer;
