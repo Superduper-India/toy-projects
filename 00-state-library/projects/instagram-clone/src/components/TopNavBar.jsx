@@ -1,26 +1,22 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 
-import { clearAll } from '../slice';
-import { TopNavContainer, TopNavRightBox } from '.././styles/Styles';
+import { TopNavBarStyle } from '.././styles/TopNavBarStyle';
 
-import { loadItem, removeItem } from '../storage';
+import { removeItem } from '../services/storage';
 
-export default function TopNavBar({ props }) {
-  const dispatch = useDispatch();
-  const { status } = useSelector((state) => state.postReducer);
-  const loginToken = loadItem(status);
+import logo from '../assets/logo.png';
 
-  const handleClickGoHome = () => {
-    dispatch(clearAll());
-    location.assign('/');
-  };
+export default function TopNavBar() {
+  // const dispatch = useDispatch();
+  const { status, inputField } = useSelector((state) => state.postReducer);
+  console.log(inputField);
 
-  const handleClickBack = () => {
-    dispatch(clearAll());
-    history.back();
-  };
+  // const handleClickBack = () => {
+  //   dispatch(clearAll());
+  //   history.back();
+  // };
 
   const handleClickLogout = () => {
     removeItem(status);
@@ -28,46 +24,23 @@ export default function TopNavBar({ props }) {
   };
 
   return (
-    <TopNavContainer>
+    <TopNavBarStyle color="#BEBEBE">
       <div>
-        <Link onClick={() => handleClickGoHome()}>
-          <p>FashionCoord-e</p>
-        </Link>
+        {/*toAsk 아래와 같이 img태그에 onClick핸들러 넣어서 해도 되는지?*/}
+        <div className="logo">
+          <img src={logo} onClick={() => location.assign('/')} />
+        </div>
+        <div className="search">
+          <input type="text" placeholder="🔍 검색">
+          </input>
+        </div>
+        <div className="icons">
+          <Link onClick={() => location.assign('/')}>홈</Link>
+          <Link to="#">공유</Link>
+          <Link to="#">글작성</Link>
+          <Link onClick={() => handleClickLogout()}>로그아웃</Link>
+        </div>
       </div>
-      <TopNavRightBox>
-        {props && loginToken ?
-          <Link to="/post">
-            <p>작성하기</p>
-          </Link>
-          : !props ?
-            <Link onClick={() => handleClickBack()}>
-              <p>이전으로</p>
-            </Link>
-            : null
-        }
-        {loginToken ?
-          <Link
-            onClick={() => handleClickLogout()}
-          >
-            <p>로그아웃</p>
-          </Link>
-          :
-          <>
-            <Link
-              to="/sign_in"
-              onClick={() => dispatch(clearAll())}
-            >
-              <p>로그인</p>
-            </Link>
-            <Link
-              to="/sign_up"
-              onClick={() => dispatch(clearAll())}
-            >
-              <p>회원가입</p>
-            </Link>
-          </>
-        }
-      </TopNavRightBox>
-    </TopNavContainer >
+    </TopNavBarStyle >
   );
 }
