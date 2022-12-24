@@ -9,7 +9,7 @@ import {
   fetchEditPost,
   fetchAddPost,
   fetchAddComment
-} from './thunk';
+} from '../middleware/thunk';
 
 export const post = createSlice({
   name: 'post',

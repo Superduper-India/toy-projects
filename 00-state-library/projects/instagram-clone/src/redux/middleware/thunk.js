@@ -4,7 +4,7 @@ import {
   getPosts, getPost,
   getSignUp, getSignIn,
   addPost, deletePost, editPost, addComment
-} from './api';
+} from '../../services/api';
 
 export const fetchGetPosts = createAsyncThunk('india/fetchGetPosts', getPosts);
 

@@ -1,6 +1,6 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 
-import postReducer from './slice';
+import postReducer from '../modules/postSlice';
 
 const store = configureStore({
   reducer: { postReducer },

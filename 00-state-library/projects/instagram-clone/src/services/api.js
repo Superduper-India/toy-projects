@@ -2,6 +2,10 @@ import axios from 'axios';
 
 import { saveItem, loadItem } from './storage';
 
+const tmpURL = axios.create({
+  baseURL: 'http://localhost:3003',
+});
+
 const baseURL = axios.create({
   baseURL: 'http://15.164.229.199',
   headers: {
@@ -10,7 +14,7 @@ const baseURL = axios.create({
   },
 });
 
-const POSTS = '/api/posts'; // 전체 게시글
+const POSTS = '/posts'; // 전체 게시글
 const POST = '/api/post'; // 단일 게시글
 const COMMENT = '/api/comment'; // 댓글
 // const LIKE = '/api/like'; // 좋아요
@@ -19,7 +23,7 @@ const LOGIN = '/api/user/login'; // 로그인
 
 // 게시글 전체 조회
 export const getPosts = async () => {
-  const response = await baseURL.get(POSTS);
+  const response = await tmpURL.get(POSTS);
   return response;
 };
 

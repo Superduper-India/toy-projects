@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchGetPosts } from '../thunk';
+import { fetchGetPosts } from '../redux/middleware/thunk';
 
 import TopNavBar from '.././components/TopNavBar';
 import List from '.././components/List';
