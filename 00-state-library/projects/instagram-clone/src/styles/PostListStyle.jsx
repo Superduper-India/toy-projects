@@ -14,30 +14,6 @@ export const PostListStyle = styled.div`
       background-color: #fff;
       margin-bottom: 1rem;
     }
-    .user-info {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.8rem;
-      button {
-          background-color: #fff;
-          color: #000;
-        }
-      div {
-        display: flex;
-        align-items: center;
-        img {
-          margin-right: 12px;
-          border: 1px solid #D6D6D6;
-          width: 48px;
-          height: 48px;
-          border-radius: 24px;
-        }
-        span {
-          font-weight: 500;
-          font-size: 16px;
-        }
-      }
-    }
     .img {
       img {
         width: 100%;
@@ -46,12 +22,9 @@ export const PostListStyle = styled.div`
       }
     }
     .content {
-      padding: 0.8rem;
       font-size: 14px;
-      & > p {
-
-      }
       .like-count {
+        padding: 0 0.8rem;
         display: flex;
         margin: 8px 0;
         & > span {
@@ -59,6 +32,7 @@ export const PostListStyle = styled.div`
         }
       }
       .user-content {
+        padding: 0 0.8rem;
         display: flex;
         margin: 8px 0;
         & > span {
@@ -67,6 +41,7 @@ export const PostListStyle = styled.div`
         }
       }
       .comment-content {
+        padding: 0 0.8rem;
         display: flex;
         flex-direction: column;
         & a {

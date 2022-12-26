@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 
+import CommentForm from './CommentForm';
+import UserInfo from './UserInfo';
+import Icons from './Icons';
+
 import { timeCalculator } from '.././utils/utils';
 
 import { PostListStyle } from '../styles/PostListStyle';
-import CommentForm from './CommentForm';
-import Icons from './Icons';
-
-import tmp from '.././assets/tmp.png';
 
 export default function PostList({
   posts, inputField, onChangeInputField, onClickPostComment
@@ -16,14 +16,7 @@ export default function PostList({
       <ul>
         {posts.map(post => (
           <li key={post.id}>
-            {/*반복1*/}
-            <div className="user-info">
-              <div>
-                <img src={tmp} />
-                <span>{post.username}</span>
-              </div>
-              <button type="button">더보기</button>
-            </div>
+            <UserInfo postUsername={post.username} />
             <div className="img">
               <img src={post.imgUrl} />
             </div>
