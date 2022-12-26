@@ -1,4 +1,4 @@
-import { IconsStyle } from '../styles/ListStyle';
+import { IconsStyle } from '../styles/IconsStyle';
 
 export default function Icons() {
   return (
@@ -8,9 +8,7 @@ export default function Icons() {
         <span>댓글</span>
         <span>공유</span>
       </div>
-      <div>
-        <span>북마크</span>
-      </div>
+      <span>북마크</span>
     </IconsStyle>
   );
 }

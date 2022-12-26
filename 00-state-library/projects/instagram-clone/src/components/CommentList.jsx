@@ -1,5 +1,5 @@
 import {
-  CommentContainer, Time,
+  CommentContainer,
   WriterComment, OtherUserComment, Left, Right
 } from '../styles/Styles';
 
@@ -18,7 +18,7 @@ export default function CommmentList() {
             <Right key={comment.id} >
               <div>
                 <p>{comment.username}님의 댓글</p>
-                <Time>{timeCalculator(comment.createdAt)}</Time>
+                <span>{timeCalculator(comment.createdAt)}</span>
               </div>
               <WriterComment>
                 <p>{comment.content}</p>
@@ -30,7 +30,7 @@ export default function CommmentList() {
             <Left key={comment.id} >
               <div>
                 <p>{comment.username}님의 댓글</p>
-                <Time>{timeCalculator(comment.createdAt)}</Time>
+                <span>{timeCalculator(comment.createdAt)}</span>
               </div>
               <OtherUserComment>
                 <p>{comment.content}</p>

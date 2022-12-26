@@ -6,7 +6,6 @@ export const TopNavBarStyle = styled.div`
   top: 0;
   background-color: #fff;
   width: 100%;
-  padding: 4px 0;
   border-bottom: 1px solid #D6D6D6;
   & > div {
     width: 50%;
@@ -17,7 +16,7 @@ export const TopNavBarStyle = styled.div`
     .logo {
       width: 30%;
       img {
-      width: 40%;
+      width: 50%;
       :hover {
         cursor: pointer;
       }

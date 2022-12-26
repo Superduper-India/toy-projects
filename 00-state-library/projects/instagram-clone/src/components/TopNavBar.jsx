@@ -10,8 +10,7 @@ import logo from '../assets/logo.png';
 
 export default function TopNavBar() {
   // const dispatch = useDispatch();
-  const { status, inputField } = useSelector((state) => state.postReducer);
-  console.log(inputField);
+  const { status } = useSelector((state) => state.postReducer);
 
   // const handleClickBack = () => {
   //   dispatch(clearAll());
