@@ -1,43 +1,49 @@
-import {
-  CommentContainer,
-  WriterComment, OtherUserComment, Left, Right
-} from '../styles/Styles';
-
-import { useSelector } from 'react-redux';
+import CommentForm from './CommentForm';
+import UserInfo from './UserInfo';
+import Icons from './Icons';
 
 import { timeCalculator } from '.././utils/utils';
 
-export default function CommmentList() {
-  const { currPost: { comments, username } } = useSelector((state) => state.postReducer);
-  const writer = username;
+import { CommentListStyle } from '../styles/CommentListStyle';
+import tmp from '.././assets/tmp.png';
+
+export default function CommentList({
+  currPost, inputField, onChangeInputField, onClickPostComment
+}) {
   return (
-    <CommentContainer>
-      {comments ? comments.map(comment => (
-        comment.username === writer ?
-          (
-            <Right key={comment.id} >
+    <CommentListStyle>
+      <div>
+        <div className="img">
+          <img src={currPost.imgUrl} />
+        </div>
+        <div className="content">
+          <UserInfo postUsername={currPost.username} />
+          <div className="user-content">
+            <img src={tmp} />
+            <div>
               <div>
-                <p>{comment.username}님의 댓글</p>
-                <span>{timeCalculator(comment.createdAt)}</span>
+                <span>{currPost.username}</span>
+                <p>{currPost.content}</p>
               </div>
-              <WriterComment>
-                <p>{comment.content}</p>
-              </WriterComment>
-            </Right>
-          )
-          :
-          (
-            <Left key={comment.id} >
-              <div>
-                <p>{comment.username}님의 댓글</p>
-                <span>{timeCalculator(comment.createdAt)}</span>
-              </div>
-              <OtherUserComment>
-                <p>{comment.content}</p>
-              </OtherUserComment>
-            </Left>
-          )
-      )) : null}
-    </CommentContainer>
+              <span className="time">{timeCalculator(currPost.createdAt)}</span>
+            </div>
+          </div>
+          <Icons color="rgba(0, 0, 0, 0.1)" />
+          <div className="like-count">
+            <div>
+              <span>{`${currPost.likes}명`}</span>
+              <p>이 좋아합니다</p>
+            </div>
+            <span className="time">{timeCalculator(currPost.createdAt)}</span>
+          </div>
+          <CommentForm
+            postId={currPost.id}
+            inputField={inputField}
+            onChangeInputField={onChangeInputField}
+            onClickPostComment={onClickPostComment}
+          />
+        </div>
+      </div>
+    </CommentListStyle>
   );
 }

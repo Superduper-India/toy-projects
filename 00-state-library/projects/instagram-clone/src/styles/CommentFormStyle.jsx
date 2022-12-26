@@ -4,6 +4,7 @@ export const CommentFormStyle = styled.div`
   display: flex;
   justify-content: space-between;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 0.8rem;
   padding: 0.8rem;
   & > div {
     label {

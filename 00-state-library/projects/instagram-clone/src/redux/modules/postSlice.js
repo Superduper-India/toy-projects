@@ -19,14 +19,12 @@ export const post = createSlice({
     postList: [],
     currPost: {},
     setImgUrl: '',
-    inputField: {
-      title: '',
-      content: '',
-      username: '',
-      password: '',
-      checkPassword: '',
-      admin: false,
-    },
+    inputField: [
+      {
+        id: 1,
+        content: '',
+      }
+    ],
   },
   reducers: {
     changeInputField: (state, { payload: { id, value } }) => {
