@@ -1,13 +1,36 @@
-# 인스타그램 클론(instagram-clone)
-> [**팀 노션**](https://descriptive-handbell-23e.notion.site/10-C-2-2c09db424e6b4c07a7c836e8df50af23)
+# 인스타그램 클론
+> [**팀 노션**](https://descriptive-handbell-23e.notion.site/10-C-2-2c09db424e6b4c07a7c836e8df50af23) <br>
+> [**유튜브 링크**](https://www.youtube.com/watch?v=p1B8uHykWng) - 서버가 닫힌 관계로 부득이하게 링크로 참고 부탁드립니다.
 
-## memo
-리덕스를 사용하여 CRUD+ 로그인, 회원가입 기능을 가진 인스타그램을 클론해보았습니다. 메인페이지, 댓글페이지를 맡아서 구현했고, 백엔드와의 협업을 진행했습니다.
+리덕스를 사용하여 CRUD기능의 인스타그램을 클론해보았습니다. 메인페이지, 댓글페이지를 맡아서 구현했고, 프론트엔드, 백엔드와의 협업을 진행했습니다. <br>
+리액트 컴포넌트는 UI를 그려내는데 포인트를 두고, 비즈니스 로직은 가능한 리덕스에서 총괄적으로 처리하려고 했습니다. <br>
+예를들어 api를 통해 데이터를 받아와서 가공하는 것은 Redux의 미들웨어를 통해 처리했습니다. <br>
 
-## 기술 스택 및 언어
-* React
-* Redux, Redux-toolkit
+## 💾 프로젝트 구조
+```
+📦 src
+ ┣ 📂 assets // 이미지, 폰트 등 자원
+ ┣ 📂 components // 재사용성을 고려한 모듈화 컴포넌트
+ ┣ 📂 pages // 모듈 컴포넌트를 조합한 화면 UI를 담당하는 컴포넌트
+ ┣ 📂 redux // 리덕스 관련 로직 js파일
+ ┣ 📂 services // 클라이언트, 서버와 관련된 로직 js파일
+ ┣ 📂 styles // 스타일 컴포넌트
+ ┣ 📂 utils // 재사용이 가능한 자바스크립트 함수모음
+ ┣ 📜 App.jsx // 페이지별 라우팅 설정
+ ┗ 📜 index.jsx // 모듈 임포트 및 앱 최상단에 설정
+```
+
+## 🛠 기술 스택 및 언어
+* React, Redux-toolkit
 * React-router-dom
-* Axios, AWS S3
 * Eslint
 * Styled-components
+
+## 📺 미리보기
+<img width="520" alt="스크린샷 2023-01-23 오후 5 08 33" src="https://user-images.githubusercontent.com/89244209/213991943-2c8daac6-e37d-436a-bef5-67c16718133a.png">
+
+## ⭐️ 포인트
+### 무한스크롤
+PostList컴포넌트에서 게시물 목록을 인스타그램처럼 화면 전체가 아닌 부분적인 화면의 무한 스크롤 기능으로 구현했습니다.
+서버데이터를 요청할때마다 5,10,15...와 같이 5씩 증가하는 숫자를 기억해야했고, 처음엔 useState로 구현했으나 state가 바뀌면 화면 렌더링이 바뀌어서 의도대로 동작하지 않았습니다.
+이 부분을 useRef를 사용하여 렌더링과 관계없이 변수를 담는 느낌으로 해결했습니다. 뿐만아니라 사용한 IntersectObserve API를 커스텀 훅으로 재사용성을 높였고, 다음 페이지를 받아오는 동안 로딩아이콘을 보여주면서 사용자 경험을 개선했습니다.
