@@ -7,7 +7,7 @@
 
 > ### 참고자료
 >
-> [넥스트 공식문서](https://nextjs.org/) <br/> [넥스트 FOUNDATIONS](https://nextjs.org/learn/foundations/about-nextjs?utm_source=next-site&utm_medium=nav-cta&utm_campaign=next-website)
+> [넥스트 공식문서](https://nextjs.org/) <br/> [넥스트 FOUNDATIONS](https://nextjs.org/learn/foundations/about-nextjs?utm_source=next-site&utm_medium=nav-cta&utm_campaign=next-website) <br/> [Next.js의 Hydrate란?](https://helloinyong.tistory.com/315)
 
 ## 넥스트js 란?
 
@@ -37,3 +37,59 @@
 그러나 완전한 React앱을 처음부터 구축하려면 약간의 노력이 필요하다는 의미기도 하다. 개발자는 일반적인 앱 요구 사항에 맞게 도구를 설계하고 솔루션을 처음부터 다시 만드는데 시간을 할애해야 한다.
 
   <img src="./img/next-app.png" width="80%"/>
+
+<br/>
+
+## 하이드레이션(hydration) - 수화작용
+
+웹 개발에서 hydrate는 다음과 같은 프로세스를 말한다.
+
+- 서버단에서 Pre-Rendering된 html페이지와 번들링된 js파일을 클라이언트에게 보낸다.
+- 클라이언트단에서 html코드와 js이벤트 리스너 및 상태를 연결한다.
+  <img src="./img/hydration-steps.png" width="80%"/>
+
+기존의 React는 js파일만을 이용하여 웹 화면을 구성하는 원리를 갖고있어서 html코드는 아래와 같이 안에 내용이 하나도 없다. 이는 CSR(Client Side Rendering)이 SEO에 적합하지 않은 이유기도 하다.
+
+```javascript
+// public/index.html
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+```
+
+단순 뼈대만 있는 html document와 js파일들을 클라이언트로 모두 보낸 뒤, 클라이언트 단에서 js코드들을 통해 웹 화면을 렌더링하며 페이지를 그리게 된다. 그리고 렌더링을 한 뒤에도 페이지 내 동작하는 모든 이벤트 또한 js로 인해 일어나게 된다.
+<br/>
+
+아래 코드처럼 `index.js`의 js코드에서 모든 화면을 렌더링한 뒤 html dom요소 중 root라는 아이디를 가진 엘리먼트를 찾아서 하위로 주입을 하게 된다.
+
+```javascript
+// src/index.js
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './src/App';
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+넥스트js는 클라이언트에게 웹 페이지를 보내기 전에 서버단에서 미리 웹 페이지를 Pre-Rendering한다. 그리고 Pre-Rendering으로 인해 생성된 html document를 클라이언트에게 전송한다.
+<br/>
+
+그런데 이 시점에서 클라이언트가 받은 웹 페이지는 단순히 웹 화면만 보여주는 html일 뿐이고, js요소들이 하나도 없다. 이는 웹 화면을 보여주고 있지만, 특정 js모듈 뿐 아니라 단순 클릭과 같은 이벤트 리스너들이 각 웹 페이지의 dom요소에 하나도 적용되지 않은 상태임을 말한다.
+<br/>
+
+넥스트js 서버에서는 Pre-Rendering된 웹 페이지를 클라이언트에 보내고 나서, 바로 리액트가 번들링 된 js코드들을 클라이언트에 전송한다. 그리고 이 js코드들이 이전에 보내진 html dom요소 위에서 한번 더 렌더링을 하면서, 각자 자기 자리를 찾아가며 매칭된다.
+<br/>
+
+이 과정을 Hydrate라고 부른다. 이는 마치 js코드들이 dom요소 위에 물을 채우듯 필요로 하던 요소들을 채운다하여 이와같은 용어를 쓴다고 한다.
+<br/>
+
+서버에서 한 번 렌더링하고, 클라이언트에서도 한 번 더 렌더링하면 비효율적인 것이 아닌가 하는 의문이 들 수 있다. 하지만 서버단에서 빠르게 Pre-Rendering하고 유저에게 빠른 웹 페이지로 응답할 수 있다는 것에 더욱 큰 이점을 가져갈 수 있다. 심지어 Pre-Rendering한 document는 모든 js요소들이 빠진 굉장히 가벼운 상태이므로 클라이언트에게 빠른 로딩이 가능하다. 클라이언트 단에서 js가 렌더링할 때, 단지 각 dom요소에 js속성을 매칭시키기 위한 목적이므로 실제 웹 페이지를 다시 그리는 과정까지는 하지 않는다.(Paint과정이 생략된다.)
