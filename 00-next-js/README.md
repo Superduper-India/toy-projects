@@ -6,7 +6,8 @@
 
 - [넥스트js 란?](https://github.com/Superduper-India/toy-projects/tree/main/00-next-js#%EB%84%A5%EC%8A%A4%ED%8A%B8js-%EB%9E%80)
 - [hydration](https://github.com/Superduper-India/toy-projects/tree/main/00-next-js#%ED%95%98%EC%9D%B4%EB%93%9C%EB%A0%88%EC%9D%B4%EC%85%98hydration---%EC%88%98%ED%99%94%EC%9E%91%EC%9A%A9)
-- [React Essentials](https://github.com/Superduper-India/toy-projects/tree/main/00-next-js#%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%97%90%EC%84%BC%EC%85%9C-react-essentials)
+- [리액트 에센셜](https://github.com/Superduper-India/toy-projects/tree/main/00-next-js#%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%97%90%EC%84%BC%EC%85%9C-react-essentials)
+- [페이지와 레이아웃](https://github.com/Superduper-India/toy-projects/tree/main/00-next-js#%ED%8E%98%EC%9D%B4%EC%A7%80%EC%99%80-%EB%A0%88%EC%9D%B4%EC%95%84%EC%9B%83)
 
 <br/>
 
@@ -130,7 +131,7 @@ ReactDOM.render(<App />, document.getElementById("root"));
 
 라우트가 넥스트js와 함께 로드되면, 최초 html이 서버에서 렌더링된다. 그런다음, 이 html은 브라우저에서 점진적으로 향상되어 클라이언트가 넥스트js 및 리액트의 클라이언트 사이드 런타임을 비동기적으로 로드함으로써 클라이언트가 앱을 인계하고 상호작용을 추가할 수 있다.
 
-`/app`경로 아래의 모든 파일은 기본적으로 서버 컴포넌트이다. 이에 선택적으로 `"use client"`지시문을 사용하여 클라이언트 컴포넌트에 옵트인할 수도 있다.
+`app/`경로 아래의 모든 파일은 기본적으로 서버 컴포넌트이다. 이에 선택적으로 `"use client"`지시문을 사용하여 클라이언트 컴포넌트에 옵트인할 수도 있다.
 
 > ### 클라이언트 컴포넌트
 
@@ -279,3 +280,84 @@ js모듈은 서버와 클라이언트 컴포넌트 간에 공유될 수 있으�
 <br/>
 
 ## 페이지와 레이아웃
+
+> ### 페이지
+
+페이지는 경로에 고유한 UI이다. 파일에서 컴포넌트를 내보내서 페이지를 정의할 수 있다. 다음과 같이 중첩 폴더를 사용해서 경로를 정의하고, `app/`경로에 `page.js`파일을 추가하여 경로에 공개적으로 접근할 수 있게한다.
+<img src="https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Fpage-special-file.png&w=1920&q=75" width="80%"/>
+
+```tsx
+// `app/page.tsx` is the UI for the `/` URL
+export default function Page() {
+  return <h1>Hello, Home page!</h1>;
+}
+```
+
+```tsx
+// `app/dashboard/page.tsx` is the UI for the `/dashboard` URL
+export default function Page() {
+  return <h1>Hello, Dashboard Page!</h1>;
+}
+```
+
+> ### 레이아웃
+
+레이아웃은 여러 페이지 간에 공유되는 UI이다. 레이아웃은 상태와 상호작용을 유지하고 다시 렌더링하지 않는다. 레이아웃은 중첩될 수도 있다.
+
+기본적으로 `layout.js`파일에서 레이아웃을 정의할 수 있다. 컴포넌트는 렌더링 중에 자식 레이아웃이나 페이지로 채워질 `children` prop를 받아야 한다.
+
+<img src="https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Flayout-special-file.png&w=1920&q=75" width="80%"/>
+
+```tsx
+export default function DashboardLayout({
+  children, // 자식 레이아웃이나 페이지가 될 prop이다.
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <section>
+      {/* 헤더나 사이드바같은 공통 UI를 포함한다. */}
+      <nav></nav>
+
+      {children}
+    </section>
+  );
+}
+```
+
+> ### 루트 레이아웃 (필수)
+
+루트 레이아웃은 최상위의 `app/`경로에서 정의되며 모든 경로에 적용된다. 이 레이아웃을 사용하면 서버에서 반환된 초기 html을 수정할 수 있다.
+
+```tsx
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+> ### 중첩 레이아웃
+
+`app/dashboard/layout.js`폴더 내에 정의된 레이아웃은 `acme.com/dashboard`와 같은 특정 경로에 적용된다. 즉, `children` prop을 통해 자식 레이아웃을 감싼다.
+<img src="https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Fnested-layout.png&w=1920&q=75" width="80%" />
+
+```tsx
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <section>{children}</section>;
+}
+```
+
+위의 두 레이아웃을 합치는 경우, 루트 레이아웃인 `app/layout.js`는 `app/dashboard/layout.js`경로의 `<DashboardLayout />`을 감싼다. 즉, 두 레이아웃은 다음과 같이 중첩된다.
+
+<img src="https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Fnested-layouts-ui.png&w=1920&q=75" width="80%" />
