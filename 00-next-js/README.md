@@ -283,7 +283,7 @@ js모듈은 서버와 클라이언트 컴포넌트 간에 공유될 수 있으�
 
 > ### 페이지
 
-페이지는 경로에 고유한 UI이다. 파일에서 컴포넌트를 내보내서 페이지를 정의할 수 있다. 다음과 같이 중첩 폴더를 사용해서 경로를 정의하고, `app/`경로에 `page.js`파일을 추가하여 경로에 공개적으로 접근할 수 있게한다.
+페이지는 **경로에 고유한 UI**이다. 파일에서 컴포넌트를 내보내서 페이지를 정의할 수 있다. 다음과 같이 중첩 폴더를 사용해서 경로를 정의하고, `app/`경로에 `page.js`파일을 추가하여 경로에 공개적으로 접근할 수 있게한다.
 <img src="https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Fpage-special-file.png&w=1920&q=75" width="80%"/>
 
 ```tsx
@@ -302,13 +302,14 @@ export default function Page() {
 
 > ### 레이아웃
 
-레이아웃은 여러 페이지 간에 공유되는 UI이다. 레이아웃은 상태와 상호작용을 유지하고 다시 렌더링하지 않는다. 레이아웃은 중첩될 수도 있다.
+레이아웃은 **여러 페이지 간에 공유되는 UI**이다. 레이아웃은 중첩될 수도 있고, 상태를 유지하면서 다시 렌더링되지 않는다.
 
-기본적으로 `layout.js`파일에서 레이아웃을 정의할 수 있다. 컴포넌트는 렌더링 중에 자식 레이아웃이나 페이지로 채워질 `children` prop를 받아야 한다.
+기본적으로 `layout.js`파일에서 레이아웃을 정의할 수 있다. 컴포넌트는 렌더링 과정에서 자식 레이아웃이나 자식 페이지로 채워질 `children` prop를 받아야 한다.
 
 <img src="https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Flayout-special-file.png&w=1920&q=75" width="80%"/>
 
 ```tsx
+// app/dashboard/layout.tsx
 export default function DashboardLayout({
   children, // 자식 레이아웃이나 페이지가 될 prop이다.
 }: {
@@ -327,9 +328,10 @@ export default function DashboardLayout({
 
 > ### 루트 레이아웃 (필수)
 
-루트 레이아웃은 최상위의 `app/`경로에서 정의되며 모든 경로에 적용된다. 이 레이아웃을 사용하면 서버에서 반환된 초기 html을 수정할 수 있다.
+루트 레이아웃은 최상위의 `app/`경로에서 정의되며 모든 경로에 적용된다. 이 레이아웃을 사용하면 **서버에서 반환된 초기 html을 수정**할 수 있다.
 
 ```tsx
+// app/layout.tsx
 export default function RootLayout({
   children,
 }: {
@@ -345,10 +347,12 @@ export default function RootLayout({
 
 > ### 중첩 레이아웃
 
-`app/dashboard/layout.js`폴더 내에 정의된 레이아웃은 `acme.com/dashboard`와 같은 특정 경로에 적용된다. 즉, `children` prop을 통해 자식 레이아웃을 감싼다.
+아래와 같이 폴더 내에 정의된 레이아웃은 `acme.com/dashboard`와 같은 특정 경로에 적용된다. 기본적으로 파일 계층 구조의 레이아웃은 중첩된다. 즉, `children` prop을 통해 자식 레이아웃을 감싼다. (toDoAsk - 여기서 `children` prop은 `page.js`일까? `DashboardLayout`의 자식 레이아웃이 뭐지?)
+
 <img src="https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Fnested-layout.png&w=1920&q=75" width="80%" />
 
 ```tsx
+// app/dashboard/layout.tsx
 export default function DashboardLayout({
   children,
 }: {
@@ -358,6 +362,6 @@ export default function DashboardLayout({
 }
 ```
 
-위의 두 레이아웃을 합치는 경우, 루트 레이아웃인 `app/layout.js`는 `app/dashboard/layout.js`경로의 `<DashboardLayout />`을 감싼다. 즉, 두 레이아웃은 다음과 같이 중첩된다.
+루트 레이아웃인 `app/layout.js`는 `app/dashboard/layout.js`경로의 `<DashboardLayout />`을 감싼다. 즉, 두 레이아웃은 다음과 같이 중첩된다. 또한 [루트 그룹](https://nextjs.org/docs/app/building-your-application/routing/defining-routes#route-groups)을 사용해서 레이아웃 안팎으로 특정 루트를 끼워넣을 수 있다.
 
 <img src="https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Fnested-layouts-ui.png&w=1920&q=75" width="80%" />
