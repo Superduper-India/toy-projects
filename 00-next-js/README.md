@@ -15,7 +15,7 @@
 
 > ### 참고자료
 >
-> [넥스트 공식문서](https://nextjs.org/) <br/> [넥스트 FOUNDATIONS](https://nextjs.org/learn/foundations/about-nextjs?utm_source=next-site&utm_medium=nav-cta&utm_campaign=next-website) <br/> [Next.js의 Hydrate란?](https://helloinyong.tistory.com/315)
+> [넥스트 문서](https://nextjs.org/docs) <br/> [넥스트 블로그](https://nextjs.org/blog) <br/> [넥스트 FOUNDATIONS](https://nextjs.org/learn/foundations/about-nextjs?utm_source=next-site&utm_medium=nav-cta&utm_campaign=next-website) <br/> [Next.js의 Hydrate란?](https://helloinyong.tistory.com/315)
 
 ## 넥스트js 란?
 
@@ -281,10 +281,16 @@ js모듈은 서버와 클라이언트 컴포넌트 간에 공유될 수 있으�
 
 ## 페이지와 레이아웃
 
+- url 경로(path): 도메인 뒤에 오는 url의 일부
+- url 세그먼트(segment): 슬래시로 구분된 url경로의 일부
+  <img src="https://nextjs.org/_next/image?url=%2Fstatic%2Fblog%2Flayouts-rfc%2Furl-anatomy.png&w=3840&q=75" width="80%" />
+
 > ### 페이지
 
-페이지는 **경로에 고유한 UI**이다. 파일에서 컴포넌트를 내보내서 페이지를 정의할 수 있다. 다음과 같이 중첩 폴더를 사용해서 경로를 정의하고, `app/`경로에 `page.js`파일을 추가하여 경로에 공개적으로 접근할 수 있게한다.
-<img src="https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Fpage-special-file.png&w=1920&q=75" width="80%"/>
+페이지는 **경로 세그먼트에 고유한 UI**이다. 다음과 같이 중첩 폴더를 사용해서 경로를 정의하고, 폴더에 `page.js`파일을 추가하여 페이지를 만들 수 있다.
+<img src="https://nextjs.org/_next/image?url=%2Fstatic%2Fblog%2Flayouts-rfc%2Fpage.png&w=3840&q=75" width="80%"/>
+
+<img src="https://nextjs.org/_next/image?url=%2Fstatic%2Fblog%2Flayouts-rfc%2Fpage-example.png&w=3840&q=75" width="80%" />
 
 ```tsx
 // `app/page.tsx` is the UI for the `/` URL
@@ -302,66 +308,95 @@ export default function Page() {
 
 > ### 레이아웃
 
-레이아웃은 **여러 페이지 간에 공유되는 UI**이다. 레이아웃은 중첩될 수도 있고, 상태를 유지하면서 다시 렌더링되지 않는다.
+- 레이아웃은 **상태를 유지**하면서 **다시 렌더링되지 않는다**.
 
-기본적으로 `layout.js`파일에서 레이아웃을 정의할 수 있다. 컴포넌트는 렌더링 과정에서 자식 레이아웃이나 자식 페이지로 채워질 `children` prop를 받아야 한다.
+- 루트 레이아웃(필수)은 최상위의 `app/`경로에서 정의되며 **모든 경로에 적용**된다. 이 레이아웃을 사용하면 **서버에서 반환된 초기 html을 수정**할 수 있다.
 
-<img src="https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Flayout-special-file.png&w=1920&q=75" width="80%"/>
+  <img src="https://nextjs.org/_next/image?url=%2Fstatic%2Fblog%2Flayouts-rfc%2Froot-layout.png&w=3840&q=75" width="80%"/>
 
-```tsx
-// app/dashboard/layout.tsx
-export default function DashboardLayout({
-  children, // 자식 레이아웃이나 페이지가 될 prop이다.
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <section>
-      {/* 헤더나 사이드바같은 공통 UI를 포함한다. */}
-      <nav></nav>
+  ```tsx
+  // app/layout.tsx
+  export default function RootLayout({
+    children,
+  }: {
+    children: React.ReactNode;
+  }) {
+    return (
+      <html lang="en">
+        <body>{children}</body>
+      </html>
+    );
+  }
+  ```
 
-      {children}
-    </section>
-  );
-}
-```
+- 특정 폴더 안에 `layout.js`파일을 추가해서 **특정 경로에 적용되는** 레이아웃을 정의할 수 있다. 아래와 같이 `dashboard`폴더 내에 정의된 레이아웃은 `acme.com/dashboard`와 같은 특정 경로에 적용된다.
 
-> ### 루트 레이아웃 (필수)
+  <img src="https://nextjs.org/_next/image?url=%2Fstatic%2Fblog%2Flayouts-rfc%2Fregular-layouts.png&w=3840&q=75" width="80%"/>
 
-루트 레이아웃은 최상위의 `app/`경로에서 정의되며 모든 경로에 적용된다. 이 레이아웃을 사용하면 **서버에서 반환된 초기 html을 수정**할 수 있다.
+- 레이아웃은 기본적으로 중첩된다. 즉, 루트 레이아웃(`app/layout.js`)은 `dashboard` 폴더 내부의 모든 경로 세그먼트에도 적용된다.
 
-```tsx
-// app/layout.tsx
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
-}
-```
+  <img src="https://nextjs.org/_next/image?url=%2Fstatic%2Fblog%2Flayouts-rfc%2Fnested-layouts.png&w=3840&q=75" width="80%" />
 
-> ### 중첩 레이아웃
+  <img src="https://nextjs.org/_next/image?url=%2Fstatic%2Fblog%2Flayouts-rfc%2Fnested-layouts-example.png&w=3840&q=75" width="80%" />
 
-아래와 같이 폴더 내에 정의된 레이아웃은 `acme.com/dashboard`와 같은 특정 경로에 적용된다. 기본적으로 파일 계층 구조의 레이아웃은 중첩된다. 즉, `children` prop을 통해 자식 레이아웃을 감싼다. (toDoAsk - 여기서 `children` prop은 `page.js`일까? `DashboardLayout`의 자식 레이아웃이 뭐지?)
+- ⭐️ 하위 레이아웃 혹은 페이지로 채워질 **`children` prop을 무조건 받아야한다**.
 
-<img src="https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Fnested-layout.png&w=1920&q=75" width="80%" />
+    <img src="https://nextjs.org/_next/image?url=%2Fstatic%2Fblog%2Flayouts-rfc%2Fbasic-example.png&w=3840&q=75" width="80%" />
 
-```tsx
-// app/dashboard/layout.tsx
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return <section>{children}</section>;
-}
-```
+  ```tsx
+  // Root layout (app/layout.js)
+  // - Applies to all routes
+  export default function RootLayout({ children }) {
+    return (
+      <html>
+        <body>
+          <Header />
+          {children}
+          <Footer />
+        </body>
+      </html>
+    );
+  }
 
-루트 레이아웃인 `app/layout.js`는 `app/dashboard/layout.js`경로의 `<DashboardLayout />`을 감싼다. 즉, 두 레이아웃은 다음과 같이 중첩된다. 또한 [루트 그룹](https://nextjs.org/docs/app/building-your-application/routing/defining-routes#route-groups)을 사용해서 레이아웃 안팎으로 특정 루트를 끼워넣을 수 있다.
+  // Regular layout (app/dashboard/layout.js)
+  // - Applies to route segments in app/dashboard/*
+  export default function DashboardLayout({ children }) {
+    return (
+      <>
+        <DashboardSidebar />
+        {children}
+      </>
+    );
+  }
 
-<img src="https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Fnested-layouts-ui.png&w=1920&q=75" width="80%" />
+  // Page Component (app/dashboard/analytics/page.js)
+  // - The UI for the `app/dashboard/analytics` segment
+  // - Matches the `acme.com/dashboard/analytics` URL path
+  export default function AnalyticsPage() {
+    return <main>...</main>;
+  }
+  ```
+
+  위의 레이아웃과 페이지 조합은 다음 컴포넌트 계층을 렌더링한다.
+
+  ```tsx
+  <RootLayout>
+    <Header />
+    <DashboardLayout>
+      <DashboardSidebar />
+      <AnalyticsPage>
+        <main>...</main>
+      </AnalyticsPage>
+    </DashboardLayout>
+    <Footer />
+  </RootLayout>
+  ```
+
+> ### 템플릿
+
+템플릿은 하위 레이아웃 또는 페이지를 래핑한다는 점에서 레이아웃과 유사하다. 하지만 상태를 유지하는 레이아웃과는 달리 템플릿은 사용자가 템플릿을 공유하는 경로 사이를 탐색할 때 컴포넌트의 **새 인스턴스가 마운트**되고, **DOM요소가 다시 생성**되며 **상태가 유지되지 않고 효과가 다시 동기화**된다.
+
+아래와 같은 경우 레이아웃보다 템플릿이 더 적합한 옵션일 수 있다. 하지만 템플릿을 사용해야하는 특별한 이유가 없다면 레이아웃을 사용하는 것이 좋다.
+
+- css또는 애니메이션 라이브러리를 사용하여 애니메이션을 시작/종료한다.
+- `useEffect` 및 `useState`에 의존하는 기능
