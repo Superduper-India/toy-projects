@@ -8,6 +8,7 @@
 - [hydration](https://github.com/Superduper-India/toy-projects/tree/main/00-next-js#%ED%95%98%EC%9D%B4%EB%93%9C%EB%A0%88%EC%9D%B4%EC%85%98hydration---%EC%88%98%ED%99%94%EC%9E%91%EC%9A%A9)
 - [리액트 에센셜](https://github.com/Superduper-India/toy-projects/tree/main/00-next-js#%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%97%90%EC%84%BC%EC%85%9C-react-essentials)
 - [페이지와 레이아웃](https://github.com/Superduper-India/toy-projects/tree/main/00-next-js#%ED%8E%98%EC%9D%B4%EC%A7%80%EC%99%80-%EB%A0%88%EC%9D%B4%EC%95%84%EC%9B%83)
+- [데이터 가져오기]()
 
 <br/>
 
@@ -400,3 +401,61 @@ export default function Page() {
 
 - css또는 애니메이션 라이브러리를 사용하여 애니메이션을 시작/종료한다.
 - `useEffect` 및 `useState`에 의존하는 기능
+
+<br/>
+
+## 데이터 가져오기
+
+> ### API fetch()\_
+
+새로운 data fetching 시스템은 기본 `fetch()` Web api 위에 구축되고, 서버 컴포넌트에서 `async` `await`를 사용한다.
+
+> ### 서버에서 데이터 가져오기
+
+가능하면 서버 컴포넌트에서 data fetching을 하는 것이 좋다. 서버 컴포넌트는 항상 서버에서 데이터를 가져온다.
+
+> ### 병렬 및 순차로 데이터 가져오기
+
+컴포넌트에서 data fetching을 사용할 때 **병렬 및 순차**라는 두 가지 패턴이 있다.
+
+**병렬 data fetching**을 사용하면 경로의 요청이 즉시 시작되고 동시에 데이터를 로드한다. 결과적으로 데이터를 로드하는데 걸리는 총 시간이 줄어든다.
+
+**순차 data fetching**을 사용하면 경로의 요청이 서로 종속되어 waterfall을 생성한다. 의존성을 높이는 것을 의도하거나, 리소스를 절약하기를 의도한다면 적절하다. 하지만 이 동작은 의도하지 않을 수도 있고, 로드 시간이 길어질 수 있다.
+
+<img src="https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Fsequential-parallel-data-fetching.png&w=1920&q=75" width="80%" />
+
+> ### 자동 fetch()요청 중복 제거
+
+여러 컴포넌트에서 동일한 데이터(예: 현재 사용자)를 가져와야 하는 경우 nextJS는 **임시 캐시에 동일한 입력**이 있는 `fetch`요청을 자동으로 캐시한다. 이 최적화는 렌더링중에 **동일한 데이터를 두 번 이상 가져오는 것을 방지**한다. 단, `post`요청은 자동으로 중복 제거되지 않는다.
+
+<img src="https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Fdeduplicated-fetch-requests.png&w=1920&q=75" width="80%" />
+
+> ### 정적 및 동적 데이터 가져오기
+
+데이터에는 **정적** 및 **동적**의 두 가지 유형이 있다. 기본적으로 nextJS는 **정적 가져오기**를 자동으로 수행한다. 하지만 사용자가 특정되고 항상 최신 데이터를 가져와야하는 경우 요청을 **동적**으로 표시하고 캐싱없이 각 요청에서 데이터를 가져올 수 있다.
+
+- **정적 데이터**는 자주 변경되지 않는 데이터이다. 예를들면 블로그 게시물이다.
+- **동적 데이터**는 자주 변경되거나 사용자가 특정되는 데이터다. 예를들면 장바구니 목록이다.
+
+  <img src="https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Fdynamic-and-static-data-fetching.png&w=1920&q=75" width="80%" />
+
+> ### 데이터 캐싱
+
+캐싱은 특정 위치(예를 들면 CDN - Content Delivery Network)에 데이터를 저장하는 프로세스다. 따라서 각 요청에 대해 원본 소스에서 다시 가져올 필요가 없다.
+
+<img src="https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Fstatic-site-generation.png&w=1920&q=75" width="80%" />
+
+> ### 데이터 재검증
+
+유효성 재검사(revalidation)는 **캐시를 제거**하고 **최신 데이터를 다시 가져오는** 프로세스다. 이는 데이터가 변경되고 전체 앱을 다시 빌드하지 않고도 앱이 최신 버전을 표시하도록 하려는 경우에 유용하다.
+
+nextJS는 두 가지 유형의 유효성 재검사를 제공한다.
+
+- **background**는 특정 시간 간격으로 데이터를 재검증한다.
+- **on-demand**는 업데이트가 있을 때마다 데이터를 재검증한다.
+
+> ### 스트리밍 및 서스펜스
+
+스트리밍 및 서스펜스는 새로운 리액트 기능이다. 서버 컴포넌트 및 중첩 레이아웃을 사용하면 특별히 데이터가 필요하지 않은 페이지 부분을 **즉시 렌더링**하고 데이터를 가져오는 페이지 부분에 대한 **로드 상태를 표시**할 수 있다. 이것은 사용자가 **전체 페이지가 로드될 때까지 기다리지 않아도 상호작용을 시작할 수 있음**을 의미한다.
+
+<img src="https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Fserver-rendering-with-streaming.png&w=1920&q=75" width="80%" />
