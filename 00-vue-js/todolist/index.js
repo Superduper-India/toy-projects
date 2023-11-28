@@ -1,6 +1,8 @@
-var app = new Vue({
+var app3 = new Vue({
   el: '#app',
   data: {
-    message: 'Hello Vue!',
+    seen: true,
   },
 });
+
+app3.seen = false;

@@ -32,7 +32,7 @@ var app = new Vue({
 });
 ```
 
-텍스트 외에도 다음과 같이 요소 속성을 바인딩할 수도 있다.
+텍스트 외에도 다음과 같이 요소 속성을 바인딩할 수도 있다. 여기서 `v-bind`속성을 지시어라고 한다. 지시어에는 Vue에서 제공하는 특수 속성임을 나타내는 접두사 `v-`가 붙으며, 렌더링된 DOM에 특별한 반응형 동작을 적용한다. 여기서는 기본적으로 이 요소의 `title`속성을 Vue인스턴스의 `message`속성으로 최신 상태로 유지한다는 의미이다.
 
 ```html
 <div id="app-2">
@@ -47,4 +47,25 @@ var app2 = new Vue({
     message: 'You loaded this page on ' + new Date().toLocaleString(),
   },
 });
+```
+
+## 조건부 및 루프
+
+요소의 존재 여부도 쉽게 전환할 수 있다. `app3.seen = false`를 입력하면 메시지가 사라진다. 이는 **텍스트**와 **속성**뿐만 아니라 **DOM구조**에도 데이터를 바인딩할 수 있음을 보여준다. 또한 Vue는 요소를 삽입/업데이트/제거할 때 자동으로 전환 효과 시스템을 제공한다.
+
+```html
+<div id="app-3">
+  <span v-if="seen">Now you see me</span>
+</div>
+```
+
+```javascript
+var app3 = new Vue({
+  el: '#app-3',
+  data: {
+    seen: true,
+  },
+});
+
+app3.seen = false;
 ```
