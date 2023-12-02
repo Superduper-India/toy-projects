@@ -67,5 +67,28 @@ var app3 = new Vue({
   },
 });
 
+// 메시지 비활성화
 app3.seen = false;
+```
+
+이 외에도 여러 가지 지시어가 있으며, 각 지시어는 고유한 기능을 가지고 있다. 예를 들어, `v-for`지시문은 배열의 데이터를 사용하여 항목 목록을 표시하는데 사용할 수 있다. `app4.todos.push({ text: 'New item' });`를 입력하면 새항목이 추가된다.
+
+```html
+<div id="app-4">
+  <ol>
+    <li v-for="todo in todos">{{ todo.text }}</li>
+  </ol>
+</div>
+```
+
+```javascript
+var app4 = new Vue({
+  el: '#app-4',
+  data: {
+    todos: [{ text: 'Learn JavaScript' }, { text: 'Learn Vue' }, { text: 'Build something awesome' }],
+  },
+});
+
+// 콘솔에 입력해서 새항목 추가
+app4.todos.push({ text: 'New item' });
 ```
