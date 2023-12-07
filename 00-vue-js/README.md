@@ -92,3 +92,116 @@ var app4 = new Vue({
 // 콘솔에 입력해서 새항목 추가
 app4.todos.push({ text: 'New item' });
 ```
+
+## 사용자 입력 처리
+
+사용자가 앱과 상호 작용할 수 있도록 `v-on`, `v-model`지시문 등을 사용하여 Vue인스턴스에 메서드를 호출하는 이벤트 리스너를 연결할 수 있습니다. 이 방법은 dom을 건드리지 않고 앱의 상태를 업데이트한다. 모든 dom조작은 Vue에 의해 처리되며, 작성된 코드는 기본 로직에 중점을 준다. 특히 `v-model`은 입력과 앱의 상태 간의 양방향 바인딩을 만들 수 있다.
+
+### v-on
+
+```html
+<div id="app-5">
+  <p>{{ message }}</p>
+  <button v-on:click="reverseMessage">Reverse Message</button>
+</div>
+```
+
+```javascript
+var app5 = new Vue({
+  el: '#app-5',
+  data: {
+    message: 'Hello Vue.js!',
+  },
+  methods: {
+    reverseMessage: function () {
+      this.message = this.message.split('').reverse().join('');
+    },
+  },
+});
+```
+
+### v-model
+
+```html
+<div id="app-6">
+  <p>{{ message }}</p>
+  <input v-model="message" />
+</div>
+```
+
+```javascript
+var app6 = new Vue({
+  el: '#app-6',
+  data: {
+    message: 'Hello Vue!',
+  },
+});
+```
+
+## Composing with Components
+
+컴포넌트 시스템은 Vue의 또 다른 중요한 개념이다. 작고 독립적이며 재사용 가능한 컴포넌트는 대규모 앱을 구축할 수 있게 해주는 추상화이다. 모든 유형의 앱 인터페이스가 구성 요소의 트리로 추상화될 수 있다. Vue에서 구성요소는 기본적으로 **사전 정의된 옵션이 있는 Vue의 인스턴스**이다. Vue에서의 컴포넌트 정의는 다음과 같다.
+
+```javascript
+// Define a new component called todo-item
+Vue.component('todo-item', {
+  template: '<li>This is a todo</li>'
+})
+
+var app = new Vue(...)
+```
+
+이제 다음과 같이 위에서 정의한 컴포넌트를 구성할 수 있다.
+
+```html
+<ol>
+  <!-- Create an instance of the todo-item component -->
+  <todo-item></todo-item>
+</ol>
+```
+
+하지만 이렇게 되면 모든 `todo-item`컴포넌트에 대하여 동일한 텍스트가 렌더링된다. 상위 컴포넌트에서 하위 컴포넌트로 props를 전달할 수 있도록 컴포넌트를 수정해보자.
+
+```javascript
+Vue.component('todo-item', {
+  // The todo-item component now accepts a
+  // "prop", which is like a custom attribute.
+  // This prop is called todo.
+  props: ['todo'],
+  template: '<li>{{ todo.text }}</li>',
+});
+```
+
+이제 `v-bind`를 사용하여 반복되는 각 컴포넌트에 props를 전달할 수 있다.
+
+```html
+<div id="app-7">
+  <ol>
+    <!--
+      Now we provide each todo-item with the todo object
+      it's representing, so that its content can be dynamic.
+      We also need to provide each component with a "key",
+      which will be explained later.
+    -->
+    <todo-item v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id"></todo-item>
+  </ol>
+</div>
+```
+
+```javascript
+Vue.component('todo-item', {
+  props: ['todo'],
+  template: '<li>{{ todo.text }}</li>',
+});
+
+var app7 = new Vue({
+  el: '#app-7',
+  data: {
+    groceryList: [
+      { id: 0, text: 'Vegetables' },
+      { id: 1, text: 'Cheese' },
+      { id: 2, text: 'Whatever else humans are supposed to eat' },
+    ],
+  },
+});
+```
