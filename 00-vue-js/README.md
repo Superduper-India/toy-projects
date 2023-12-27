@@ -205,3 +205,38 @@ var app7 = new Vue({
   },
 });
 ```
+
+## Computed Properties and Watchers
+
+### Computed
+다음과 같이 템플릿에 너무 많은 로직을 넣으면 유지관리가 어려워진다.
+```javascript
+<div id="example">
+  {{ message.split('').reverse().join('') }}
+</div>
+```
+
+위와 같이 복잡한 로직의 경우 다음과 같이 computed 속성을 사용하면 좋다. 기존의 메서드와 computed 메서드는 반응형 종속성을 기반으로 캐시한다는 점에서 차이점을 가진다. 메서드는 리렌더링이 발생할 때마다 항상 함수를 실행하지만, computed 메서드는 종속된 값이 변경된 경우에만 실행된다.
+
+```html
+<div id="example">
+  <p>Original message: "{{ message }}"</p>
+  <p>Computed reversed message: "{{ reversedMessage }}"</p>
+</div>
+```
+
+```javascript
+var vm = new Vue({
+  el: '#example',
+  data: {
+    message: 'Hello'
+  },
+  computed: {
+    // a computed getter
+    reversedMessage: function () {
+      // `this` points to the vm instance
+      return this.message.split('').reverse().join('')
+    }
+  }
+})
+```
