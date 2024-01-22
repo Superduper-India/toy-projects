@@ -1,33 +1,34 @@
 // 1 타입스크립트와 자바스크립트의 관계 이해하기
 
-// function greet(who: string) {
-//     console.log('Hello', who);
-// }
+function greet(who: string) {
+    console.log('Hello', who);
+}
 
-// let city = 'new york city';
-// console.log(city.toUpperCase());
+let city = 'new york city';
+console.log(city.toUpperCase());
 
 // 타입 체커를 통과한 타입스크립트 프로그램이 자바스크립트의 상위집합이다.
-// interface State {
-//     name: string;
-//     capital: string;
-// }
+interface State {
+    name: string;
+    capital: string;
+}
 
-// const states: State[] = [
-//     { name: 'Alabama', capitol: 'Montgomery' },
-//     { name: 'Alaska', capital: 'Juneau' },
-//     { name: 'Arizona', capital: 'Phoenix' },
-// ]
+const states: State[] = [
+    { name: 'Alabama', capitol: 'Montgomery' },
+    { name: 'Alaska', capital: 'Juneau' },
+    { name: 'Arizona', capital: 'Phoenix' },
+]
 
-// for (const state of states) {
-//     console.log(state.capital);
-// }
+for (const state of states) {
+    console.log(state.capital);
+}
 
 // 타입스크립트의 타입 시스템은 자바스크립트의 런타임 동작을 '모델링'하기 때문에 
 // 런타임 오류를 발생시키는 코드를 찾아내려고 한다. 
 // 하지만 다음과 같이 타입 체커를 통과하면서도 런타임 오류를 발생시키는 코드는 존재할 수 있다.
-// const names = ['Alice', 'Bob'];
-// console.log(names[2].toUpperCase());
+const names = ['Alice', 'Bob'];
+console.log(names[2].toUpperCase());
+
 
 // 2 타입스크립트 설정 이해하기
 
@@ -51,6 +52,7 @@ function add(a, b) {
 // null을 허용하는 경우,
 const x: number | null = null;
 
+
 // 3 코드 생성과 타입이 관계없음을 이해하기
 
 // ts컴파일러는 아래의 두 가지 역할을 수행한다.
@@ -63,4 +65,47 @@ const x: number | null = null;
 let aa = 'hello'
 aa = 1234
 
-// 런타임에는 타입 체크가 불가능하다.
+// 타입스크립트의 타입은 '제거 가능'하기 때문에 자바스크립트로 컴파일되는 과정에서 모든 인터페이스, 타입, 타입 구문은 제거된다.
+// 아래 예시는 instanceof 체크는 런타임에 일어나지만, Rectangle은 타입이기 때문에 런타임 시점에 아무런 역할을 할 수 없다.
+interface Square {
+    width: number;
+}
+interface Rectangle extends Square {
+    height: number;
+}
+type Shape = Square | Rectangle;
+
+function calculateArea(shape: Shape) {
+    if (shape instanceof Rectangle) {
+        return shape.width * shape.height;
+    } else {
+        return shape.width * shape.width;
+    }
+}
+
+// 런타임에는 타입 체크가 불가능하기 때문에 런타임에 타입 정보를 유지하는 방법이 별개로 필요하다. 아래부터는 그 예시들이다.
+// 첫번째로, 아래 예시는 런타임에 타입 정보를 유지하기 위한 기법으로, 타입스크립트에서 흔히 볼 수 있다.
+interface Square2 {
+    kind: 'square';
+    width: number;
+}
+interface Rectangle2 {
+    kind: 'rectangle';
+    height: number;
+    width: number;
+}
+// 여기서 Shape타입은 '태그된 유니온'의 한 예이다.
+type Shape2 = Square2 | Rectangle2
+
+function calculateArea2(shape: Shape2) {
+    if ('height' in shape) {
+        // 타입이 Reactangle이다.
+        shape;
+        return shape.width * shape.height;
+    } else {
+        // 타입이 Square이다.
+        shape;
+        return shape.width * shape.width;
+
+    }
+}
