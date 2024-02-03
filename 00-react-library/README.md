@@ -1,10 +1,11 @@
 # 리액트 라이브러리
+
 📃 공식문서를 읽으면서 공부한 내용을 정리하고, 토이프로젝트에 직접 적용해봅니다
 <br />
 
-# 💡 핵심 개념
-> ### 참고자료
-> [리액트 공식문서](https://reactjs.org/) <br/> [리액트 공식문서 베타](https://beta.reactjs.org/)
+# React Documentation
+
+> 참고자료 - [리액트 공식문서](https://reactjs.org/)
 
 ## JSX
 
@@ -85,6 +86,7 @@ function Welcome(props) {
 ```
 
 또한 아래와 같이 ES6 클래스를 사용해 컴포넌트를 정의할 수도 있다. 이를 **클래스 컴포넌트**라고 한다.
+
 ```jsx
 class Welcome extends React.Component {
   render() {
@@ -125,6 +127,7 @@ function withdraw(account, amount) {
 <br />
 
 ## 상태(State)
+
 위에서 요소와 컴포넌트에 대해 알아봤다. 그럼 컴포넌트를 업데이트하려면 어떻게 해야할까? 컴포넌트에 "상태"를 추가해야한다.
 
 앞서본 props와 state의 차이점은 아래와 같다.
@@ -145,7 +148,9 @@ function withdraw(account, amount) {
 <br />
 
 ## 훅과 클로저(Hooks and Closure)
+
 > ### 참고자료
+>
 > [React Hook은 실제로 어떻게 동작할까?](https://hewonjeong.github.io/deep-dive-how-do-react-hooks-really-work-ko/)
 
 부모 컴포넌트나 자식 컴포넌트 모두 특정 컴포넌트가 상태를 갖고있는지 아닌지 알 수 없고, 함수 또는 클래스 컴포넌트로 정의됐는지 여부를 신경쓰지 않아야 한다. 이것이 상태가 종종 로컬 또는 캡슐화로 불리는 이유다. 상태를 소유한 컴포넌트 이외의 다른 컴포넌트에서는 상태에 접근할 수 없다. 즉, 리액트 훅들은 내부적으로 **클로저**처럼 구현되어있다.
@@ -192,5 +197,33 @@ function ChatRoom({ roomId }) {
     };
   }, [roomId]);
   // ...
+}
+```
+
+<br/>
+<br/>
+
+# React Documentation Beta
+
+> 참고자료 - [리액트 공식문서 베타](https://beta.reactjs.org/)
+
+## Describing the UI
+
+리액트는 ui를 렌더링하기 위한 자바스크립트 라이브러리이다. ui는 버튼, 텍스트, 이미지와 같은 작은 단위로 구성되며, 리액트를 사용하면 이들을 **재사용 가능**하고 **중첩 가능**한 **컴포넌트**로 재결합할 수 있다. 다음은 세 개의 프로필 컴포넌트를 렌더링하는 갤러리 컴포넌트다.
+
+```javascript
+function Profile() {
+  return <img src="https://i.imgur.com/MK3eW3As.jpg" alt="Katherine Johnson" />;
+}
+
+export default function Gallery() {
+  return (
+    <section>
+      <h1>Amazing scientists</h1>
+      <Profile />
+      <Profile />
+      <Profile />
+    </section>
+  );
 }
 ```
