@@ -1,44 +1,43 @@
-// 1 타입스크립트와 자바스크립트의 관계 이해하기
+// ## 1 타입스크립트와 자바스크립트의 관계 이해하기
 
-// function greet(who: string) {
-//     console.log('Hello', who);
-// }
+function greet(who: string) {
+    console.log('Hello', who);
+}
 
-// let city = 'new york city';
-// console.log(city.toUpperCase());
+let city = 'new york city';
+console.log(city.toUpperCase());
 
 // 타입 체커를 통과한 타입스크립트 프로그램이 자바스크립트의 상위집합이다.
-// interface State {
-//     name: string;
-//     capital: string;
-// }
+interface State {
+    name: string;
+    capital: string;
+}
 
-// const states: State[] = [
-//     { name: 'Alabama', capitol: 'Montgomery' },
-//     { name: 'Alaska', capital: 'Juneau' },
-//     { name: 'Arizona', capital: 'Phoenix' },
-// ]
+const states: State[] = [
+    { name: 'Alabama', capitol: 'Montgomery' },
+    { name: 'Alaska', capital: 'Juneau' },
+    { name: 'Arizona', capital: 'Phoenix' },
+]
 
-// for (const state of states) {
-//     console.log(state.capital);
-// }
+for (const state of states) {
+    console.log(state.capital);
+}
 
 // 타입스크립트의 타입 시스템은 자바스크립트의 런타임 동작을 '모델링'하기 때문에 
 // 런타임 오류를 발생시키는 코드를 찾아내려고 한다. 
 // 하지만 다음과 같이 타입 체커를 통과하면서도 런타임 오류를 발생시키는 코드는 존재할 수 있다.
-// const names = ['Alice', 'Bob'];
-// console.log(names[2].toUpperCase());
+const names = ['Alice', 'Bob'];
+console.log(names[2].toUpperCase());
 
 
-// 2 타입스크립트 설정 이해하기
+// ## 2 타입스크립트 설정 이해하기
 
 // any타입을 사용하는 것에 있어서 주의하자
 // noImplicitAny 설정은 가급적 true로 설정하는게 좋다.
 // false인 경우는 js로 된 프로젝트를 ts로 전환하는 상황에서만 필요하다.
-
-// function add(a, b) {
-//     return a + b;
-// }
+function add(a, b) {
+    return a + b;
+}
 
 // strictNullChecks 설정은 null과 undefined가 모든 타입에서 허용되는지 확인하므로,
 // null과 undefined관련된 오류를 잡아내는데 많은 도움이 되지만, 코드 작성을 어렵게 한다.
@@ -50,10 +49,10 @@
 // strictNullChecks, noImplicitAny를 모두 사용하려면 strict 설정을 하면 된다.
 
 // null을 허용하는 경우,
-// const x: number | null = null;
+const x: number | null = null;
 
 
-// 3 코드 생성과 타입이 관계없음을 이해하기
+// ## 3 코드 생성과 타입이 관계없음을 이해하기
 
 // (1) 타입 오류가 있는 코드도 컴파일이 가능하다.
 // ts컴파일러는 아래의 두 가지 역할을 수행한다.
@@ -68,81 +67,82 @@
 
 // 타입스크립트의 타입은 '제거 가능'하기 때문에 자바스크립트로 컴파일되는 과정에서 모든 인터페이스, 타입, 타입 구문은 제거된다.
 // 아래 예시는 instanceof 체크는 런타임에 일어나지만, Rectangle은 타입이기 때문에 런타임 시점에 아무런 역할을 할 수 없다.
-// interface Square {
-//     width: number;
-// }
-// interface Rectangle extends Square {
-//     height: number;
-// }
-// type Shape = Square | Rectangle;
+interface Square {
+    width: number;
+}
+interface Rectangle extends Square {
+    height: number;
+}
+type Shape = Square | Rectangle;
 
-// function calculateArea(shape: Shape) {
-//     if (shape instanceof Rectangle) {
-//         return shape.width * shape.height;
-//     } else {
-//         return shape.width * shape.width;
-//     }
-// }
+function calculateArea(shape: Shape) {
+    if (shape instanceof Rectangle) {
+        return shape.width * shape.height;
+    } else {
+        return shape.width * shape.width;
+    }
+}
 
-// (2) 런타임에는 타입 체크가 불가능하기 때문에 런타임에 타입 정보를 유지하는 방법이 별개로 필요하다. 아래부터는 그 예시들이다.
-// 첫번째로, 아래 예시는 런타임에 타입 정보를 유지하기 위한 기법으로, 타입스크립트에서 흔히 볼 수 있다.
-// 여기서 인터페이스는 타입으로만 사용 가능하지만, 클래스로 선언하면 타입과 값으로 모두 사용할 수 있다.
-// interface Square2 {
-//     kind: 'square';
-//     width: number;
-// }
-// interface Rectangle2 {
-//     kind: 'rectangle';
-//     height: number;
-//     width: number;
-// }
-// // 여기서 Shape타입은 '태그된 유니온'의 한 예이다.
-// type Shape2 = Square2 | Rectangle2
+// (2) 런타임에는 타입 체크가 불가능하다. 아래는 런타임에 타입 정보를 유지하기 위한 방법들이다.
+// 첫번째로, 런타임에 접근 가능한 타입 정보를 명시적으로 저장하는 '태그'기법이다.
+// 여기서 Shape타입은 '태그된 유니온'의 한 예이다.
+interface Square2 {
+    kind: 'square';
+    width: number;
+}
+interface Rectangle2 {
+    kind: 'rectangle';
+    height: number;
+    width: number;
+}
+type Shape2 = Square2 | Rectangle2
 
-// function calculateArea2(shape: Shape2) {
-//     if ('height' in shape) {
-//         // 타입이 Reactangle이다.
-//         shape;
-//         return shape.width * shape.height;
-//     } else {
-//         // 타입이 Square이다.
-//         shape;
-//         return shape.width * shape.width;
+function calculateArea2(shape: Shape2) {
+    // 두번째로, 아래와 같이 shape에 height속성이 존재하는지 체크해보는 것이다.
+    // 속성 체크는 런타임에 접근 가능한 값에만 관련되지만, 타입 체커 역시 shape의 타입을 Rectangle로 보정해줘서 오류가 사라진다.
+    if ('height' in shape) {
+        // 타입이 Reactangle이다.
+        shape;
+        return shape.width * shape.height;
+    } else {
+        // 타입이 Square이다.
+        shape;
+        return shape.width * shape.width;
 
-//     }
-// }
+    }
+}
 
-// 두번째로, 아래 예시처럼 타입을 클래스로 만들어서 타입(런타임 접근 불가)와 값(런타임 접근 가능)을 둘 다 사용할 수 있다.
-// class Square3 {
-//     constructor(public width: number) { }
-// }
+// 세번째로, 아래 예시처럼 타입을 클래스로 만들어서 타입(런타임 접근 불가)와 값(런타임 접근 가능)을 둘 다 사용할 수 있다.
+class Square3 {
+    constructor(public width: number) { }
+}
 
-// class Rectangle3 extends Square3 {
-//     constructor(public width: number, public height: number) {
-//         // toDo 여기서 super는 무엇인가?
-//         super(width)
-//     }
-// }
-// type Shape3 = Square3 | Rectangle3;
+class Rectangle3 extends Square3 {
+    constructor(public width: number, public height: number) {
+        // toDo 여기서 super는 무엇인가?
+        super(width)
+    }
+}
+type Shape3 = Square3 | Rectangle3;
 
-// function calculateArea3(shape: Shape3) {
-//     if (shape instanceof Rectangle3) {
-//         shape;
-//         return shape.width * shape.height
-//     } else {
-//         shape;
-//         return shape.width * shape.width
-//     }
-// }
+function calculateArea3(shape: Shape3) {
+    if (shape instanceof Rectangle3) {
+        shape;
+        return shape.width * shape.height
+    } else {
+        shape;
+        return shape.width * shape.width
+    }
+}
 
 // (3) 타입 연산은 런타임에 영향을 주지 않는다.
 // 아래는 string 또는 number타입인 값을 항상 number로 정제하는 경우이다. 타입 체커를 통과하지만 잘못된 방법을 썼다.
-// function asNumber(val: number | string): number {
-//     // 여기서 as number는 타입 연산이고, 런타임 동작에는 아무런 영향을 미치지 않는다.
-//     // return val as number
-//     // 값을 정제하기 위해서는 런타임의 타입을 체크해야하고 자바스크립트 연산을 통해 변환을 수행해야 한다.
-//     return typeof (val) === 'string' ? Number(val) : val;
-// }
+function asNumber(val: number | string): number {
+    // 여기서 as number는 타입 연산이고, 런타임 동작에는 아무런 영향을 미치지 않는다.
+    // return val as number
+    // 값을 정제하기 위해서는 런타임의 타입을 체크해야하고 자바스크립트 연산을 통해 변환을 수행해야 한다.
+    return typeof (val) === 'string' ? Number(val) : val;
+}
 
 // (4) 런타임 타입은 선언된 타입과 다를 수 있다.
 
@@ -170,7 +170,7 @@ function setLightSwitch(value: boolean) {
     }
 }
 
-// setLightSwitch(true)
+setLightSwitch(true)
 
 // 아래는 네트워크 호출로부터 받아온 값으로 함수를 실행하는 경우이다.
 // api가 변경되거나 착오로 인해 lightSwitchValue가 실제로 문자열인 경우와 같이
@@ -203,3 +203,5 @@ const three = add(1, 2) // 타입이 number
 const twelve = add('1', '2') // 타입이 string
 
 // (6) 타입스크립트 타입은 런타임 성능에 영향을 주지 않는다.
+
+// 타입과 타입 연산자는 자바스크립트 변환 시점에 제거되기 때문에, 런타임의 성능에 아무런 영향을 주지 않는다.
