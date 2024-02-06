@@ -205,3 +205,51 @@ const twelve = add('1', '2') // 타입이 string
 // (6) 타입스크립트 타입은 런타임 성능에 영향을 주지 않는다.
 
 // 타입과 타입 연산자는 자바스크립트 변환 시점에 제거되기 때문에, 런타임의 성능에 아무런 영향을 주지 않는다.
+
+// ## 4 구조적 타이핑에 익숙해지기
+
+// 아래의 예시에서 타입스크립트 타입 시스템은 자바스크립트의 런타임 동작을 모델링하기 때문에 NamedVector의 구조가 Vector2D와 호환된다.
+// 여기서 '구조적 타이핑'이라는 용어가 사용된다.
+
+interface Vector2D {
+    x: number;
+    y: number;
+}
+
+// 벡터의 길이를 계산하는 함수
+function calculateLength(v: Vector2D) {
+    return Math.sqrt(v.x * v.x + v.y * v.y)
+}
+
+interface NamedVector {
+    name: string;
+    x: number;
+    y: number;
+}
+
+const v: NamedVector = { x: 3, y: 4, name: 'Zee' }
+console.log(calculateLength(v))
+
+// 아래는 구조적 타이핑 때문에 발생하는 문제의 예시이다.
+interface Vector3D {
+    x: number;
+    y: number;
+    z: number;
+}
+
+function normalize(v: Vector3D) {
+    // 이 부분에서 calculateLength가 2D벡터를 받도록 선언되었음에도 불구하고 3D벡터를 받는데 문제가 없었던 이유는 무엇일까?
+    // 그 이유는 Vector3D와 호환되는 {x, y, z} 객체로 calculateLength를 호출하면, 구조적 타이핑 관점에서 x와 y가 있어서 Vector2D와 호환된다.
+    const length = calculateLength(v)
+    return {
+        x: v.x / length,
+        y: v.y / length,
+        z: v.z / length,
+    }
+}
+
+console.log(normalize({ x: 3, y: 4, z: 5 }))
+
+// 함수를 작성할 때, 호출에 사용되는 매개변수의 속성들이 매개변수의 타입에 선언된 속성만을 가질 거라 생각하기 쉽다.
+// 이러한 타입은 '봉인된' 또는 '정확한' 타입이라고 불린다.
+// 실제 타입은 확장에 열려 있다. 즉, 타입에 선언된 속성 외에 임의의 속성을 추가하더라도 오류가 발생하지 않는다.
