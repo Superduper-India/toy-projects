@@ -209,20 +209,20 @@ function ChatRoom({ roomId }) {
 
 ## Describing the UI
 
-1. 리액트는 ui를 렌더링하기 위한 자바스크립트 라이브러리이다. ui는 버튼, 텍스트, 이미지와 같은 작은 단위로 구성되며, 리액트를 사용하면 이들을 **재사용 가능**하고 **중첩 가능**한 **컴포넌트**로 재결합할 수 있다.
+리액트는 ui를 렌더링하기 위한 자바스크립트 라이브러리이다. ui는 버튼, 텍스트, 이미지와 같은 작은 단위로 구성되며, 리액트를 사용하면 이들을 **재사용 가능**하고 **중첩 가능**한 **컴포넌트**로 재결합할 수 있다.
 
-2. 리액트는 JSX라는 구문 확장자를 사용하여 위 마크업을 표현한다. 리액트 컴포넌트는 렌더링 로직과 마크업이 서로 연관되어 있기 때문에 JSX를 사용하여 이를 그룹화한다.
+리액트는 JSX라는 구문 확장자를 사용하여 위 마크업을 표현한다. 리액트 컴포넌트는 렌더링 로직과 마크업이 서로 연관되어 있기 때문에 JSX를 사용하여 이를 그룹화한다.
 
 ```javascript
-// 다음은 세 개의 프로필 컴포넌트를 렌더링하는 갤러리 컴포넌트다.
-
 function Profile() {
   const avatar = "https://i.imgur.com/MK3eW3As.jpg";
   const description = "Katherine Johnson";
+  const name = 'Gregorio Y. Zara';
+
   // 아래와 같이 괄호없이 한 줄로 적거나, 여러줄로 적을 수 있다.
   // return <img src="https://i.imgur.com/MK3eW3As.jpg" alt="Katherine Johnson" />;
 
-  // 속성값을 동적으로 전달 할 수도 있다.
+  // 중괄호를 사용하여 속성값을 동적으로 전달 할 수도 있다.
   return (
     <img 
       src={avatar}
@@ -231,14 +231,56 @@ function Profile() {
   );
 }
 
+const today = new Date();
+
+function formatDate(date) {
+  return new Intl.DateTimeFormat(
+    'en-US',
+    { weekday: 'long' }
+  ).format(date);
+}
+
 export default function Gallery() {
   return (
     <section>
-      <h1>Amazing scientists</h1>
+      <!--중괄호를 사용하여 그 안에 자바스크립트를 사용할 수 있다.-->
+      <h1>{name} is amazing scientist</h1>
+      <!--뿐만 아니라 중괄호 안에 함수도 사용할 수 있다.-->
+      <h1>{formatDate(today)}</h1>
       <Profile />
       <Profile />
       <Profile />
     </section>
+  );
+}
+
+export default function TodoList() {
+  return (
+    // 다음과 같이 중괄호안에 객체를 전달할 수도 있다.
+    <ul style={{
+      backgroundColor: 'black',
+      color: 'pink'
+    }}>
+      <li>Improve the videophone</li>
+      <li>Prepare aeronautics lectures</li>
+      <li>Work on the alcohol-fuelled engine</li>
+    </ul>
+  );
+}
+```
+
+리액트 컴포넌트는 다음과 같이 객체, 배열, 함수를 포함한 모든 프로퍼티값을 부모에서 자식으로 전달할 수 있다. 이러한 프로퍼티는 컴포넌트의 유일한 인자이다. 리액트 컴포넌트는 하나의 인자, 즉 props객체를 받는다.
+```javascript
+function Avatar({ person, size }) {
+  // person and size are available here
+}
+
+export default function Profile() {
+  return (
+    <Avatar
+      person={{ name: 'Lin Lanying', imageId: '1bX5QH6' }}
+      size={100}
+    />
   );
 }
 ```
