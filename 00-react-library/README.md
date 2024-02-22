@@ -269,9 +269,16 @@ export default function TodoList() {
 }
 ```
 
-리액트 컴포넌트는 다음과 같이 객체, 배열, 함수를 포함한 모든 프로퍼티값을 부모에서 자식으로 전달할 수 있다. 이러한 프로퍼티는 컴포넌트의 유일한 인자이다. 리액트 컴포넌트는 하나의 인자, 즉 props객체를 받는다.
+### 프로퍼티(props)
+
+리액트 컴포넌트는 다음과 같이 객체, 배열, 함수를 포함한 모든 프로퍼티값을 부모에서 자식으로 전달할 수 있다. 이러한 프로퍼티는 컴포넌트의 유일한 인자이다. 리액트 컴포넌트는 하나의 인자, 즉 props객체를 받는다. 
+
+이와 같은 프로퍼티는 읽기 전용으로 변경할 수 없기 때문에 상호작용이 필요한 경우 상태를 설정해야한다. 그러나 렌더링할 때마다 새로운 버전의 프로퍼티를 받는다.
 ```javascript
-function Avatar({ person, size }) {
+// 아래와 같이 프롭값에 기본값을 하면,
+// size 프롭을 전달하지 않거나 size={undefined}일 때 기본값이 사용된다.
+// 하지만 size={null}, size={0}과 같은 경우에는 기본값이 사용되지 않는다.
+function Avatar({ person, size = 100 }) {
   // person and size are available here
 }
 
@@ -283,4 +290,57 @@ export default function Profile() {
     />
   );
 }
+```
+
+하지만 아래처럼 전달되는 props가 많은 경우, 코드가 반복될 수 있다. 이렇게 하는게 가독성은 더 좋지만 때로는 간결함이 더 중요할 경우, 스프레드 구문을 사용할 수 있다. 하지만 자주 사용하지는 말자!
+```javascript
+
+function Avatar(props) {
+  // props is available here
+}
+
+export default function Profile({ person, size, isSepia, thickBorder }) {
+
+  return (
+    <div className="card">
+      <!--아래와 같이 스프레드 구문을 사용하여 간결하게 했다.-->
+      <Avatar {...props} />
+      <!--아래와 같이 각각 프롭을 넘길 수 있지만, 번거롭다.-->
+      <Avatar
+        person={person}
+        size={size}
+        isSepia={isSepia}
+        thickBorder={thickBorder}
+      />
+    </div>
+  );
+}
+```
+
+JSX태그 안에 컨텐츠를 중첩하면 부모 컴포넌트는 해당 컨텐츠를 자식이라는 프로퍼티로 받는다. 예를 들어 아래 Card컴포넌트는 `<Avatar />`로 설정된 자식 프로퍼티를 받아 렌더링한다.
+```javascript
+import Avatar from './Avatar.js';
+
+function Card({ children }) {
+  return (
+    <div className="card">
+      {children}
+    </div>
+  );
+}
+
+export default function Profile() {
+  return (
+    <Card>
+      <Avatar
+        size={100}
+        person={{ 
+          name: 'Katsuko Saruhashi',
+          imageId: 'YfeOqp2'
+        }}
+      />
+    </Card>
+  );
+}
+
 ```
