@@ -317,7 +317,7 @@ export default function Profile({ person, size, isSepia, thickBorder }) {
 }
 ```
 
-JSX태그 안에 컨텐츠를 중첩하면 부모 컴포넌트는 해당 컨텐츠를 자식이라는 프로퍼티로 받는다. 예를 들어 아래 Card컴포넌트는 `<Avatar />`로 설정된 자식 프로퍼티를 받아 렌더링한다.
+JSX태그 안에 컨텐츠를 중첩하면 부모 컴포넌트는 해당 컨텐츠를 `children`이라는 프로퍼티로 받는다. 예를 들어 아래 Card컴포넌트는 `<Avatar />`로 설정된 `children` 프로퍼티를 받아 렌더링한다.
 ```javascript
 import Avatar from './Avatar.js';
 
@@ -340,6 +340,43 @@ export default function Profile() {
         }}
       />
     </Card>
+  );
+}
+
+```
+
+아래는 조건부 렌더링을 하는 예시이다.
+
+```javascript
+function Item({ name, isPacked }) {
+  if (isPacked) {
+    // 아래는 패킹된 요소를 반환한다.
+    return <li className="item">{name} ✔</li>;
+    // 패킹된 요소에 대해 렌더링하고 싶지 않을때는 아래와 같이 null을 반환하면 된다.
+    return null;
+  }
+  return <li className="item">{name}</li>;
+}
+
+export default function PackingList() {
+  return (
+    <section>
+      <h1>Sally Ride's Packing List</h1>
+      <ul>
+        <Item 
+          isPacked={true} 
+          name="Space suit" 
+        />
+        <Item 
+          isPacked={true} 
+          name="Helmet with a golden leaf" 
+        />
+        <Item 
+          isPacked={false} 
+          name="Photo of Tam" 
+        />
+      </ul>
+    </section>
   );
 }
 
