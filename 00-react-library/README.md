@@ -349,13 +349,23 @@ export default function Profile() {
 
 ```javascript
 function Item({ name, isPacked }) {
+  // example1.
   if (isPacked) {
-    // 아래는 패킹된 요소를 반환한다.
+    // isPacked={true}인 경우 체크 표시가 추가된 아래 jsx트리를 반환한다.
     return <li className="item">{name} ✔</li>;
-    // 패킹된 요소에 대해 렌더링하고 싶지 않을때는 아래와 같이 null을 반환하면 된다.
-    return null;
+    // 아무것도 렌더링하고 싶지 않을때는 아래와 같이 null을 반환하면 된다.
+    // return null;
   }
+  // 아래는 isPacked={false}인 경우 jsx트리를 반환한다.
   return <li className="item">{name}</li>;
+
+  // example2.
+  // 아래는 위 예제를 삼항연산자로 표현하는 방법이다.
+  return (
+    <li className="item">
+      {isPacked ? name + ' ✔' : name}
+    </li>
+  );
 }
 
 export default function PackingList() {
