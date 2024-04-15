@@ -227,9 +227,9 @@ function Profile() {
 
   // 중괄호를 사용하여 속성값을 동적으로 전달 할 수도 있다.
   return (
-    <img 
+    <img
       src={avatar}
-      alt={description} 
+      alt={description}
     />
   );
 }
@@ -279,9 +279,10 @@ export default function TodoList() {
 
 ### 프로퍼티(props)
 
-리액트 컴포넌트는 다음과 같이 객체, 배열, 함수를 포함한 모든 프로퍼티값을 부모에서 자식으로 전달할 수 있다. 이러한 프로퍼티는 컴포넌트의 유일한 인자이다. 리액트 컴포넌트는 하나의 인자, 즉 props객체를 받는다. 
+리액트 컴포넌트는 다음과 같이 객체, 배열, 함수를 포함한 모든 프로퍼티값을 부모에서 자식으로 전달할 수 있다. 이러한 프로퍼티는 컴포넌트의 유일한 인자이다. 리액트 컴포넌트는 하나의 인자, 즉 props객체를 받는다.
 
 이와 같은 프로퍼티는 읽기 전용으로 변경할 수 없기 때문에 상호작용이 필요한 경우 상태를 설정해야한다. 그러나 렌더링할 때마다 새로운 버전의 프로퍼티를 받는다.
+
 ```javascript
 // 아래와 같이 프롭값에 기본값을 하면,
 // size 프롭을 전달하지 않거나 size={undefined}일 때 기본값이 사용된다.
@@ -291,16 +292,12 @@ function Avatar({ person, size = 100 }) {
 }
 
 export default function Profile() {
-  return (
-    <Avatar
-      person={{ name: 'Lin Lanying', imageId: '1bX5QH6' }}
-      size={100}
-    />
-  );
+  return <Avatar person={{ name: 'Lin Lanying', imageId: '1bX5QH6' }} size={100} />;
 }
 ```
 
 하지만 아래처럼 전달되는 props가 많은 경우, 코드가 반복될 수 있다. 이렇게 하는게 가독성은 더 좋지만 때로는 간결함이 더 중요할 경우, 스프레드 구문을 사용할 수 있다. 하지만 자주 사용하지는 말자!
+
 ```javascript
 
 function Avatar(props) {
@@ -326,15 +323,12 @@ export default function Profile({ person, size, isSepia, thickBorder }) {
 ```
 
 JSX태그 안에 컨텐츠를 중첩하면 부모 컴포넌트는 해당 컨텐츠를 `children`이라는 프로퍼티로 받는다. 예를 들어 아래 Card컴포넌트는 `<Avatar />`로 설정된 `children` 프로퍼티를 받아 렌더링한다.
+
 ```javascript
 import Avatar from './Avatar.js';
 
 function Card({ children }) {
-  return (
-    <div className="card">
-      {children}
-    </div>
-  );
+  return <div className="card">{children}</div>;
 }
 
 export default function Profile() {
@@ -342,15 +336,14 @@ export default function Profile() {
     <Card>
       <Avatar
         size={100}
-        person={{ 
+        person={{
           name: 'Katsuko Saruhashi',
-          imageId: 'YfeOqp2'
+          imageId: 'YfeOqp2',
         }}
       />
     </Card>
   );
 }
-
 ```
 
 아래는 조건부 렌더링을 하는 예시이다.
@@ -369,11 +362,7 @@ function Item({ name, isPacked }) {
 
   // example2.
   // 아래는 위 예제를 삼항연산자로 표현하는 방법이다.
-  return (
-    <li className="item">
-      {isPacked ? name + ' ✔' : name}
-    </li>
-  );
+  return <li className="item">{isPacked ? name + ' ✔' : name}</li>;
 }
 
 export default function PackingList() {
@@ -381,21 +370,49 @@ export default function PackingList() {
     <section>
       <h1>Sally Ride's Packing List</h1>
       <ul>
-        <Item 
-          isPacked={true} 
-          name="Space suit" 
-        />
-        <Item 
-          isPacked={true} 
-          name="Helmet with a golden leaf" 
-        />
-        <Item 
-          isPacked={false} 
-          name="Photo of Tam" 
-        />
+        <Item isPacked={true} name="Space suit" />
+        <Item isPacked={true} name="Helmet with a golden leaf" />
+        <Item isPacked={false} name="Photo of Tam" />
       </ul>
     </section>
   );
 }
-
 ```
+
+## 리액트18
+
+ssr을 사용하면 서버의 리액트 컴포넌트에서 html을 생성하고 해당 html을 사용자에게 전송할 수 있다. ssr을 사용하면 자바스크립트 번들이 로드되고 실행되기 전에 사용자가 페이지의 컨텐츠를 볼 수 있다. 리액트의 ssr은 다음 단계를 거친다.
+
+1. 서버에서 **전체 앱**에 대한 데이터를 가져온다.
+2. 서버에서 **전체 앱**을 html로 렌더링하여 응답으로 전송한다.
+3. 클라이언트에서 **전체 앱**의 자바스크립트 코드를 로드한다.
+4. 클라이언트에서 **전체 앱**의 자바스크립트 로직을 서버에서 생성한 html에 연결한다. ⇒ hydration(수화)
+
+문제는 각 단계가 전체 앱에 대해 완료되어야 다음 단계를 진행할 수 있다는 것이다. 다음 예시에서 `<Comments />` 컴포넌트가 많은 양의 데이터에 대한 api요청 및 복잡한 js로직을 포함한다고 가정 했을때의 문제점은 다음과 같다.
+
+1. 서버에서 html로 렌더링하기 전까지 서버에 전체 컴포넌트에 대한 모든 데이터가 준비되어 있어야 한다. 그렇기 때문에 서버 데이터에 댓글 컴포넌트를 포함하게 되면 전체 트리를 렌더링할 수 있을 때까지 가져오기 완료한 나머지 html(네브바, 사이드바, 글 콘텐츠 등)의 전송을 지연시켜야 한다.
+2. 리액트가 hydration을 시작하려면 클라이언트에서 컴포넌트가 생성한 트리가 서버에서 생성한 트리와 일치해야 하기 때문에 모든 html, js를 로딩 해야 한다. `<Comments />` 컴포넌트의 복잡한 js로직으로 인하여 로드하는데 시간이 걸리기 때문에 나머지 js(네브바, 사이드바, 글 콘텐츠 등)의 js코드가 로드되어도 hydration이 시작되지 않는다.
+
+```javascript
+<Layout>
+  <NavBar />   
+  <Sidebar />   
+  <RightPane>
+    <Post />     
+    <Comments />   
+  </RightPane>
+</Layout>
+```
+
+리액트18에선 `Suspense`를 사용하여 아래 각 단계에서 전체 앱 대신 **화면의 일부**만 완료 되어도 다음 단계를 진행할 수 있게 해준다. 즉, `Suspense`를 사용하면 일부 코드가 로드될 때까지 로더를 지정할 수 있다.
+
+```html
+Fetch data (server) → Render to HTML (server) → Load JS code (client) → Hydrate (client)
+```
+
+다음은 리액트18에서 나온 ssr 기능들이다.
+
+- 서버에서 html 스트리밍
+  - `renderToString`에서 새로운 `renderToPipeableStream`메서드로 전환
+- 클라이언트에서 부분적으로 hydration
+  - 클라이언트 `createRoot` 내부에서 `Suspense`로 앱의 일부를 래핑
