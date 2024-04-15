@@ -213,7 +213,10 @@ function ChatRoom({ roomId }) {
 
 리액트는 JSX라는 구문 확장자를 사용하여 위 마크업을 표현한다. 리액트 컴포넌트는 렌더링 로직과 마크업이 서로 연관되어 있기 때문에 JSX를 사용하여 이를 그룹화한다.
 
+이와 같이 리액트를 사용하면 마크업, css, js를 결합하여 재사용 가능한 ui요소인 컴포넌트로 사용할 수 있다.
+
 ```javascript
+// 반환문은 아래와 같이 한 줄로 작성할 수도 있고,
 function Profile() {
   const avatar = "https://i.imgur.com/MK3eW3As.jpg";
   const description = "Katherine Johnson";
@@ -240,7 +243,12 @@ function formatDate(date) {
   ).format(date);
 }
 
+// export default는 다른 파일에서 해당 함수를 가져올 수 있도록 쓰는 접두사이다.
+// 함수명의 첫글자는 대문자여야 한다!
 export default function Gallery() {
+  // 아래와 같이 여러줄로 반환문을 작성하려면 괄호로 묶어야 한다.
+  // 아래에서 태그는 html처럼 작성되었지만 실제로는 js인 jsx구문이며,
+  // 이 구문을 사용하면 js안에 마크업을 삽일할 수 있다.
   return (
     <section>
       <!--중괄호를 사용하여 그 안에 자바스크립트를 사용할 수 있다.-->
