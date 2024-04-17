@@ -58,31 +58,27 @@ Fetch data (server) → Render to HTML (server) → Load JS code (client) → Hy
   ```
 - 모든 데이터를 가져오기 전에 서버에서 html을 스트리밍해서 `Comments` 컴포넌트의 데이터 페치가 완료되기 전에 `Spinner`컴포넌트를 보여준다.
 
-  ```html
+  ```jsx
+  <!--초기 html에서 Comments를 찾아볼 수 없다.-->
   <main>
-      
-    <nav>
-          <!--NavBar -->
-          <a href="/">Home</a>   
-    </nav>
-      
-    <aside>
-          <!-- Sidebar -->
-          <a href="/profile">Profile</a>   
-    </aside>
-      
-    <article>
-          <!-- Post -->
-          
-      <p>Hello world</p>
-        
-    </article>
-      
-    <section id="comments-spinner">
-          <!-- Spinner -->
-          <img width="400" src="spinner.gif" alt="Loading..." />   
-    </section>
+    <nav>
+      <!--NavBar -->
+      <a href="/">Home</a>
+     </nav>
+    <aside>
+      <!-- Sidebar -->
+      <a href="/profile">Profile</a>
+    </aside>
+    <article>
+      <!-- Post -->
+      <p>Hello world</p>
+    </article>
+    <section id="comments-spinner">
+      <!-- Spinner -->
+      <img width=400 src="spinner.gif" alt="Loading..." />
+    </section>
   </main>
+
   ```
 
 - 이후 `Comments` 데이터가 서버에서 준비되면, 리액트는 동일한 스트림에 추가 html을 전송하고 최소한의 인라인 `<script>`태그를 사용하여 해당 html을 올바른 위치에 배치한다.
