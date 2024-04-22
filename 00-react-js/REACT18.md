@@ -98,6 +98,7 @@ Fetch data (server) → Render to HTML (server) → Load JS code (client) → Hy
 
 - 서버에서 html을 스트링 함으로써 초기 html을 더 일찍 보낼 수 있지만, `Comments` 컴포넌트의 자바스크립트 코드가 로드될 때까지 클라이언트에서 hydration을 진행할 수 없다.
 - 큰 번들을 피하기 위해 일반적으로 ‘코드 분할’을 사용한다. 코드 조각을 동기식으로 로드할 필요가 없도록 지정하면 번들러가 이를 별도의 `<script>`태그로 분할한다. `React.lazy`와 함께 코드 분할을 사용하여 메인 번들에서 주석 코드를 분리할 수 있다. 클라이언트 `createRoot` 내부에서 `Suspense`로 `Comments` 컴포넌트를 래핑함으로써 모든 코드가 로드되기 전에 부분적으로 수화한 페이지 먼저 인터랙티브하게 한다.
+- 그 결과 `Comments` 컴포넌트를 제외한 컴포넌트 먼저 사용자 상호작용이 가능해진다.
 
   ```jsx
   import { lazy } from 'react';
@@ -110,3 +111,20 @@ Fetch data (server) → Render to HTML (server) → Load JS code (client) → Hy
     <Comments />
   </Suspense>;
   ```
+- 아래와 같이 `Suspense`에 래핑된 컴포넌트가 여러개인 경우에 `Comment`컴포넌트 먼저 사용자 상호작용이 일어났다고 가정해보자. React가 사용자 상호작용이 일어난 컴포넌트 먼저 클릭 이벤트의 캡처 단계에서 동기식으로 수화한다. 그 후엔 `Sidebar`를 계속 수화한다.
+    
+    ```jsx
+    <Layout>
+      <NavBar />
+      <Suspense fallback={<Spinner />}>
+        <Sidebar />
+      </Suspense>
+      <RightPane>
+        <Post />
+        <Suspense fallback={<Spinner />}>
+          <Comments />
+        </Suspense>
+      </RightPane>
+    </Layout>
+    
+    ```
