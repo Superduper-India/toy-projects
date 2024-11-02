@@ -1,0 +1,15 @@
+{
+  "name": "section3",
+  "version": "1.0.0",
+  "description": "타입스크립트가 말하는 '타입'은 **집합**이다. ![alt text](image.png)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^22.8.6"
+  }
+}
