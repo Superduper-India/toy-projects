@@ -1,11 +1,4 @@
-# 리액트 라이브러리
-
-📃 공식문서를 읽으면서 공부한 내용을 정리하고, 토이프로젝트에 직접 적용해봅니다
-<br />
-
-# React Documentation
-
-> 참고자료 - [리액트 공식문서](https://reactjs.org/)
+> 참고자료: [리액트 래거시 공식문서](https://ko.legacy.reactjs.org/docs/getting-started.html)
 
 ## JSX
 
@@ -18,7 +11,7 @@ const element = <h1 className="greeting">hello!</h1>;
 ```
 
 ```jsx
-const element = React.createElement('h1', { className: 'greeting' }, 'hello!');
+const element = React.createElement("h1", { className: "greeting" }, "hello!");
 ```
 
 다음으로 `React.createElement()`는 아래 예제와 같은 객체를 생성한다. 그리고, 이는 리액트 앱의 가장 작은 빌딩 블록이며, "React 요소"라고 한다.
@@ -28,10 +21,10 @@ React-DOM는 이런 객체를 읽고, 사용해 DOM을 해당 React 요소와 �
 ```jsx
 // Note: this structure is simplified
 const element = {
-  type: 'h1',
+  type: "h1",
   props: {
-    className: 'greeting',
-    children: 'Hello, world!',
+    className: "greeting",
+    children: "Hello, world!",
   },
 };
 ```
@@ -60,7 +53,7 @@ const element = <h1>Hello, world</h1>;
 ```jsx
 const root = ReactDOM.createRoot(
   // root DOM요소
-  document.getElementById('root')
+  document.getElementById("root")
 );
 ```
 
@@ -103,7 +96,7 @@ function Welcome(props) {
   return <h1>Hello, {props.name}</h1>;
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 const element = <Welcome name="Sara" />;
 root.render(element);
 ```
@@ -178,12 +171,12 @@ function App() {
 - 구성요소는 화면에 추가되면서 렌더링 된 이후에 `componentDidMount()`메서드에 의해 마운트 된다.
 - 컴포넌트는 새로운 props나 state를 받으면 업데이트 되며, 업데이트 된 후에 `componentDidUpdate()`메서드가 실행된다. 이것은 일반적으로 사용자 상호작용으로 발생한다.
 - 구성요소는 화면에서 제거될 때 마운트 해제 되며, 언마운트 직전에 `componentWillUnmount()`메서드가 실행된다.
-  <img src="./img/lifecycle.png" width="80%"/>
+  <img src="./lifecycle.png" width="80%"/>
 
 위는 다만 이팩트에 대해서는 생각하지 않는다. 이팩트는 외부 시스템을 현재 props 및 state에 동기화하는 방법이다. 코드가 변경됨에 따라 이 동기화는 자주 발생할 수 있다. 직관적으로 컴포넌트가 마운트되면 React가 동기화를 시작하고, 컴포넌트가 마운트 해제되면 동기화를 중지한다고 생각할 수 있다. 하지만 경우에 따라 구성 요소가 마운트된 상태로 유지되는 동안 동기화를 여러 번 시작하고 중지해야할 수도 있다.
 
 ```jsx
-const serverUrl = 'https://localhost:1234';
+const serverUrl = "https://localhost:1234";
 
 function ChatRoom({ roomId }) {
   useEffect(() => {
@@ -201,180 +194,3 @@ function ChatRoom({ roomId }) {
 ```
 
 <br/>
-<br/>
-
-# React Documentation Beta
-
-> 참고자료 - [리액트 공식문서 베타](https://beta.reactjs.org/)
-
-## Describing the UI
-
-리액트는 ui를 렌더링하기 위한 자바스크립트 라이브러리이다. ui는 버튼, 텍스트, 이미지와 같은 작은 단위로 구성되며, 리액트를 사용하면 이들을 **재사용 가능**하고 **중첩 가능**한 **컴포넌트**로 재결합할 수 있다.
-
-리액트는 JSX라는 구문 확장자를 사용하여 위 마크업을 표현한다. 리액트 컴포넌트는 렌더링 로직과 마크업이 서로 연관되어 있기 때문에 JSX를 사용하여 이를 그룹화한다.
-
-이와 같이 리액트를 사용하면 마크업, css, js를 결합하여 재사용 가능한 ui요소인 컴포넌트로 사용할 수 있다.
-
-```javascript
-// 반환문은 아래와 같이 한 줄로 작성할 수도 있고,
-function Profile() {
-  const avatar = "https://i.imgur.com/MK3eW3As.jpg";
-  const description = "Katherine Johnson";
-  const name = 'Gregorio Y. Zara';
-
-  // 아래와 같이 괄호없이 한 줄로 적거나, 여러줄로 적을 수 있다.
-  // return <img src="https://i.imgur.com/MK3eW3As.jpg" alt="Katherine Johnson" />;
-
-  // 중괄호를 사용하여 속성값을 동적으로 전달 할 수도 있다.
-  return (
-    <img
-      src={avatar}
-      alt={description}
-    />
-  );
-}
-
-const today = new Date();
-
-function formatDate(date) {
-  return new Intl.DateTimeFormat(
-    'en-US',
-    { weekday: 'long' }
-  ).format(date);
-}
-
-// export default는 다른 파일에서 해당 함수를 가져올 수 있도록 쓰는 접두사이다.
-// 함수명의 첫글자는 대문자여야 한다!
-export default function Gallery() {
-  // 아래와 같이 여러줄로 반환문을 작성하려면 괄호로 묶어야 한다.
-  // 아래에서 태그는 html처럼 작성되었지만 실제로는 js인 jsx구문이며,
-  // 이 구문을 사용하면 js안에 마크업을 삽일할 수 있다.
-  return (
-    <section>
-      <!--중괄호를 사용하여 그 안에 자바스크립트를 사용할 수 있다.-->
-      <h1>{name} is amazing scientist</h1>
-      <!--뿐만 아니라 중괄호 안에 함수도 사용할 수 있다.-->
-      <h1>{formatDate(today)}</h1>
-      <Profile />
-      <Profile />
-      <Profile />
-    </section>
-  );
-}
-
-export default function TodoList() {
-  return (
-    // 다음과 같이 중괄호안에 객체를 전달할 수도 있다.
-    <ul style={{
-      backgroundColor: 'black',
-      color: 'pink'
-    }}>
-      <li>Improve the videophone</li>
-      <li>Prepare aeronautics lectures</li>
-      <li>Work on the alcohol-fuelled engine</li>
-    </ul>
-  );
-}
-```
-
-### 프로퍼티(props)
-
-리액트 컴포넌트는 다음과 같이 객체, 배열, 함수를 포함한 모든 프로퍼티값을 부모에서 자식으로 전달할 수 있다. 이러한 프로퍼티는 컴포넌트의 유일한 인자이다. 리액트 컴포넌트는 하나의 인자, 즉 props객체를 받는다.
-
-이와 같은 프로퍼티는 읽기 전용으로 변경할 수 없기 때문에 상호작용이 필요한 경우 상태를 설정해야한다. 그러나 렌더링할 때마다 새로운 버전의 프로퍼티를 받는다.
-
-```javascript
-// 아래와 같이 프롭값에 기본값을 하면,
-// size 프롭을 전달하지 않거나 size={undefined}일 때 기본값이 사용된다.
-// 하지만 size={null}, size={0}과 같은 경우에는 기본값이 사용되지 않는다.
-function Avatar({ person, size = 100 }) {
-  // person and size are available here
-}
-
-export default function Profile() {
-  return <Avatar person={{ name: 'Lin Lanying', imageId: '1bX5QH6' }} size={100} />;
-}
-```
-
-하지만 아래처럼 전달되는 props가 많은 경우, 코드가 반복될 수 있다. 이렇게 하는게 가독성은 더 좋지만 때로는 간결함이 더 중요할 경우, 스프레드 구문을 사용할 수 있다. 하지만 자주 사용하지는 말자!
-
-```javascript
-
-function Avatar(props) {
-  // props is available here
-}
-
-export default function Profile({ person, size, isSepia, thickBorder }) {
-
-  return (
-    <div className="card">
-      <!--아래와 같이 스프레드 구문을 사용하여 간결하게 했다.-->
-      <Avatar {...props} />
-      <!--아래와 같이 각각 프롭을 넘길 수 있지만, 번거롭다.-->
-      <Avatar
-        person={person}
-        size={size}
-        isSepia={isSepia}
-        thickBorder={thickBorder}
-      />
-    </div>
-  );
-}
-```
-
-JSX태그 안에 컨텐츠를 중첩하면 부모 컴포넌트는 해당 컨텐츠를 `children`이라는 프로퍼티로 받는다. 예를 들어 아래 Card컴포넌트는 `<Avatar />`로 설정된 `children` 프로퍼티를 받아 렌더링한다.
-
-```javascript
-import Avatar from './Avatar.js';
-
-function Card({ children }) {
-  return <div className="card">{children}</div>;
-}
-
-export default function Profile() {
-  return (
-    <Card>
-      <Avatar
-        size={100}
-        person={{
-          name: 'Katsuko Saruhashi',
-          imageId: 'YfeOqp2',
-        }}
-      />
-    </Card>
-  );
-}
-```
-
-아래는 조건부 렌더링을 하는 예시이다.
-
-```javascript
-function Item({ name, isPacked }) {
-  // example1.
-  if (isPacked) {
-    // isPacked={true}인 경우 체크 표시가 추가된 아래 jsx트리를 반환한다.
-    return <li className="item">{name} ✔</li>;
-    // 아무것도 렌더링하고 싶지 않을때는 아래와 같이 null을 반환하면 된다.
-    // return null;
-  }
-  // 아래는 isPacked={false}인 경우 jsx트리를 반환한다.
-  return <li className="item">{name}</li>;
-
-  // example2.
-  // 아래는 위 예제를 삼항연산자로 표현하는 방법이다.
-  return <li className="item">{isPacked ? name + ' ✔' : name}</li>;
-}
-
-export default function PackingList() {
-  return (
-    <section>
-      <h1>Sally Ride's Packing List</h1>
-      <ul>
-        <Item isPacked={true} name="Space suit" />
-        <Item isPacked={true} name="Helmet with a golden leaf" />
-        <Item isPacked={false} name="Photo of Tam" />
-      </ul>
-    </section>
-  );
-}
-```
