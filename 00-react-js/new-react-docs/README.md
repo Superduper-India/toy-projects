@@ -55,9 +55,9 @@ React18의 Streaming SSR은 html을 부분적으로 생성하고, 이를 서버�
 >   - [원문](https://github.com/reactjs/rfcs/blob/main/text/0213-suspense-in-react-18.md)
 >   - [해석 및 요약](https://velog.io/@davin/React-18%EC%9D%98-Suspense)
 
-Suspense는 데이터가 준비되지 않은 컴포넌트를 감싸며 로딩 상태를 처리한다.
+Suspense는 **비동기 데이터 로딩**또는 **lazy로드**를 하는 컴포넌트를 감싸며 로딩 상태를 처리한다.
 
-즉, 서버는 Suspense를 활용해 데이터를 기다리지 않고 먼저 렌더링 가능한 html부분을 전송한다. 데이터가 준비되면 Suspense의 fallback상태를 해제하고, 나머지 html을 클라이언트로 전송한다.
+즉, 서버는 Suspense를 활용해 **데이터를 기다리지 않고** 먼저 렌더링 가능한 html부분을 전송한다. 데이터가 준비되면 Suspense의 fallback상태를 해제하고, 나머지 html을 클라이언트로 전송한다.
 
 특히, React18버전에서 Suspense는 다음과 같이 변경 사항이 있다.
 
@@ -99,6 +99,39 @@ export default function App() {
 - `<Comments />`가 준비되면 `Loading`을 지우고 `<Panel />`과 `<Comments />`를 배치하고, effect를 실행한다.
 
 즉, 컴포넌트가 완전히 준비됐을때 커밋하기 때문에 더욱 직관적이고, effect에서 항상 완전한 트리를 관찰 할 수 있게 되었다.
+
+## Error Boundary
+
+Error Boundary는 컴포넌트가 렌더링되는 동안(즉, jsx를 반환하는 과정에서) 발생하는 **동기 오류**를 처리한다.
+
+Error Boundary가 **비동기 오류**를 처리하게 하려면,
+
+- React.lazy를 통해 비동기 로직을 처리한다.
+- 서드 파티 라이브러리를 사용하여 데이터 페칭을 한다.
+- Promise나 이벤트 핸들러 동작시 오류를 상태로 전환하여 렌더링 중에 동기적으로 오류를 발생시키는 컴포넌트로 전환한다.
+
+## Lazy Component
+
+동적 로딩(Dynamic Import)을 통해 컴포넌트를 지연 로딩(Lazy Loading)하는 기능이다.
+
+```jsx
+import React, { Suspense } from "react";
+
+const LazyComponent = React.lazy(() => import("./MyComponent"));
+
+function App() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyComponent />
+      </Suspense>
+    </div>
+  );
+}
+```
+
+- 필요할 때만 컴포넌트를 로드하여 **앱의 초기 로딩 시간을 줄이는** 등 효율성을 높이는데 사용된다.
+- lazy로 로드된 컴포넌트는 **비동기적으로 로드**되므로 로딩 상태를 표시하기 위해 **Suspense**를 사용해야 한다.
 
 ## Describing the UI
 
