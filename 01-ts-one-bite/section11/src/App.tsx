@@ -1,4 +1,4 @@
-import { useRef, useReducer } from "react";
+import React, { useRef, useReducer, useContext } from "react";
 import Editor from "./components/Editor";
 import ToDoItem from "./components/ToDoItem";
 import { Todo } from "./types";
@@ -29,6 +29,19 @@ function reducer(state: Todo[], action: Action) {
   }
 }
 
+export const ToDoStateContext = React.createContext<Todo[] | null>(null);
+export const ToDoDispatchContext = React.createContext<{
+  handleClickAdd: (textProp: string) => void;
+  handleClickDelete: (idProp: number) => void;
+} | null>(null);
+
+export function useToDoDispatch() {
+  const dispatch = useContext(ToDoDispatchContext);
+  // 여기서 타입 좁히기를 한다.
+  if (dispatch === null) throw new Error("TodoDispatchContext에 문제가 있다");
+  return dispatch;
+}
+
 function App() {
   // useReducer는 컴포넌트에 reducer를 추가하는 React Hook이다.
   const [toDos, dispatch] = useReducer(reducer, []);
@@ -57,12 +70,21 @@ function App() {
   return (
     <div className="App">
       <h1>ToDo</h1>
-      <Editor onClickAdd={handleClickAdd} />
-      <div>
-        {toDos.map((todo) => (
-          <ToDoItem key={todo.id} {...todo} onClickDelete={handleClickDelete} />
-        ))}
-      </div>
+      <ToDoStateContext.Provider value={toDos}>
+        <ToDoDispatchContext.Provider
+          value={{
+            handleClickAdd,
+            handleClickDelete,
+          }}
+        >
+          <Editor />
+          <div>
+            {toDos.map((todo) => (
+              <ToDoItem key={todo.id} {...todo} />
+            ))}
+          </div>
+        </ToDoDispatchContext.Provider>
+      </ToDoStateContext.Provider>
     </div>
   );
 }
