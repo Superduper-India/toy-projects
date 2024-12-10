@@ -8,5 +8,5 @@ export default function Page() {
   const { question } = router.query;
   console.log("dddd 222", question);
 
-  return <h1>search</h1>;
+  return <h1>검색 페이지 입니다.</h1>;
 }
