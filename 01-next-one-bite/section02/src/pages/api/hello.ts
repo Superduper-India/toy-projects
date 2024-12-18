@@ -5,9 +5,10 @@ type Data = {
   name: string;
 };
 
+// /api/hello api의 응답값을 정의한다.
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>,
+  res: NextApiResponse<Data>
 ) {
   res.status(200).json({ name: "John Doe" });
 }
