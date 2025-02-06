@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
 export default function Chart() {
-  console.log("test");
   const [state, setState] = useState({
     series: [
       {
