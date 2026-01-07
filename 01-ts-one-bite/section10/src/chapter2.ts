@@ -17,9 +17,9 @@ type Pick<T, K extends keyof T> = {
 };
 
 // Post타입으로부터 'title'과 'content'타입만 가져온 새로운 타이핑을 한다.
-const legacyPost: Pick<Post, "title" | "content"> = {
-  title: "dd",
-  content: "dddd",
+const legacyPost: Pick<Post, 'title' | 'content'> = {
+  title: 'dd',
+  content: 'dddd',
 };
 
 // 2. Omit타입
@@ -34,11 +34,11 @@ type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 // Exclude는 T로부터 K를 제거하므로,
 // Pick<Post, 'content' | 'tags' | 'thumbnailURL'>가 된다.
 
-const noTitlePost: Omit<Post, "title"> = {
+const noTitlePost: Omit<Post, 'title'> = {
   // ❌
-  content: "",
+  content: '',
   tags: [],
-  thumbnailURL: "",
+  thumbnailURL: '',
 };
 
 // 3. Record타입
@@ -65,4 +65,6 @@ type Record<K extends keyof any, V> = {
   [key in K]: V;
 };
 
-type Thumbnail = Record<"large" | "medium" | "small", { url: string }>;
+type Thumbnail = Record<'large' | 'medium' | 'small', { url: string }>;
+
+// ㅇ
